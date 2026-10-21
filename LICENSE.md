@@ -130,3 +130,5 @@ terms.
 - "Noncommercial" means not primarily intended for or directed toward commercial
   advantage or monetary compensation.
 - For commercial licensing, contact the copyright holder.
+- The software is provided AS-IS. The author is not paid for this project and
+  does not provide direct support.

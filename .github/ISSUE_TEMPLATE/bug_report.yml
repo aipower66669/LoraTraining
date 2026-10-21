@@ -6,7 +6,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for filing a bug. LoraTraining is **Krea 2–focused** and shells out to AI Toolkit / JoyCaption / ComfyUI — say which of those are involved.
+        LoraTraining is provided **AS-IS**. It is free noncommercial software. The author is not paid for it and does not provide direct support. Filing this issue does not create a commitment to reply or to fix the bug.
+
+        LoraTraining is **Krea 2–focused** and shells out to AI Toolkit / JoyCaption / ComfyUI — say which of those are involved.
   - type: input
     id: version
     attributes:

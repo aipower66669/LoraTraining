@@ -8,6 +8,8 @@
 > **Intended audience:** Experienced local-AI users with working installations of [AI Toolkit](https://github.com/ostris/ai-toolkit), [ComfyUI](https://github.com/comfyanonymous/ComfyUI), and optionally a CUDA Python env for the bundled JoyCaption script ([HF model](https://huggingface.co/fancyfeast/llama-joycaption-beta-one-hf-llava)). LoraTraining is an **orchestration and management** application — not an environment installer, not a turnkey training package, and not aimed at general consumers.
 >
 > It configures and orchestrates **existing** installs. It does **not** install, repair, or maintain AI Toolkit, ComfyUI, caption/training Python stacks, their models, CUDA, or third-party Comfy custom nodes. Upstream install and dependency troubleshooting are outside this project’s scope.
+>
+> **Provided AS-IS.** This is free noncommercial software. The author is not paid for it and does not provide direct support. There is no warranty and no commitment to answer questions, fix bugs, or add features.
 
 Captioning, training, and Comfy previews run as **external processes** you already have working. LoraTraining owns the library workspace on disk, orchestration, and live progress — not the diffusion weights or training loop.
 
@@ -49,7 +51,7 @@ User guide: **[docs/USER_GUIDE.md](docs/USER_GUIDE.md)**.
 
 ## Need help with LoraTraining?
 
-Before opening an issue or requesting support, try asking your preferred AI assistant.
+There is no direct support. The documentation below is the help that exists. Ask an AI assistant with the all-in-one file. A GitHub issue is a public note, not a support ticket, and a reply is not promised.
 
 A single file contains the full guide and the full FAQ. Upload that file. It tells the assistant not to guess past what the app actually does.
 
@@ -61,9 +63,9 @@ A single file contains the full guide and the full FAQ. Upload that file. It tel
 
 `docs/all-in-one.md` is the sole comprehensive support source of truth. The shorter domain guides and FAQ remain for focused reading, but the all-in-one file is authoritative and complete.
 
-If the assistant cannot resolve the issue, [open a GitHub issue](https://github.com/aipower66669/LoraTraining/issues) with the app version, Windows version, which external tool is involved, and the error text.
+If the assistant cannot resolve the issue, you may [open a GitHub issue](https://github.com/aipower66669/LoraTraining/issues) with the app version, Windows version, which external tool is involved, and the error text. That does not create a support obligation.
 
-**Licence:** PolyForm Noncommercial 1.0.0. Noncommercial use only. See [LICENSE.md](LICENSE.md).
+**Licence:** PolyForm Noncommercial 1.0.0. Noncommercial use only. Provided AS-IS. See [LICENSE.md](LICENSE.md).
 
 ---
 
@@ -114,7 +116,7 @@ Full comparison: **[docs/ADVANTAGES.md](docs/ADVANTAGES.md)**.
 
 - Settings, Comfy workflows, jobs, thumbs, and catalogs under `{libraryRoot}`
 - AppData holds only a disposable pointer + window geometry
-- Optional **NTFS versions** for advanced image-history workflows, off by default and compatible with MyFileExplorer ADS
+- Optional **NTFS versions** for advanced image-history workflows, off by default
 - Capability-based UI: unconfigured JoyCaption, AI Toolkit, and ComfyUI features stay hidden while manual dataset/caption work remains available
 
 **Update from inside the app**
@@ -272,13 +274,13 @@ Contributions welcome — bug reports, docs, and pull requests.
 ## Licensing
 
 LoraTraining is licensed under the **PolyForm Noncommercial License 1.0.0**
-([LICENSE.md](LICENSE.md)). Noncommercial use, modification, and distribution
-are allowed. Commercial use needs a separate license from the copyright holder.
+([LICENSE.md](LICENSE.md)) and is provided **AS-IS**, with no warranty and no
+direct support. Noncommercial use, modification, and distribution are allowed.
+Commercial use needs a separate license from the copyright holder.
 The **LoraTraining** name and logo are trademarks — see [TRADEMARK.md](TRADEMARK.md).
 Details: [LICENSING.md](LICENSING.md) · [NOTICE](NOTICE) · [AUTHORS](AUTHORS).
 
 ## Related
 
-- **MyFileExplorer** — local file workbench; shares the optional NTFS ADS image-version semantics when enabled (D27)
 - **[comfyui-lora-training/](comfyui-lora-training/)** — Comfy custom nodes shipped with this repo
 

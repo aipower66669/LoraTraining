@@ -148,7 +148,7 @@ app.whenReady().then(async () => {
   void listCategories().catch((err) => logger.warn({ err }, 'categories warm failed'))
   // After ensureLibraryDirs → loadSettings so libraryRoot is cached before hydrate.
   void hydrateQueue().catch((err) => logger.warn({ err }, 'queue hydrate failed'))
-  // Best-effort: `{file}.original` → VER_* ADS (MyFileExplorer D27 parity).
+  // Best-effort: `{file}.original` → VER_* ADS when NTFS versions are enabled.
   void import('./images/migrateOriginals')
     .then((m) => m.migrateLibraryOriginalsToAds())
     .catch((err) => logger.warn({ err }, 'image originals→ADS migration failed'))

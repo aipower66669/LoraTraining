@@ -2,7 +2,7 @@
  * NTFS Alternate Data Streams — Trinet.Core.IO.Ntfs / ADS.cs parity (koffi).
  * Soft-fails on non-win32 / access denied / non-NTFS.
  * Host times: FileBasicInfo restore (includes ChangeTime — Node utimes does not).
- * Ported from MyFileExplorer for D27-compatible image versions.
+ * Used for optional NTFS image-version history.
  */
 import fs from 'node:fs'
 import fsp from 'node:fs/promises'

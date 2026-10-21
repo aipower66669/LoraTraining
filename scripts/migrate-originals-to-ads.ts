@@ -1,5 +1,5 @@
 /**
- * IN-PLACE migration: `{file}.original` siblings → MyFileExplorer D27 ADS
+ * IN-PLACE migration: `{file}.original` siblings → NTFS version ADS
  * (`$DATA` = pristine, `VER_1` = previous live bytes, `VER_COUNT=1`).
  *
  * Idempotent. Skips non-NTFS volumes. Soft-fails per file.
@@ -8,7 +8,7 @@
  *    or: npx tsx scripts/migrate-originals-to-ads.ts [--dry-run]
  *
  * Note: this migration intentionally rewrites image bytes / ADS (exception to
- * the usual “JSON sidecars only” rule) — required for Edit Image parity with MFE.
+ * the usual “JSON sidecars only” rule) — required so Edit Image can read older originals.
  */
 import { access, constants, readdir, readFile, rename, unlink, writeFile } from 'node:fs/promises'
 import { extname, join } from 'node:path'

@@ -44,7 +44,7 @@ export function isSaveAsImagePath(filePath: string): boolean {
   return sharpFormatForExt(imageExt(filePath)) != null
 }
 
-/** Max stacked in-app edit versions (VER_1…VER_N) on the file as ADS — MyFileExplorer D27. */
+/** Max stacked in-app edit versions (VER_1…VER_N) stored as NTFS alternate data streams. */
 export const IMAGE_VER_MAX = 4
 
 /** ADS stream holding the decimal version count. */

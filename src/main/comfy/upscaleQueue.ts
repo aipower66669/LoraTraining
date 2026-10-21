@@ -504,7 +504,7 @@ export async function startUpscaleAll(input: {
 }
 
 /**
- * Full revert: delete all VER_* / VER_COUNT — `$DATA` pristine remains (MFE revert).
+ * Full revert: delete all VER_* / VER_COUNT — `$DATA` pristine remains.
  */
 export async function revertUpscaleImage(input: {
   datasetId: string

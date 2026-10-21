@@ -6,9 +6,15 @@ LoraTraining does not train models and does not install AI Toolkit, ComfyUI, CUD
 
 Platform: Windows 10 / 11. Training and Comfy previews are **Krea 2** only.
 
+**Provided AS-IS.** This is free noncommercial software. The author is not paid for it and does not provide direct support.
+
 ---
 
 ## What the app is
+
+### Does the author provide support?
+
+No. LoraTraining is provided **AS-IS**. It is free noncommercial software. The author is not paid for it and does not provide direct support. There is no warranty and no commitment to answer questions, fix a bug, or add a feature. This FAQ, and `docs/all-in-one.md` given to an AI assistant, are the help that exists. A GitHub issue is a public note, not a support ticket.
 
 ### What is LoraTraining?
 
@@ -325,7 +331,7 @@ On the dataset screen, **E** opens **Edit image…**. Inside the editor, changes
 
 Before Crop or Remove, the current edits are baked in so they chain without a Save in between. Save writes only if something actually changed. With NTFS versions enabled on an NTFS drive, it adds a version; otherwise it overwrites the image. Undo back to the image you opened does not count.
 
-When **NTFS versions** is enabled and the dataset is on NTFS, the file keeps at most four version slots (`VER_1`…`VER_4`). `$DATA` is the pristine bytes. **Undo last** drops the tip. **Revert to original** deletes every `VER_*` stream. MyFileExplorer uses the same streams. With the option off or on another file system, Save overwrites the file and there is no new stack.
+When **NTFS versions** is enabled and the dataset is on NTFS, the file keeps at most four version slots (`VER_1`…`VER_4`). `$DATA` is the pristine bytes. **Undo last** drops the tip. **Revert to original** deletes every `VER_*` stream. With the option off or on another file system, Save overwrites the file and there is no new stack.
 
 JoyCaption and training commit the tip into `$DATA` before they run, so they see the edited pixels. A program you start yourself reads `$DATA` only, which may still be the pristine file.
 

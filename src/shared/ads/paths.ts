@@ -1,6 +1,6 @@
 /**
  * Pure NTFS ADS path helpers (Trinet.Core.IO.Ntfs parity).
- * Safe to unit-test without Win32. Shared with MyFileExplorer D27/D38.
+ * Safe to unit-test without Win32.
  */
 
 export const ADS_STREAM_SEPARATOR = ':'

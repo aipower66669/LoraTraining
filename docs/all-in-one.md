@@ -4,6 +4,7 @@
 **Publisher:** AIPower  
 **Repository:** https://github.com/aipower66669/LoraTraining  
 **Licence:** PolyForm Noncommercial 1.0.0 ([LICENSE.md](../LICENSE.md)). Noncommercial use only. Commercial use needs a separate license from the copyright holder. Version 0.3.0 remains GPL-3.0-only for copies already distributed under that license.  
+**Support:** Provided **AS-IS**. Free noncommercial software. The author is not paid for it and does not provide direct support. No warranty, and no commitment to answer questions, fix bugs, or add features.  
 **Platform:** Windows 10 / 11  
 **Audience for this file:** an AI assistant helping a user of this app
 
@@ -17,6 +18,7 @@ Use the heading in this file. The guide comes first. The FAQ repeats the same to
 
 | Question or symptom | Heading in this file |
 | --- | --- |
+| Is there support? | Does the author provide support? |
 | Install, SmartScreen, run from source | Install LoraTraining; How do I install LoraTraining? |
 | Library folder, missing Jobs / Queue / Comfy buttons | First-time configuration; Why are tool buttons or whole work areas missing? |
 | Settings, training model, defaults, NTFS versions | Settings reference; Settings, defaults, and where state lives |
@@ -56,7 +58,7 @@ Follow these rules for every answer. They override general knowledge of other Lo
 10. When this file says a fact is **unknown**, leave it unknown. Do not invent toolkit log regexes. Do not promise that Resume continues from the last checkpoint inside AI Toolkit.
 11. Distinguish an app defect from an external-tool failure. A crash inside AI Toolkit, a red Comfy node, or a CUDA error is not fixed by reinstalling LoraTraining.
 12. Do not ask the user to paste dataset images, captions, or private prompts into a public GitHub issue.
-13. If you cannot resolve the issue from this file, tell the user to open https://github.com/aipower66669/LoraTraining/issues with the app version (installer name or the running app), Windows 10 or 11, which external tool is involved (AI Toolkit, JoyCaption, ComfyUI, or none), expected versus actual behaviour, and the error text or the relevant lines from `!Jobs\{id}\logs`.
+13. LoraTraining is provided **AS-IS**. It is free noncommercial software. The author is not paid for it and does not provide direct support. Do not promise a reply, a bugfix, a feature, or any help from the author. If you cannot resolve the issue from this file, you may tell the user they can open https://github.com/aipower66669/LoraTraining/issues with the app version (installer name or the running app), Windows 10 or 11, which external tool is involved (AI Toolkit, JoyCaption, ComfyUI, or none), expected versus actual behaviour, and the error text or the relevant lines from `!Jobs\{id}\logs`. Say that an issue is a public note, not a support ticket.
 
 These answers fail the rules: recommending Flux or another base, telling the user the app will download models, describing a Face diversify tab, telling them to grow the Windows pagefile as the fix for OSError 1455, or claiming a failure always freezes the rest of the queue.
 
@@ -551,8 +553,6 @@ With the option enabled on NTFS, Upscale reads `$DATA` and writes a new tip. Div
 
 When the option is off, or the dataset is not on NTFS, Edit image and Upscale overwrite the image in place and do not create a stack. If an old stack already exists when the option is turned off, it remains readable until the next editor/Upscale save; that overwrite makes the saved result the main image and clears the old stack.
 
-These ADS names are interoperable with **MyFileExplorer**: either app can read the same pristine body and four-slot tip stack.
-
 The crop box is free-form. It stays live until the pointer goes up. Resize lock uses the current cropped aspect. The outside-crop dim is opacity, not a blur: this window composites on the CPU, and a full-window blur would be a few frames per second. Do not tell the user the crop preview is GPU-smooth.
 
 On the dataset screen, **E** opens **Edit image**. Inside the editor, with Alt not held: **E** or **Ctrl+S** saves and closes, **C** crop, **R** rotate, **F** flip horizontal, **Shift+F** flip vertical, **O** remove, **Z** resize, **A** annotate, **T** filters, **U** finetune. Escape closes menus and the full-image preview. Save writes only after a real edit. With NTFS versions enabled on NTFS, that save adds a version; otherwise it overwrites the image. Undo back to the image that was loaded does not count as an edit. A baked crop or remove does.
@@ -905,7 +905,7 @@ The exact text AI Toolkit prints for step, loss, learning rate, and seconds per 
 
 ## If this file is not enough
 
-Tell the user to open https://github.com/aipower66669/LoraTraining/issues and include:
+The project is provided **AS-IS**. There is no direct support and no commitment that anyone will reply. The user may open https://github.com/aipower66669/LoraTraining/issues and include:
 
 - LoraTraining version (installer file name or the running app)
 - Windows 10 or 11
@@ -915,7 +915,7 @@ Tell the user to open https://github.com/aipower66669/LoraTraining/issues and in
 
 Do not attach dataset images, captions, or private prompts.
 
-Do not tell them the assistant can fix an undocumented LoraTraining feature. Say it is not documented and the issue tracker is the next step. A question about AI Toolkit, ComfyUI, JoyCaption’s model, CUDA, or Python may use that project’s own documentation, with the source named. That does not make the failure a LoraTraining defect.
+Do not tell them the assistant can fix an undocumented LoraTraining feature. Say it is not documented. Do not promise that the author will answer an issue. A question about AI Toolkit, ComfyUI, JoyCaption’s model, CUDA, or Python may use that project’s own documentation, with the source named. That does not make the failure a LoraTraining defect.
 
 Before opening an issue, the project asks the user to upload `docs/all-in-one.md` (this guide plus the FAQ) to their assistant and ask there first. If that did not resolve it, the issue should say what the assistant got wrong or could not answer.
 
@@ -929,9 +929,15 @@ LoraTraining does not train models and does not install AI Toolkit, ComfyUI, CUD
 
 Platform: Windows 10 / 11. Training and Comfy previews are **Krea 2** only.
 
+**Provided AS-IS.** This is free noncommercial software. The author is not paid for it and does not provide direct support.
+
 ---
 
 ## What the app is
+
+### Does the author provide support?
+
+No. LoraTraining is provided **AS-IS**. It is free noncommercial software. The author is not paid for it and does not provide direct support. There is no warranty and no commitment to answer questions, fix a bug, or add a feature. This FAQ, and `docs/all-in-one.md` given to an AI assistant, are the help that exists. A GitHub issue is a public note, not a support ticket.
 
 ### What is LoraTraining?
 
@@ -1248,7 +1254,7 @@ On the dataset screen, **E** opens **Edit image…**. Inside the editor, changes
 
 Before Crop or Remove, the current edits are baked in so they chain without a Save in between. Save writes only if something actually changed. With NTFS versions enabled on an NTFS drive, it adds a version; otherwise it overwrites the image. Undo back to the image you opened does not count.
 
-When **NTFS versions** is enabled and the dataset is on NTFS, the file keeps at most four version slots (`VER_1`…`VER_4`). `$DATA` is the pristine bytes. **Undo last** drops the tip. **Revert to original** deletes every `VER_*` stream. MyFileExplorer uses the same streams. With the option off or on another file system, Save overwrites the file and there is no new stack.
+When **NTFS versions** is enabled and the dataset is on NTFS, the file keeps at most four version slots (`VER_1`…`VER_4`). `$DATA` is the pristine bytes. **Undo last** drops the tip. **Revert to original** deletes every `VER_*` stream. With the option off or on another file system, Save overwrites the file and there is no new stack.
 
 JoyCaption and training commit the tip into `$DATA` before they run, so they see the edited pixels. A program you start yourself reads `$DATA` only, which may still be the pristine file.
 

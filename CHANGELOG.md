@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default validation set seed **0**; `validationSetFromPrevious` bumps only if previous seed **> 0**
 - Pending checkpoint rows in Output for steps planned by open jobs but not on disk yet
 - Validated demotes when further training targets steps beyond current checkpoints
-- MyFileExplorer-compatible NTFS ADS image versions (D27); JoyCaption/training commit tips before run
+- Optional NTFS ADS image versions (D27); JoyCaption/training commit tips before run
 
 #### Documentation & licensing
 - First-class public docs: README, ADVANTAGES, BUILD, WINDOWS_TRAINING, CONTRIBUTING, LICENSING, TRADEMARK

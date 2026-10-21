@@ -4,6 +4,8 @@ LoraTraining is a local Windows desktop app for **Krea 2 LoRA dataset management
 
 **Audience:** Experienced local-AI users with working external tools. LoraTraining is orchestration only — it does not install or repair AI Toolkit, ComfyUI, JoyCaption, CUDA, or model packs.
 
+**Provided AS-IS.** This is free noncommercial software. The author is not paid for it and does not provide direct support. There is no warranty and no commitment to answer questions, fix bugs, or add features.
+
 **Not a trainer:** LoraTraining does not implement LoRA training. It orchestrates external tools you install (JoyCaption, AI Toolkit, ComfyUI).
 
 **Models:** **Krea 2 only** — training and Comfy preview workflows are adapted for Krea 2. Set checkpoint path and architecture in **Settings → External tools → Training model**.

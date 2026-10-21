@@ -4,6 +4,8 @@ Step-by-step first-time setup for **LoraTraining** on Windows.
 
 **Audience:** Experienced local-AI users. This is **not** a consumer install guide for AI Toolkit, ComfyUI, JoyCaption, CUDA, or Python.
 
+**Provided AS-IS.** LoraTraining is free noncommercial software. The author is not paid for it and does not provide direct support.
+
 **Before configuring LoraTraining**, confirm that:
 
 1. **AI Toolkit** can complete a **Krea 2** training run independently.

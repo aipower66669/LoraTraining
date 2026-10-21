@@ -6,7 +6,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Feature ideas are welcome. Scope note: **Krea 2 text-to-image LoRA** dataset management + orchestration — not a built-in trainer, not a turnkey ComfyUI packager.
+        LoraTraining is provided **AS-IS**. It is free noncommercial software. The author is not paid for it and does not provide direct support. A feature request is a public note, not a commitment to build it.
+
+        Scope: **Krea 2 text-to-image LoRA** dataset management and orchestration — not a built-in trainer, not a turnkey ComfyUI packager.
   - type: textarea
     id: problem
     attributes:

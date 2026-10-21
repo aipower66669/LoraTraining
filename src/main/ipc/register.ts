@@ -50,10 +50,10 @@ import { logger } from '../logging'
 import { listWildcardKeys } from '../wildcards/service'
 import { checkLocalUpdate, fetchAppReleaseNotes, installLocalUpdate } from '../update/localUpdate'
 import {
-  openFolderInCustomExplorer,
-  openPathInCustomExplorer,
-  revealInCustomExplorer
-} from '../util/mfe-explorer'
+  openFolderInExplorer,
+  openPathInExplorer,
+  revealInExplorer
+} from '../util/shell-open'
 
 function asError(err: unknown): AppError {
   if (err && typeof err === 'object' && 'code' in err && 'message' in err) {
@@ -114,7 +114,7 @@ export function registerIpcHandlers(): void {
   handle(IpcChannels.system.openPath, async (payload) => {
     const { path } = z.object({ path: z.string() }).parse(payload)
     try {
-      await openPathInCustomExplorer(path)
+      await openPathInExplorer(path)
       return { opened: true as const }
     } catch {
       return { opened: false as const }
@@ -209,7 +209,7 @@ export function registerIpcHandlers(): void {
       ? await datasets.resolveDatasetRelativePath(id, relativePath)
       : (await datasets.getDatasetRecord(id)).folderPath
     try {
-      await openFolderInCustomExplorer(target)
+      await openFolderInExplorer(target)
       return { opened: true as const }
     } catch {
       return { opened: false as const }
@@ -220,7 +220,7 @@ export function registerIpcHandlers(): void {
       .object({ datasetId: z.string(), fileName: z.string() })
       .parse(payload)
     const full = await datasets.resolveDatasetImagePath(datasetId, fileName)
-    await revealInCustomExplorer(full)
+    await revealInExplorer(full)
     return { revealed: true as const }
   })
   handle(IpcChannels.datasets.revealRelativePath, async (payload) => {
@@ -228,7 +228,7 @@ export function registerIpcHandlers(): void {
       .object({ datasetId: z.string(), relativePath: z.string().min(1) })
       .parse(payload)
     const full = await datasets.resolveDatasetRelativePath(datasetId, relativePath)
-    await revealInCustomExplorer(full)
+    await revealInExplorer(full)
     return { revealed: true as const }
   })
   handle(IpcChannels.datasets.listOutputs, async (payload) => {

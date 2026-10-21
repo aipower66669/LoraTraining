@@ -1,6 +1,6 @@
 # LoraTraining documentation
 
-**Licence:** [PolyForm Noncommercial 1.0.0](../LICENSING.md) · **Current release:** see [`package.json`](../package.json) `version` and [GitHub Releases](https://github.com/aipower66669/LoraTraining/releases/latest).
+**Licence:** [PolyForm Noncommercial 1.0.0](../LICENSING.md). Provided **AS-IS**, with no direct support. · **Current release:** see [`package.json`](../package.json) `version` and [GitHub Releases](https://github.com/aipower66669/LoraTraining/releases/latest).
 
 Hub for product and engineering docs. Product entry: [../README.md](../README.md). Locked decisions: [DECISIONS.md](DECISIONS.md). Full history: [../CHANGELOG.md](../CHANGELOG.md). Latest release notes: [../RELEASE_NOTES.md](../RELEASE_NOTES.md).
 
@@ -98,7 +98,7 @@ Hub for product and engineering docs. Product entry: [../README.md](../README.md
 | Checkpoint UI | Shallow scan + cached validation previews — VALIDATION, DATASET_MANAGER |
 | Windows safetensors (D28) | `train_bootstrap.py`, pread/streaming, abort on 1455 — WINDOWS_TRAINING |
 | Further training | Pending output rows; Validated demotion — VALIDATION, USER_GUIDE |
-| Image versions (D27) | MyFileExplorer-compatible NTFS ADS history — DATASET_MANAGER, EXTERNAL_TOOLS |
+| Image versions (D27) | Optional NTFS ADS history — DATASET_MANAGER, EXTERNAL_TOOLS |
 | Licence | PolyForm Noncommercial 1.0.0 — LICENSING |
 
 ## Recent behaviour (v0.2.0)

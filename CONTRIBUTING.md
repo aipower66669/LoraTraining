@@ -2,6 +2,8 @@
 
 Thanks for helping improve LoraTraining.
 
+The project is provided **AS-IS**. It is free noncommercial software. There is no paid support and no commitment to review, merge, or reply.
+
 ## Licence of contributions
 
 This repository is licensed under the **PolyForm Noncommercial License 1.0.0**

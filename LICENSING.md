@@ -17,6 +17,14 @@ terms (or the URL for them) and the `Required Notice` in [LICENSE.md](LICENSE.md
 
 The product name and branding are separate — see [TRADEMARK.md](TRADEMARK.md).
 
+## Support
+
+LoraTraining is provided **AS-IS**. It is free noncommercial software. The
+author is not paid for it and does not provide direct support. There is no
+warranty and no commitment to answer questions, fix a bug, or add a feature.
+The docs are the help that exists. A GitHub issue is a public note, not a
+support ticket.
+
 ## Earlier releases
 
 **0.3.0** was published under **GPL-3.0-only**. Copies already received under
@@ -37,7 +45,4 @@ Photoshop) are **not** bundled and remain under their own licences.
 
 ## Related projects
 
-[LoraTraining](https://github.com/aipower66669/LoraTraining) and
-MyFileExplorer share design decisions around NTFS image-version streams (ADS).
-Each project is licensed independently. Wildcards Manager uses this same
-software license.
+Wildcards Manager uses this same software license.

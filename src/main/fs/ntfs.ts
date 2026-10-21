@@ -1,5 +1,5 @@
 /**
- * Minimal NTFS detection for image-version ADS (MyFileExplorer pathIsNtfs parity).
+ * Minimal NTFS detection for image-version ADS.
  */
 import koffi from 'koffi'
 import { logger } from '../logging'

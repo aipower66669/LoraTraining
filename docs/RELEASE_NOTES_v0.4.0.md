@@ -28,7 +28,7 @@ The app still orchestrates JoyCaption, AI Toolkit, and ComfyUI. It does not repl
 | Setting | **Settings → External tools → Library → NTFS versions** |
 | Default | Off |
 | Off | Saves overwrite the current image file |
-| On | Editor and Upscale can keep an NTFS alternate-data-stream history compatible with MyFileExplorer, on NTFS dataset folders |
+| On | Editor and Upscale can keep an NTFS alternate-data-stream history, on NTFS dataset folders |
 
 JoyCaption and training still commit an existing tip before they run when versions are enabled. Legacy `{image}.original` sidecars move into NTFS streams on a launch where the option is enabled.
 

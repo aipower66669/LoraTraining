@@ -54,8 +54,7 @@ export function patchFilerobotCropSource(src) {
   out = out.replace('}Q={', '}var Q={')
   // LoraTraining rasters the UI on the CPU (D25). Konva's crop dim is a full-window
   // Blur+Brighten, and those filters re-run (getImageData) whenever brightness is
-  // set. That is a few frames per second here; MyFileExplorer blits the same cache
-  // on the GPU. Dim with opacity instead — no per-paint filter.
+  // set. That is a few frames per second here. Dim with opacity instead — no per-paint filter.
   out = out.replace(
     'customFilters:[Konva.Filters.Blur,Konva.Filters.Brighten],customFinetuneProps:{blurRadius:10,brightness:-.15}',
     'customFilters:[],customFinetuneProps:{opacity:.45}'

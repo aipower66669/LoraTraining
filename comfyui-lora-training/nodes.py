@@ -1,7 +1,7 @@
-"""LoraTraining ComfyUI contract nodes.
+"""LoraTraining ComfyUI contract nodes (shared with Wildcards Manager).
 
-Wire these into your validation or upscale/detail workflow. The app injects
-values by class name:
+Wire these into your validation, upscale/detail, or Generation workflow. Apps
+inject values by class name:
 
   * LoraTrainingPrompt         -> STRING (+ stages LoRA into models/loras)
   * LoraTrainingSeed           -> INT
@@ -12,18 +12,30 @@ values by class name:
   * LoraTrainingInputImage     -> IMAGE, MASK (loads an absolute-path image; Upscale tool)
   * LoraTrainingDenoise        -> FLOAT (0..1; Upscale tool KSampler denoise)
   * LoraTrainingMaxSize        -> INT (Upscale tool "Scale Image to Max Dimension")
+  * LoraTrainingNegativePrompt -> STRING
+  * LoraTrainingCLIP           -> STRING / wildcard (CLIPLoader combo)
+  * LoraTrainingVAE            -> STRING / wildcard (VAELoader combo)
+  * LoraTrainingWidth          -> INT
+  * LoraTrainingHeight         -> INT
+  * LoraTrainingSteps          -> INT (KSampler steps)
+  * LoraTrainingCfg            -> FLOAT (KSampler cfg)
+  * LoraTrainingSampler        -> STRING / wildcard (KSampler sampler_name)
+  * LoraTrainingScheduler      -> STRING / wildcard (KSampler scheduler)
+  * LoraTrainingSaveOutput     -> SaveImage-style sink for /history fetch
 """
 
 from __future__ import annotations
 
 import hashlib
+import json
+import os
 import re
 import shutil
 from pathlib import Path
 
 import numpy as np
 import torch
-from PIL import Image, ImageOps
+from PIL import Image, ImageOps, PngImagePlugin
 
 import folder_paths
 
@@ -490,6 +502,301 @@ class LoraTrainingMaxSize:
         return value
 
 
+# ---------------------------------------------------------------------------
+# Shared extensions (Wildcards Manager Generation + future LT tools)
+# Do not change the original LT nodes above — both apps ship this same pack.
+# ---------------------------------------------------------------------------
+
+
+class LoraTrainingNegativePrompt:
+    """Negative prompt text the app fills. Wire into your CLIP text encoder."""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "text": ("STRING", {"default": "", "multiline": True}),
+            }
+        }
+
+    RETURN_TYPES = ("STRING",)
+    RETURN_NAMES = ("text",)
+    FUNCTION = "passthrough"
+    CATEGORY = CATEGORY
+
+    def passthrough(self, text):
+        return (text,)
+
+
+class LoraTrainingCLIP:
+    """CLIP filename the app fills. Convert CLIPLoader combo widgets to inputs."""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "clip_name": ("STRING", {"default": "", "multiline": False}),
+            }
+        }
+
+    RETURN_TYPES = (ANY,)
+    RETURN_NAMES = ("clip_name",)
+    FUNCTION = "emit"
+    CATEGORY = CATEGORY
+
+    def emit(self, clip_name=""):
+        return (clip_name or "",)
+
+    @classmethod
+    def IS_CHANGED(cls, clip_name=""):
+        return clip_name or ""
+
+
+class LoraTrainingVAE:
+    """VAE filename the app fills. Convert VAELoader combo widgets to inputs."""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "vae_name": ("STRING", {"default": "", "multiline": False}),
+            }
+        }
+
+    RETURN_TYPES = (ANY,)
+    RETURN_NAMES = ("vae_name",)
+    FUNCTION = "emit"
+    CATEGORY = CATEGORY
+
+    def emit(self, vae_name=""):
+        return (vae_name or "",)
+
+    @classmethod
+    def IS_CHANGED(cls, vae_name=""):
+        return vae_name or ""
+
+
+class LoraTrainingWidth:
+    """Latent / canvas width the app fills."""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "value": (
+                    "INT",
+                    {"default": 1024, "min": 64, "max": 8192, "step": 8},
+                ),
+            }
+        }
+
+    RETURN_TYPES = ("INT",)
+    RETURN_NAMES = ("width",)
+    FUNCTION = "emit"
+    CATEGORY = CATEGORY
+
+    def emit(self, value):
+        return (int(value),)
+
+    @classmethod
+    def IS_CHANGED(cls, value):
+        return value
+
+
+class LoraTrainingHeight:
+    """Latent / canvas height the app fills."""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "value": (
+                    "INT",
+                    {"default": 1024, "min": 64, "max": 8192, "step": 8},
+                ),
+            }
+        }
+
+    RETURN_TYPES = ("INT",)
+    RETURN_NAMES = ("height",)
+    FUNCTION = "emit"
+    CATEGORY = CATEGORY
+
+    def emit(self, value):
+        return (int(value),)
+
+    @classmethod
+    def IS_CHANGED(cls, value):
+        return value
+
+
+class LoraTrainingSteps:
+    """Step count the app fills. Convert KSampler ``steps`` to an input and wire this in."""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "value": (
+                    "INT",
+                    {"default": 20, "min": 1, "max": 10000, "step": 1},
+                ),
+            }
+        }
+
+    RETURN_TYPES = ("INT",)
+    RETURN_NAMES = ("steps",)
+    FUNCTION = "emit"
+    CATEGORY = CATEGORY
+
+    def emit(self, value):
+        return (int(value),)
+
+    @classmethod
+    def IS_CHANGED(cls, value):
+        return value
+
+
+class LoraTrainingCfg:
+    """CFG the app fills. Convert KSampler ``cfg`` to an input and wire this in."""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "value": (
+                    "FLOAT",
+                    {"default": 7.0, "min": 0.0, "max": 100.0, "step": 0.1},
+                ),
+            }
+        }
+
+    RETURN_TYPES = ("FLOAT",)
+    RETURN_NAMES = ("cfg",)
+    FUNCTION = "emit"
+    CATEGORY = CATEGORY
+
+    def emit(self, value):
+        return (float(value),)
+
+    @classmethod
+    def IS_CHANGED(cls, value):
+        return value
+
+
+class LoraTrainingSampler:
+    """Sampler name the app fills. Convert KSampler ``sampler_name`` to an input."""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "sampler_name": ("STRING", {"default": "", "multiline": False}),
+            }
+        }
+
+    RETURN_TYPES = (ANY,)
+    RETURN_NAMES = ("sampler_name",)
+    FUNCTION = "emit"
+    CATEGORY = CATEGORY
+
+    def emit(self, sampler_name=""):
+        return (sampler_name or "",)
+
+    @classmethod
+    def IS_CHANGED(cls, sampler_name=""):
+        return sampler_name or ""
+
+
+class LoraTrainingScheduler:
+    """Scheduler name the app fills. Convert KSampler ``scheduler`` to an input."""
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "scheduler": ("STRING", {"default": "", "multiline": False}),
+            }
+        }
+
+    RETURN_TYPES = (ANY,)
+    RETURN_NAMES = ("scheduler",)
+    FUNCTION = "emit"
+    CATEGORY = CATEGORY
+
+    def emit(self, scheduler=""):
+        return (scheduler or "",)
+
+    @classmethod
+    def IS_CHANGED(cls, scheduler=""):
+        return scheduler or ""
+
+
+class LoraTrainingSaveOutput:
+    """Finished-image sink. Behaves like SaveImage so /history can fetch it.
+
+    Prefer this when the desktop app should pull the result from Comfy history
+    (Wildcards Manager Generation). LT validation can keep using Output Folder
+    + Output Filename + a normal save node instead.
+    """
+
+    def __init__(self):
+        self.output_dir = folder_paths.get_output_directory()
+        self.type = "output"
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {
+            "required": {
+                "images": ("IMAGE",),
+                "filename_prefix": ("STRING", {"default": "LT"}),
+            },
+            "hidden": {"prompt": "PROMPT", "extra_pnginfo": "EXTRA_PNGINFO"},
+        }
+
+    RETURN_TYPES = ()
+    FUNCTION = "save"
+    OUTPUT_NODE = True
+    CATEGORY = CATEGORY
+
+    def save(
+        self,
+        images,
+        filename_prefix="LT",
+        prompt=None,
+        extra_pnginfo=None,
+    ):
+        full_output_folder, filename, counter, subfolder, _ = (
+            folder_paths.get_save_image_path(
+                filename_prefix,
+                self.output_dir,
+                images[0].shape[1],
+                images[0].shape[0],
+            )
+        )
+        results = []
+        for batch_number, image in enumerate(images):
+            arr = 255.0 * image.cpu().numpy()
+            img = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8))
+            metadata = PngImagePlugin.PngInfo()
+            if prompt is not None:
+                metadata.add_text("prompt", json.dumps(prompt))
+            if extra_pnginfo is not None:
+                for key, value in extra_pnginfo.items():
+                    metadata.add_text(key, json.dumps(value))
+            file = f"{filename}_{counter:05}_.png"
+            img.save(
+                os.path.join(full_output_folder, file),
+                pnginfo=metadata,
+                compress_level=4,
+            )
+            results.append(
+                {"filename": file, "subfolder": subfolder, "type": self.type}
+            )
+            counter += 1
+        return {"ui": {"images": results}}
+
+
 NODE_CLASS_MAPPINGS = {
     "LoraTrainingPrompt": LoraTrainingPrompt,
     "LoraTrainingSeed": LoraTrainingSeed,
@@ -500,6 +807,16 @@ NODE_CLASS_MAPPINGS = {
     "LoraTrainingInputImage": LoraTrainingInputImage,
     "LoraTrainingDenoise": LoraTrainingDenoise,
     "LoraTrainingMaxSize": LoraTrainingMaxSize,
+    "LoraTrainingNegativePrompt": LoraTrainingNegativePrompt,
+    "LoraTrainingCLIP": LoraTrainingCLIP,
+    "LoraTrainingVAE": LoraTrainingVAE,
+    "LoraTrainingWidth": LoraTrainingWidth,
+    "LoraTrainingHeight": LoraTrainingHeight,
+    "LoraTrainingSteps": LoraTrainingSteps,
+    "LoraTrainingCfg": LoraTrainingCfg,
+    "LoraTrainingSampler": LoraTrainingSampler,
+    "LoraTrainingScheduler": LoraTrainingScheduler,
+    "LoraTrainingSaveOutput": LoraTrainingSaveOutput,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
@@ -512,4 +829,14 @@ NODE_DISPLAY_NAME_MAPPINGS = {
     "LoraTrainingInputImage": "LT · Input Image",
     "LoraTrainingDenoise": "LT · Denoise",
     "LoraTrainingMaxSize": "LT · Max Size",
+    "LoraTrainingNegativePrompt": "LT · Negative Prompt",
+    "LoraTrainingCLIP": "LT · CLIP",
+    "LoraTrainingVAE": "LT · VAE",
+    "LoraTrainingWidth": "LT · Width",
+    "LoraTrainingHeight": "LT · Height",
+    "LoraTrainingSteps": "LT · Steps",
+    "LoraTrainingCfg": "LT · CFG",
+    "LoraTrainingSampler": "LT · Sampler",
+    "LoraTrainingScheduler": "LT · Scheduler",
+    "LoraTrainingSaveOutput": "LT · Save Output",
 }

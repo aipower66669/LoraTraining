@@ -28,7 +28,7 @@ type GetCurrentImgDataFn = (
  * (upstream #267), so we bake the current canvas into the working source before
  * Crop / Remove so operations chain without Save → re-open.
  *
- * Handle math matches MyFileExplorer. This shell rasters on the CPU (D25), so the
+ * This shell rasters on the CPU (D25), so the
  * crop stage uses a 1× preview and a flat dim (no Konva blur) — a 2× blurred
  * overlay is a few software frames per second, and the move and the resize
  * paint as two separate frames.

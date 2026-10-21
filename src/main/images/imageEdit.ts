@@ -1,5 +1,5 @@
 /**
- * In-app image edit / upscale version history — MyFileExplorer D27 ADS contract.
+ * In-app image edit / upscale version history on NTFS alternate data streams.
  * NTFS: `$DATA` = pristine; `VER_1…VER_4` + `VER_COUNT` = tip edits.
  * Non-NTFS: overwrite `$DATA` in place.
  */
@@ -597,7 +597,7 @@ export async function undoLastImageVersion(
 }
 
 /**
- * Collapse tip into `$DATA`, drop version streams (MFE commitImageVersion).
+ * Collapse tip into `$DATA` and drop version streams.
  * Uses `VER_COUNT` when readable; otherwise falls back to the highest `VER_n` stream.
  */
 export async function commitImageVersion(absFile: string): Promise<{ committed: boolean }> {

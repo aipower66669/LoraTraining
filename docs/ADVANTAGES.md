@@ -69,18 +69,16 @@ Built for libraries that grow:
 
 ---
 
-## MyFileExplorer integration
+## NTFS image versions
 
 Advanced users can enable **Settings → External tools → Library → NTFS versions**
 for datasets on NTFS drives. It defaults off; normal saves overwrite like a
-conventional editor. When enabled, **Edit image** and **Upscale** use the same ADS
-version streams as MyFileExplorer (D27):
+conventional editor. When enabled, **Edit image** and **Upscale** keep version
+streams on the file:
 
 - `$DATA` = pristine bytes
 - Tip edits in `VER_1`…`VER_4`
 - JoyCaption and training **commit** tips to `$DATA` before running
-
-Edit in one app; train from the committed pixels in the other.
 
 ---
 
