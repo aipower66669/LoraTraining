@@ -58,7 +58,7 @@
     "react-filerobot-image-editor": "^5.0.0-beta.159",
     "react-konva": "^19.2.5",
     "sharp": "^0.35.3",
-    "styled-components": "^6.4.4",
+    "styled-components": "^6.6.0",
     "ws": "^8.21.1",
     "yaml": "^2.8.0",
     "zod": "^3.25.76",
