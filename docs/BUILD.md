@@ -11,7 +11,7 @@ Windows NSIS installers (`LoraTraining Setup X.Y.Z.exe`) are typically **large**
 ```bash
 npm ci
 npm run dev          # Electron + renderer HMR
-npm run check        # typecheck + lint + Vitest — same as GitHub Actions on push / pull request
+npm run check        # typecheck + lint + Vitest (local). GitHub runs this only inside the tag release workflow
 ```
 
 Settings pointer lives in `%APPDATA%\lora-training\` for both dev and installed builds.
@@ -66,10 +66,9 @@ After the first install:
 
 | Workflow | Trigger | What runs |
 | --- | --- | --- |
-| [`.github/workflows/check.yml`](../.github/workflows/check.yml) | Push / PR to `main` | `npm run check` on `windows-latest` |
-| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | Push tag `vX.Y.Z` only | `npm run check`, then `npm run dist:nobump`, then GitHub Release + `SHA256SUMS.txt` |
+| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | Push tag `vX.Y.Z` only | One job: `npm run check`, then `npm run dist:nobump`, then GitHub Release + `SHA256SUMS.txt` |
 
-A branch push does not build or publish an installer. There is no manual `workflow_dispatch` build. The release job runs only when `github.ref` is a tag.
+A branch push and a pull request do not start a workflow. There is no manual `workflow_dispatch` build. Pushing `v0.4.0` (the tag that matches `package.json`) is the only Action.
 
 CI does **not** require repository secrets. The release workflow uses the built-in `GITHUB_TOKEN` to attach `LoraTraining Setup X.Y.Z.exe` and a SHA-256 checksum file. The release body is [RELEASE_NOTES.md](../RELEASE_NOTES.md). Workflow actions are **pinned to commit SHAs**. `electron-builder` uses `--publish never` / `"publish": null`, so only `softprops/action-gh-release` publishes.
 

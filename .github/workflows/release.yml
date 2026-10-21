@@ -1,10 +1,7 @@
 name: Release
 
-# Windows NSIS installer on version tags only. Branch and pull-request pushes
-# are covered by check.yml and do not publish an installer.
-#
-# Valid tags: vX.Y.Z only (e.g. v0.4.0). The tag must match package.json.
-# This workflow does not rewrite the version.
+# One workflow, version tags only. A push or pull request does not run this.
+# Valid tags: vX.Y.Z matching package.json (e.g. v0.4.0). The version is not rewritten.
 
 on:
   push:
@@ -12,38 +9,16 @@ on:
       - 'v*.*.*'
 
 concurrency:
-  group: release-${{ github.workflow }}-${{ github.ref }}
+  group: release-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  check:
-    name: Typecheck, lint, test
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Check
-        run: npm run check
-
   release:
-    name: Windows installer → GitHub Release
-    needs: check
-    # Tag pushes only. check.yml covers branches; there is no manual dispatch build.
-    if: startsWith(github.ref, 'refs/tags/')
+    name: Windows installer
     runs-on: windows-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
@@ -68,9 +43,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check
+        run: npm run check
+
       - name: Build NSIS installer
         env:
-          # No code-signing cert in CI. signExecutable is also false in package.json.
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
         run: npm run dist:nobump
 

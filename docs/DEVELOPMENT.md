@@ -24,7 +24,7 @@ See also [`BUILD.md`](BUILD.md) for installer and tag workflow.
 | `npm run typecheck` | Strict TS for main/preload and renderer |
 | `npm run lint` | ESLint, max-warnings 0 |
 | `npm run test` | Vitest unit + integration |
-| `npm run check` | typecheck + lint + Vitest — same command the push/PR workflow runs |
+| `npm run check` | typecheck + lint + Vitest — run locally; GitHub runs it only when a `vX.Y.Z` tag is pushed |
 | `npm run build` | Production electron-vite build |
 | `npm run build:win` | Windows NSIS installer (no version bump; keeps existing `release/`) |
 | `npm run dist:nobump` | Clear `release/` → build installer at the current version |

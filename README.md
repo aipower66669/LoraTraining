@@ -136,7 +136,7 @@ git clone https://github.com/aipower66669/LoraTraining.git
 cd LoraTraining
 npm install
 npm run dev          # HMR — same %APPDATA%\lora-training pointer as installed builds
-npm run check        # typecheck + lint + tests (same as CI on push / pull request)
+npm run check        # typecheck + lint + tests (local; GitHub runs it only on a version tag)
 npm run dist:nobump  # NSIS installer at the current version → release/
 npm run dist         # bump patch, then that installer
 ```
@@ -220,7 +220,7 @@ Domain deep-dives: [Categories](docs/CATEGORIES.md) · [Datasets](docs/DATASET_M
 | Script                | Purpose                                                                                  |
 | --------------------- | ---------------------------------------------------------------------------------------- |
 | `npm run dev`         | Electron + HMR                                                                           |
-| `npm run check`       | typecheck + lint + Vitest — **same command CI runs** on push and pull request to `main`  |
+| `npm run check`       | typecheck + lint + Vitest — local gate; GitHub runs it only as part of the version-tag installer build |
 | `npm run test`        | Vitest                                                                                   |
 | `npm run build`       | Production electron-vite build                                                           |
 | `npm run build:win`   | Windows NSIS installer (no version bump, does not clear `release/`)                      |
