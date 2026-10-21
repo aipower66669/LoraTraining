@@ -20,10 +20,12 @@ export const IpcChannels = {
     openPath: 'system:openPath',
     /** Absolute file URL for the Pinterest webview guest preload. */
     imageScraperGuestPreloadUrl: 'system:imageScraperGuestPreloadUrl',
-    /** Scan Settings → updateCheckFolder for a newer LoraTraining Setup *.exe. */
+    /** Empty Release folder checks GitHub; a folder scans local Setup exes. */
     checkForUpdate: 'system:checkForUpdate',
-    /** Launch the newest (or given) Setup exe, then quit the app. */
-    installUpdate: 'system:installUpdate'
+    /** Launch the newest Setup exe (downloading it from GitHub when the folder is empty), then quit. */
+    installUpdate: 'system:installUpdate',
+    /** Markdown release notes for a version found by Check for update. */
+    getReleaseNotes: 'system:getReleaseNotes'
   },
   settings: {
     get: 'settings:get',

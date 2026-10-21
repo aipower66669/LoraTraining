@@ -9,6 +9,8 @@ import {
   type MutableRefObject
 } from 'react'
 import FilerobotImageEditor, { TABS, TOOLS } from 'react-filerobot-image-editor'
+
+type FilerobotToolId = (typeof TOOLS)[keyof typeof TOOLS]
 import { isTypingTarget } from '@shared/keyboard'
 import { unwrap, useAppStore } from '../store'
 import { ImageRemoveOverlay } from './ImageRemoveOverlay'
@@ -55,7 +57,7 @@ function ImageEditorInner(): JSX.Element | null {
 
   const [src, setSrc] = useState<string | null>(null)
   const [srcKey, setSrcKey] = useState(0)
-  const [defaultToolId, setDefaultToolId] = useState<string>(TOOLS.CROP)
+  const [defaultToolId, setDefaultToolId] = useState<FilerobotToolId>(TOOLS.CROP)
   const [saving, setSaving] = useState(false)
   const [removeMode, setRemoveMode] = useState(false)
   const [removeBusy, setRemoveBusy] = useState(false)
@@ -111,7 +113,7 @@ function ImageEditorInner(): JSX.Element | null {
     }
   }, [datasetId, fileName, setError, closeImageEditor])
 
-  const bakeWorkingSource = useCallback((nextToolId?: string): boolean => {
+  const bakeWorkingSource = useCallback((nextToolId?: FilerobotToolId): boolean => {
     if (bakingRef.current) return false
     const fn = getImgDataRef.current
     if (!fn || !dirtyRef.current) {

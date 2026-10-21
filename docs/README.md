@@ -15,7 +15,8 @@ Hub for product and engineering docs. Product entry: [../README.md](../README.md
 | [SETUP.md](SETUP.md) | Experienced local-AI users | Wire **already-working** tools into LoraTraining (not upstream install guides) |
 | [USER_GUIDE.md](USER_GUIDE.md) | Everyone using the app | Screens, workflows, shortcuts, troubleshooting |
 | [ADVANTAGES.md](ADVANTAGES.md) | Evaluators | Why LoraTraining vs manual / script workflows |
-| [../RELEASE_NOTES.md](../RELEASE_NOTES.md) | Upgraders | v0.3.0 product release summary |
+| [../RELEASE_NOTES.md](../RELEASE_NOTES.md) | Upgraders | v0.4.0 product release summary |
+| [RELEASE_NOTES_v0.4.0.md](RELEASE_NOTES_v0.4.0.md) | Upgraders | Detailed v0.4.0 notes |
 | [RELEASE_NOTES_v0.3.0.md](RELEASE_NOTES_v0.3.0.md) | Upgraders | Detailed v0.3.0 notes |
 | [../CHANGELOG.md](../CHANGELOG.md) | Everyone | Version history |
 | [../README.md](../README.md) | Everyone | Overview + quick start |
@@ -79,6 +80,15 @@ Hub for product and engineering docs. Product entry: [../README.md](../README.md
 
 ---
 
+## Recent behaviour (v0.4.0)
+
+| Area | Spec |
+| ---- | ---- |
+| NTFS versions | Advanced opt-in under Settings → Library, off by default — DATASET_MANAGER, SETTINGS |
+| Capability gates | Hide JoyCaption, AI Toolkit, and ComfyUI work areas until the required path is set — SETTINGS, EXTERNAL_TOOLS |
+| Release build | `npm run dist` bumps the patch; `npm run dist:nobump` keeps it; GitHub publishes the installer on tag `vX.Y.Z` only — BUILD |
+| App updates | Empty Release folder checks GitHub; a folder uses local Setup exes; What's new renders the notes — SETTINGS |
+
 ## Recent behaviour (v0.3.0)
 
 | Area | Spec |
@@ -88,8 +98,7 @@ Hub for product and engineering docs. Product entry: [../README.md](../README.md
 | Checkpoint UI | Shallow scan + cached validation previews — VALIDATION, DATASET_MANAGER |
 | Windows safetensors (D28) | `train_bootstrap.py`, pread/streaming, abort on 1455 — WINDOWS_TRAINING |
 | Further training | Pending output rows; Validated demotion — VALIDATION, USER_GUIDE |
-| Image versions (D27) | Optional NTFS ADS history, off by default, compatible with MyFileExplorer — DATASET_MANAGER, EXTERNAL_TOOLS |
-| Capability gates (D30) | Hide unavailable JoyCaption, AI Toolkit, and ComfyUI work areas until required paths are set — SETTINGS, EXTERNAL_TOOLS |
+| Image versions (D27) | MyFileExplorer-compatible NTFS ADS history — DATASET_MANAGER, EXTERNAL_TOOLS |
 | Licence | GPL-3.0-only — LICENSING |
 
 ## Recent behaviour (v0.2.0)
@@ -98,5 +107,5 @@ Hub for product and engineering docs. Product entry: [../README.md](../README.md
 | ---- | ---- |
 | Library workspace | Settings + workflows under `{libraryRoot}` — PROJECT_FORMAT, SETTINGS |
 | Comfy suite | Steps / Weight / Stress / Upscale / Diversify — VALIDATION |
-| Overnight queue | v0.2 introduced cooldown/wake lock; current v0.3 continues after failure by default — JOB_QUEUE, DECISIONS D22 |
+| Overnight queue | v0.2 introduced cooldown/wake lock; v0.3 continues after failure by default — JOB_QUEUE, DECISIONS D22 |
 | In-app updates | Local NSIS folder scan — SETTINGS D23 |

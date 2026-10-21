@@ -3,7 +3,7 @@
  * 1. Bump package.json / package-lock.json patch (X.Y.Z → X.Y.Z+1)
  * 2. Wipe `release/` so only the new installer remains after electron-builder
  *
- * Skip the bump with SKIP_VERSION_BUMP=1 (still cleans release/).
+ * Skip the bump with `--no-bump` or SKIP_VERSION_BUMP=1 (still cleans release/).
  * Skip the clean with SKIP_RELEASE_CLEAN=1.
  */
 import { rmSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
@@ -31,7 +31,8 @@ function writeJson(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`, 'utf8')
 }
 
-const skipBump = process.env.SKIP_VERSION_BUMP === '1'
+const skipBump =
+  process.argv.includes('--no-bump') || process.env.SKIP_VERSION_BUMP === '1'
 const skipClean = process.env.SKIP_RELEASE_CLEAN === '1'
 
 const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'))
@@ -53,7 +54,8 @@ if (!skipBump) {
   }
   console.log(`[prepare-dist] version ${prev} → ${next}`)
 } else {
-  console.log(`[prepare-dist] SKIP_VERSION_BUMP=1 — keeping ${prev}`)
+  const why = process.argv.includes('--no-bump') ? '--no-bump' : 'SKIP_VERSION_BUMP=1'
+  console.log(`[prepare-dist] ${why} — keeping ${prev}`)
 }
 
 if (!skipClean) {

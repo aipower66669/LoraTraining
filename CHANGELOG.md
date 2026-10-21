@@ -7,10 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-10-21
+
+**Public release** under **GPL-3.0-only**. Focus: opt-in image version history, hiding tool UI until JoyCaption, AI Toolkit, and ComfyUI paths are set, and GitHub release updates.
+
+### Added
+
+- **App updates** — an empty Release folder checks GitHub Releases and can download the Setup exe. A folder still installs from local `LoraTraining Setup *.exe` files. **What's new** renders that version’s release notes when a newer build is found.
+
 ### Changed
 
-- Image editor / Upscale NTFS version history is now an advanced opt-in under **Settings → External tools → Library → NTFS versions** and defaults off. Normal saves overwrite the image; version stacks require both the option and an NTFS-hosted dataset.
-- Tool-dependent UI now stays hidden until its required path is configured: JoyCaption Work dir for automatic captions, AI Toolkit Work dir for Jobs/Queue/training UI, and ComfyUI LoRAs for validation/Upscale/Diversify.
+- Image editor / Upscale NTFS version history is an advanced opt-in under **Settings → External tools → Library → NTFS versions** and defaults off. Normal saves overwrite the image; version stacks require both the option and an NTFS-hosted dataset.
+- Tool-dependent UI stays hidden until its required path is configured: JoyCaption Work dir for automatic captions, AI Toolkit Work dir for Jobs/Queue/training UI, and ComfyUI LoRAs for validation/Upscale/Diversify.
+- Product version line → **0.4.0**. `npm run dist` bumps the patch and builds the installer; `npm run dist:nobump` builds the current version. GitHub publishes the Windows installer on a `vX.Y.Z` tag only.
 
 ## [0.3.0] — 2026-09-02
 
@@ -152,6 +161,6 @@ First feature-complete desktop release for local LoRA dataset management, traini
 
 ## Links
 
-- Release notes: [`RELEASE_NOTES.md`](RELEASE_NOTES.md) · [`docs/RELEASE_NOTES_v0.3.0.md`](docs/RELEASE_NOTES_v0.3.0.md) · [`docs/RELEASE_NOTES_v0.2.0.md`](docs/RELEASE_NOTES_v0.2.0.md) · [`docs/RELEASE_NOTES_v0.1.0.md`](docs/RELEASE_NOTES_v0.1.0.md)
+- Release notes: [`RELEASE_NOTES.md`](RELEASE_NOTES.md) · [`docs/RELEASE_NOTES_v0.4.0.md`](docs/RELEASE_NOTES_v0.4.0.md) · [`docs/RELEASE_NOTES_v0.3.0.md`](docs/RELEASE_NOTES_v0.3.0.md) · [`docs/RELEASE_NOTES_v0.2.0.md`](docs/RELEASE_NOTES_v0.2.0.md) · [`docs/RELEASE_NOTES_v0.1.0.md`](docs/RELEASE_NOTES_v0.1.0.md)
 - User guide: [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md)
 - Licence: [`LICENSING.md`](LICENSING.md)

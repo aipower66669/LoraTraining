@@ -1333,6 +1333,88 @@ input[type='range'] {
   flex: 0 0 auto;
 }
 
+.release-notes-dialog {
+  width: min(760px, 94vw);
+  max-height: min(85vh, 900px);
+}
+
+.release-notes-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.release-notes-head h3 {
+  margin: 0;
+}
+
+.release-notes-dialog .modal-body {
+  flex: 1 1 auto;
+  margin-top: 0.75rem;
+}
+
+.release-notes-dialog .modal-actions {
+  justify-content: space-between;
+}
+
+.release-notes-md {
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.release-notes-md h1,
+.release-notes-md h2,
+.release-notes-md h3 {
+  margin: 0.9em 0 0.35em;
+  line-height: 1.25;
+}
+
+.release-notes-md h1 {
+  font-size: 1.25rem;
+}
+
+.release-notes-md h2 {
+  font-size: 1.05rem;
+}
+
+.release-notes-md h3 {
+  font-size: 0.95rem;
+}
+
+.release-notes-md p,
+.release-notes-md ul,
+.release-notes-md ol {
+  margin: 0.4em 0;
+}
+
+.release-notes-md ul,
+.release-notes-md ol {
+  padding-left: 1.25rem;
+}
+
+.release-notes-md a {
+  color: var(--accent);
+}
+
+.release-notes-md code {
+  font-family: var(--mono);
+  font-size: 0.92em;
+}
+
+.release-notes-md pre {
+  overflow: auto;
+  padding: 0.6rem 0.7rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.release-notes-md pre code {
+  font-size: 12px;
+}
+
 /* Caption validation results: one scrollport only (not modal-body + list). */
 .caption-validation-dialog {
   width: min(720px, 94vw);

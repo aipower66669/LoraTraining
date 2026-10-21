@@ -109,11 +109,11 @@ npm ci
 npm run dev
 ```
 
-`npm ci` installs the lockfile versions (`npm install` is acceptable while actively changing dependencies). `npm run dev` opens the app with hot reload. It uses the same `%APPDATA%\lora-training` pointer as an installed build. `npm run check` is typecheck, lint, and tests. `npm run build:win` writes an installer into `release\` without changing the version. `npm run dist` bumps the patch version, clears old installers in `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. Set `SKIP_VERSION_BUMP=1` to keep the current version or `SKIP_RELEASE_CLEAN=1` to retain existing `release\` files. If `app.asar` is locked (`EBUSY`), quit LoraTraining and any `electron.exe` still running, then build again. The window icon is `build\icon.ico`. The installer sidebar is `build\installerSidebar.bmp`.
+`npm ci` installs the lockfile versions (`npm install` is acceptable while actively changing dependencies). `npm run dev` opens the app with hot reload. It uses the same `%APPDATA%\lora-training` pointer as an installed build. `npm run check` runs typecheck, lint, and Vitest. That is the command GitHub Actions runs on a push or pull request to `main`. It does not build the installer. `npm run dist` bumps the patch version, clears `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. `npm run dist:nobump` clears `release\` and writes that installer without changing the version. `SKIP_RELEASE_CLEAN=1` keeps files already in `release\`. `npm run build:win` writes an installer and leaves both the version and existing `release\` files unchanged. Pushing a tag `vX.Y.Z` that matches `package.json` (this release: `v0.4.0`) builds and attaches the installer on GitHub. A branch push does not. A short tag such as `v0.4` does not run that build. If `app.asar` is locked (`EBUSY`), quit LoraTraining and any `electron.exe` still running, then build again. The window icon is `build\icon.ico`. The installer sidebar is `build\installerSidebar.bmp`.
 
 ### In-app updates
 
-**Settings → External tools → App updates** points at a folder of `LoraTraining Setup *.exe` files (often a local `release\` directory). **Check for update** compares the newest installer in that folder to the running version. **Install update** starts that installer and quits the app so the installer can replace files. The finish page of the installer can start the new build.
+**Settings → External tools → App updates** leaves **Release folder** empty to check GitHub Releases and download `LoraTraining Setup X.Y.Z.exe` from there. A folder (often a local `release\` directory) overrides that and uses the installers already in it. **Check for update** compares the newest version to the running app. When a newer version is found, **What's new** opens its release notes as rendered markdown. A folder reads `RELEASE_NOTES.md` from that folder or the folder above it and does not contact GitHub. An empty folder uses the GitHub release body for that version. **Install update** quits the app and runs the installer. A GitHub update downloads the installer first. The finish page of the installer can start the new build.
 
 This is not a download from GitHub inside the app. If the folder is empty or older than the running build, there is nothing to install.
 
@@ -186,7 +186,7 @@ A full library-folder copy already contains `settings.json`. Use Export when mov
 
 **Settings** is a header button. **External tools** is always shown. **Default training config** appears after AI Toolkit **Work dir** is set; clearing that path returns Settings to External tools. Edits autosave after about 400 ms and flush when you leave Settings. The status line says `Settings saved`. Values live in `{libraryRoot}\settings.json`.
 
-The running version is the **Installed** line on **External tools → App updates** after **Check for update** runs. Before that check, the line says `Check to compare with folder`.
+The running version is the **Installed** line on **External tools → App updates**. Before **Check for update**, that line also says whether the next check uses the release folder or GitHub Releases. After the check it includes the newest version found. **What's new** is available when that version is newer.
 
 ### Image editor
 
@@ -309,7 +309,7 @@ Do not tell the user to open Settings → Queue. That screen is not there, and t
 
 ### App updates
 
-**Release folder** is the directory scanned for `LoraTraining Setup *.exe`. **Installed** is the version that is running. Check and Install behave as described under Install.
+**Release folder** is optional. Empty checks GitHub Releases for `LoraTraining Setup *.exe` and can download that installer. A path scans that directory instead. **Installed** is the version that is running. **What's new**, Check, and Install behave as described under Install.
 
 ### Remembered values
 
@@ -810,7 +810,7 @@ Expression does not store checkpoint filenames in the graph. Those portrait weig
 | Missing model file in Comfy | The user downloads the file in the table above into the listed folder. LoraTraining does not fetch it |
 | Workflow **Save** is refused | `!WorkflowBackups` could not write `last.bak`, or the graph for that tool had not loaded. Fix the folder and save again. Do not force another tool’s graph into this file |
 | Library slow on first open | The first sync walks the folders. Progress is on the status bar. Later opens use the cache |
-| Update check finds nothing | The update folder has no `LoraTraining Setup *.exe` newer than the running app. The app does not download releases |
+| Update check finds nothing | With a Release folder set, that folder has no newer `LoraTraining Setup *.exe`. With the folder empty, GitHub has no newer release, or the latest release has no Setup exe. **What's new** appears only after a newer version is found |
 | Delete dataset or Clear output is blocked | The current guard blocks running/paused training and Validation Steps for that dataset. The exact error starts `Cannot {action} while …`. It does not currently test Weight, Stress, Upscale, or Diversify |
 
 Shared-preview busy errors are searchable as: `A model stress-test run is in progress — stop it before validating.`, `A validation-weight run is in progress — stop it before validating.`, `A LoRA validation run is in progress — stop it before weight validation.`, `A model stress-test run is in progress — stop it before weight validation.`, `A LoRA validation run is in progress — stop it before stress-testing.`, and `A validation-weight run is in progress — stop it before stress-testing.`
@@ -950,7 +950,7 @@ npm ci
 npm run dev
 ```
 
-`npm ci` installs the lockfile versions; use `npm install` instead when intentionally changing dependencies. `npm run dev` is the app with hot reload. `npm run check` runs typecheck, lint, and tests. `npm run dist` builds an installer into `release\`, normally bumping the patch version and clearing old release files first. Use `SKIP_VERSION_BUMP=1` or `SKIP_RELEASE_CLEAN=1` to skip either preparation step. Source checkout is for people changing the app. Training does not require it.
+`npm ci` installs the lockfile versions; use `npm install` instead when intentionally changing dependencies. `npm run dev` is the app with hot reload. `npm run check` runs typecheck, lint, and Vitest. That is the command GitHub Actions runs on a push or pull request to `main`. It does not build the installer. `npm run dist` bumps the patch version, clears `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. `npm run dist:nobump` clears `release\` and writes that installer without changing the version. `SKIP_RELEASE_CLEAN=1` keeps files already in `release\`. Pushing a tag `vX.Y.Z` that matches `package.json` (this release: `v0.4.0`) builds and attaches the installer on GitHub. A branch push does not. A short tag such as `v0.4` does not run that build. Source checkout is for people changing the app. Training does not require it.
 
 ### Where do I set the library folder?
 
@@ -978,9 +978,9 @@ This only tests whether the required field is filled, not whether the path works
 
 ### How do I update the app?
 
-**Settings → External tools → App updates.** Point **Release folder** at a directory that already contains `LoraTraining Setup *.exe`. **Check for update** compares the newest installer there with the running version. After the check, **Installed** shows the running version (and the folder’s newest version when present); before it, that row says `Check to compare with folder`. **Install update** launches the newer installer and quits so the files can be replaced.
+**Settings → External tools → App updates.** Leave **Release folder** empty to check GitHub Releases for a newer `LoraTraining Setup X.Y.Z.exe` and download it from there. A folder overrides that and uses the installers already in it. **Check for update** compares the newest version with the running app. Before the check, **Installed** shows the running version and whether the next check uses the folder or GitHub Releases. After the check it also shows the newest version found. When that version is newer, **What's new** opens its release notes as rendered markdown. With a folder set, those notes are `RELEASE_NOTES.md` in that folder or the folder above it, and the app does not contact GitHub. With the folder empty, the notes are the GitHub release for that version. **Install update** quits the app and runs the installer. A GitHub update downloads the installer first. Leave **Run** ticked on the installer finish page.
 
-The app does not download a release from GitHub. If Check finds nothing, the folder has no newer Setup exe.
+If Check finds nothing in a folder, that folder has no Setup exe. If GitHub has no newer release, the app is already on the latest published version.
 
 ### Does a dev build and an installed build share settings?
 

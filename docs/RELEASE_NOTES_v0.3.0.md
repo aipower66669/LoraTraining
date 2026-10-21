@@ -1,7 +1,7 @@
 # Release notes — LoraTraining v0.3.0
 
 **Release date:** 2 September 2026  
-**Channel:** Public release (`0.3.0`) — **GPL-3.0-only**
+**Channel:** Public release (`0.3.0`) — **GPL-3.0-only**. Later release: [v0.4.0](RELEASE_NOTES_v0.4.0.md).
 
 ---
 

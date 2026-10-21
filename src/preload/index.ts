@@ -24,15 +24,13 @@ const api = {
     /** Absolute path for a File from drag-and-drop (renderer). */
     pathForFile: (file: File): string => webUtils.getPathForFile(file),
     checkForUpdate: () =>
-      invoke<{
-        currentVersion: string
-        latestVersion: string | null
-        installerPath: string | null
-        installerFileName: string | null
-        updateAvailable: boolean
-      }>(IpcChannels.system.checkForUpdate),
+      invoke<import('@shared/local-update').LocalUpdateCheck>(IpcChannels.system.checkForUpdate),
     installUpdate: (installerPath?: string) =>
-      invoke<{ launched: true }>(IpcChannels.system.installUpdate, { installerPath })
+      invoke<{ launched: true }>(IpcChannels.system.installUpdate, { installerPath }),
+    getReleaseNotes: (version: string) =>
+      invoke<import('@shared/github-update').AppReleaseNotes>(IpcChannels.system.getReleaseNotes, {
+        version
+      })
   },
   settings: {
     get: () => invoke(IpcChannels.settings.get),

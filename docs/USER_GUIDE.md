@@ -204,7 +204,7 @@ Remaining steps for the running job update as step progress advances. Header sho
 - Library: Library root and optional **NTFS versions** (off by default)
 - JoyCaption / AI Toolkit paths and Test buttons; no Extra args controls
 - Comfy Host, Port, Comfy root, LoRAs, Val. LoRA, Wildcards, Launch, and Model; no Secure checkbox
-- **App updates** — release folder (`LoraTraining Setup *.exe`), Installed version after Check for update, Install update (closes app and runs the installer)
+- **App updates** — empty Release folder checks GitHub Releases; a folder uses local `LoraTraining Setup *.exe` files. **What's new** shows that version’s release notes after a newer build is found. Install update closes the app and runs the installer (GitHub downloads it first)
 - Default training YAML envelope (materialized per job with dataset paths, trigger, steps)
 - Queue prefs exist in `settings.json` but have no on-screen section
 

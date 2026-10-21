@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
-import { FileSearch, FolderOpen } from 'lucide-react'
+import { FileSearch, FolderOpen, X } from 'lucide-react'
+import type { LocalUpdateCheck } from '@shared/local-update'
 import type { AppSettings } from '@shared/schemas/settings'
 import type { TrainingConfig } from '@shared/schemas/training-config'
 import type { LtComfyNodesStatus } from '@shared/comfy-install'
@@ -7,6 +8,7 @@ import { inferComfyRootFromLorasFolder } from '@shared/comfy-install'
 import { ComfyModelSelect } from '../components/ComfyModelSelect'
 import { ConfigForm } from '../components/ConfigForm'
 import { TrainingModelFields } from '../components/TrainingModelFields'
+import { ReleaseNotesModal } from '../components/ReleaseNotesModal'
 import { useConfirm } from '../components/useConfirm'
 import { unwrap, useAppStore } from '../store'
 import { invalidateWildcardKeysCache } from '../components/prompt/useWildcardKeys'
@@ -25,13 +27,9 @@ export function SettingsScreen(): React.JSX.Element {
   const [testMsg, setTestMsg] = useState('')
   const [ioBusy, setIoBusy] = useState(false)
   const [updateBusy, setUpdateBusy] = useState(false)
-  const [updateInfo, setUpdateInfo] = useState<{
-    currentVersion: string
-    latestVersion: string | null
-    installerFileName: string | null
-    installerPath: string | null
-    updateAvailable: boolean
-  } | null>(null)
+  const [updateInfo, setUpdateInfo] = useState<LocalUpdateCheck | null>(null)
+  const [updateChecked, setUpdateChecked] = useState(false)
+  const [notesVersion, setNotesVersion] = useState<string | null>(null)
   const [ltNodesStatus, setLtNodesStatus] = useState<LtComfyNodesStatus | null>(null)
   const [ltInstallBusy, setLtInstallBusy] = useState(false)
   const localRef = useRef(local)
@@ -91,7 +89,10 @@ export function SettingsScreen(): React.JSX.Element {
             latestVersion: null,
             installerFileName: null,
             installerPath: null,
-            updateAvailable: false
+            downloadUrl: null,
+            source: 'github',
+            updateAvailable: false,
+            message: ''
           }
         )
       } catch {
@@ -208,6 +209,41 @@ export function SettingsScreen(): React.JSX.Element {
 
   if (!local) return <div className="screen empty">Loading settings…</div>
 
+  function forgetUpdateCheck(): void {
+    setUpdateChecked(false)
+    setNotesVersion(null)
+    setUpdateInfo((prev) =>
+      prev
+        ? {
+            ...prev,
+            latestVersion: null,
+            installerPath: null,
+            installerFileName: null,
+            downloadUrl: null,
+            updateAvailable: false,
+            message: ''
+          }
+        : prev
+    )
+  }
+
+  const releaseFolder = (local.updateCheckFolder ?? '').trim()
+  const installedLabel = (() => {
+    const current = updateInfo?.currentVersion ? `v${updateInfo.currentVersion}` : ''
+    if (!updateChecked || !updateInfo) {
+      const target = releaseFolder
+        ? 'Check to compare with folder'
+        : 'Check to compare with GitHub Releases'
+      return current ? `${current} · ${target}` : target
+    }
+    if (updateInfo.latestVersion) {
+      const where = updateInfo.source === 'github' ? 'GitHub' : 'folder'
+      return `${current} · ${where} newest v${updateInfo.latestVersion}`
+    }
+    return current || updateInfo.message
+  })()
+  const notesReady = updateChecked && updateInfo?.updateAvailable && Boolean(updateInfo.latestVersion)
+
   async function pickFolder(
     field:
       | 'libraryRoot'
@@ -227,7 +263,7 @@ export function SettingsScreen(): React.JSX.Element {
       next = { ...local!, libraryRoot: path }
     } else if (field === 'updateCheckFolder') {
       next = { ...local!, updateCheckFolder: path }
-      setUpdateInfo(null)
+      forgetUpdateCheck()
     } else if (field === 'joyWd') {
       next = {
         ...local!,
@@ -354,26 +390,13 @@ export function SettingsScreen(): React.JSX.Element {
     try {
       const ok = await flushSave()
       if (!ok) return
-      const info = unwrap(await window.loraTraining.system.checkForUpdate()) as {
-        currentVersion: string
-        latestVersion: string | null
-        installerFileName: string | null
-        installerPath: string | null
-        updateAvailable: boolean
-      }
+      const info = unwrap(await window.loraTraining.system.checkForUpdate()) as LocalUpdateCheck
       setUpdateInfo(info)
-      if (!info.latestVersion) {
-        setTestMsg('No LoraTraining Setup *.exe found in that folder')
-        setStatus('No installer found in update folder')
-      } else if (info.updateAvailable) {
-        setTestMsg(`Update available: v${info.latestVersion} (${info.installerFileName})`)
-        setStatus(`Update available: v${info.latestVersion}`)
-      } else {
-        setTestMsg(`Up to date (v${info.currentVersion}; folder has v${info.latestVersion})`)
-        setStatus('App is up to date')
-      }
+      setUpdateChecked(true)
+      setTestMsg(info.message)
+      setStatus(info.updateAvailable ? `Update available: v${info.latestVersion}` : info.message)
     } catch (err) {
-      setUpdateInfo(null)
+      setUpdateChecked(false)
       setError(err instanceof Error ? err.message : String(err))
     } finally {
       setUpdateBusy(false)
@@ -386,7 +409,11 @@ export function SettingsScreen(): React.JSX.Element {
     try {
       const ok = await flushSave()
       if (!ok) return
-      setStatus('Launching installer… app will close')
+      setStatus(
+        (local.updateCheckFolder ?? '').trim()
+          ? 'Launching installer… app will close'
+          : 'Downloading installer from GitHub… the app will close when it starts'
+      )
       unwrap(
         await window.loraTraining.system.installUpdate(updateInfo?.installerPath ?? undefined)
       )
@@ -455,6 +482,9 @@ export function SettingsScreen(): React.JSX.Element {
   return (
     <div className="screen">
       {confirmDialog}
+      {notesVersion ? (
+        <ReleaseNotesModal version={notesVersion} onClose={() => setNotesVersion(null)} />
+      ) : null}
       <div className="toolbar">
         <button
           type="button"
@@ -542,25 +572,26 @@ export function SettingsScreen(): React.JSX.Element {
           <div className="panel">
             <h2 className="section-title">App updates</h2>
             <p className="hint" style={{ marginTop: 0 }}>
-              Point at the folder with NSIS installers from <code>npm run build:win</code> (repo{' '}
-              <code>release/</code>). Check for a newer <code>LoraTraining Setup X.Y.Z.exe</code>,
-              then Install — the app closes and the installer runs (tick <strong>Run</strong> at the
-              end).
+              Leave <strong>Release folder</strong> empty to check GitHub Releases and
+              download the installer from there. A folder overrides that and uses the{' '}
+              <code>LoraTraining Setup X.Y.Z.exe</code> files already in it. <strong>What's new</strong>{' '}
+              opens the release notes for a newer version. Install closes the app and runs the
+              installer (tick <strong>Run</strong> at the end).
             </p>
             <div className="form-grid form-rows settings-form">
               <label
                 className="field-row"
-                title="Folder containing LoraTraining Setup *.exe installers"
+                title="Optional. Empty checks GitHub Releases. A folder uses the Setup exes already in it."
               >
                 <span className="field-label">Release folder</span>
                 <input
                   className="mono"
                   value={local.updateCheckFolder ?? ''}
                   onChange={(e) => {
-                    setUpdateInfo(null)
+                    forgetUpdateCheck()
                     setLocal({ ...local, updateCheckFolder: e.target.value })
                   }}
-                  placeholder="e.g. F:\Sites\LoraTraining\release"
+                  placeholder="Empty = GitHub Releases"
                 />
                 <button
                   type="button"
@@ -571,27 +602,35 @@ export function SettingsScreen(): React.JSX.Element {
                 >
                   <FolderOpen size={14} strokeWidth={2} aria-hidden="true" />
                 </button>
+                {releaseFolder ? (
+                  <button
+                    type="button"
+                    className="icon-btn path-browse-btn"
+                    title="Clear folder and use GitHub Releases"
+                    aria-label="Clear release folder"
+                    onClick={() => {
+                      forgetUpdateCheck()
+                      setLocal({ ...local, updateCheckFolder: '' })
+                    }}
+                  >
+                    <X size={14} strokeWidth={2} aria-hidden="true" />
+                  </button>
+                ) : null}
               </label>
               <div className="field-row" style={{ alignItems: 'center' }}>
                 <span className="field-label">Installed</span>
                 <span className="mono" style={{ flex: 1 }}>
-                  {updateInfo
-                    ? `v${updateInfo.currentVersion}${
-                        updateInfo.latestVersion
-                          ? ` · folder newest v${updateInfo.latestVersion}`
-                          : ''
-                      }`
-                    : 'Check to compare with folder'}
+                  {installedLabel}
                 </span>
               </div>
               <div className="toolbar" style={{ marginTop: '0.25rem' }}>
                 <button
                   type="button"
-                  disabled={updateBusy || !(local.updateCheckFolder ?? '').trim()}
+                  disabled={updateBusy}
                   title={
-                    (local.updateCheckFolder ?? '').trim()
+                    releaseFolder
                       ? 'Scan the release folder for a newer Setup exe'
-                      : 'Set Release folder first'
+                      : 'Check GitHub Releases for a newer Setup exe'
                   }
                   onClick={() => void checkForUpdate()}
                 >
@@ -599,11 +638,27 @@ export function SettingsScreen(): React.JSX.Element {
                 </button>
                 <button
                   type="button"
+                  disabled={updateBusy || !notesReady}
+                  title={
+                    notesReady
+                      ? `Release notes for v${updateInfo?.latestVersion}`
+                      : 'Check for update first — shown when a newer version is found'
+                  }
+                  onClick={() => {
+                    if (updateInfo?.latestVersion) setNotesVersion(updateInfo.latestVersion)
+                  }}
+                >
+                  What's new
+                </button>
+                <button
+                  type="button"
                   className="primary"
                   disabled={updateBusy || !updateInfo?.updateAvailable}
                   title={
                     updateInfo?.updateAvailable
-                      ? `Quit and run ${updateInfo.installerFileName}`
+                      ? updateInfo.downloadUrl
+                        ? `Download ${updateInfo.installerFileName} from GitHub, then quit and run it`
+                        : `Quit and run ${updateInfo.installerFileName}`
                       : 'Check for update first — only enabled when a newer installer is found'
                   }
                   onClick={() => void installUpdate()}

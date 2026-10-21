@@ -51,7 +51,7 @@ LoraTraining targets **local Windows + your GPU + your disk layout**:
 
 - No upload step; Z: / NAS / mapped drives work when Windows can read them
 - Comfy previews against your local checkpoint folders
-- In-app updates from a folder of NSIS installers (no electron-updater account)
+- In-app updates from GitHub Releases, or from a local folder of NSIS installers (no electron-updater account)
 - Library backup = copy one folder tree
 
 ---

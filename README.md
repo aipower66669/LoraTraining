@@ -18,7 +18,7 @@ Captioning, training, and Comfy previews run as **external processes** you alrea
 | **Platform** | Windows 10 / 11 (primary) |
 | **Stack** | Electron · React · TypeScript · Zustand · Zod |
 | **License** | **GPL-3.0-only** — [LICENSING.md](LICENSING.md) · [TRADEMARK.md](TRADEMARK.md) |
-| **Version** | **0.3.0** — [Release notes](RELEASE_NOTES.md) |
+| **Version** | **0.4.0** — [Release notes](RELEASE_NOTES.md) |
 
 ![Datasets library, image grid, and caption editor](docs/image/screenshot-workspace.png)
 
@@ -78,7 +78,7 @@ Full comparison: **[docs/ADVANTAGES.md](docs/ADVANTAGES.md)**.
 
 ---
 
-## Highlights (v0.3.0)
+## Highlights (v0.4.0)
 
 **Scale without the UI freezing**
 - Shallow checkpoint scans and cached validation previews
@@ -105,10 +105,11 @@ Full comparison: **[docs/ADVANTAGES.md](docs/ADVANTAGES.md)**.
 - Capability-based UI: unconfigured JoyCaption, AI Toolkit, and ComfyUI features stay hidden while manual dataset/caption work remains available
 
 **Update from inside the app**
-- Point **Settings → External tools → App updates → Release folder** at your `release/` folder
-- Check → Install runs the NSIS installer locally
+- Leave **Release folder** empty to check GitHub Releases and download the installer
+- Set that folder (for example `release/`) to install a Setup exe you built locally
+- **What's new** shows the release notes when a newer version is found
 
-Prior milestones: [v0.2.0](docs/RELEASE_NOTES_v0.2.0.md) · [v0.1.0](docs/RELEASE_NOTES_v0.1.0.md).
+Prior milestones: [v0.3.0](docs/RELEASE_NOTES_v0.3.0.md) · [v0.2.0](docs/RELEASE_NOTES_v0.2.0.md) · [v0.1.0](docs/RELEASE_NOTES_v0.1.0.md).
 
 ---
 
@@ -119,8 +120,9 @@ git clone https://github.com/aipower66669/LoraTraining.git
 cd LoraTraining
 npm install
 npm run dev          # HMR — same %APPDATA%\lora-training pointer as installed builds
-npm run check        # typecheck + lint + tests (same as CI)
-npm run dist         # bump patch, clean release/, NSIS installer → release/
+npm run check        # typecheck + lint + tests (same as CI on push / pull request)
+npm run dist:nobump  # NSIS installer at the current version → release/
+npm run dist         # bump patch, then that installer
 ```
 
 **First run (short)**
@@ -178,7 +180,7 @@ On-disk layout: **[docs/PROJECT_FORMAT.md](docs/PROJECT_FORMAT.md)**.
 | **[docs/WINDOWS_TRAINING.md](docs/WINDOWS_TRAINING.md)** | OSError 1455, commit charge, safetensors shim |
 | **[docs/DECISIONS.md](docs/DECISIONS.md)** | Locked product decisions (D1–D28) |
 | **[CHANGELOG.md](CHANGELOG.md)** | Full version history |
-| **[RELEASE_NOTES.md](RELEASE_NOTES.md)** | v0.3.0 product release summary |
+| **[RELEASE_NOTES.md](RELEASE_NOTES.md)** | v0.4.0 product release summary |
 
 Domain deep-dives: [Categories](docs/CATEGORIES.md) · [Datasets](docs/DATASET_MANAGER.md) · [Jobs & queue](docs/JOB_QUEUE.md) · [Validation](docs/VALIDATION.md) · [Settings](docs/SETTINGS.md) · [Architecture](docs/ARCHITECTURE.md).
 
@@ -189,14 +191,15 @@ Domain deep-dives: [Categories](docs/CATEGORIES.md) · [Datasets](docs/DATASET_M
 | Script | Purpose |
 | --- | --- |
 | `npm run dev` | Electron + HMR |
-| `npm run check` | typecheck + lint + test — **same command CI runs** |
+| `npm run check` | typecheck + lint + Vitest — **same command CI runs** on push and pull request to `main` |
 | `npm run test` | Vitest |
 | `npm run build` | Production electron-vite build |
-| `npm run build:win` | Windows NSIS installer (no version bump) |
-| `npm run dist` | Bump patch, prune old Setup exes, build installer |
+| `npm run build:win` | Windows NSIS installer (no version bump, does not clear `release/`) |
+| `npm run dist:nobump` | Clear `release/`, build the installer at the current version |
+| `npm run dist` | Bump patch, clear `release/`, build the installer |
 | `npm run migrate:*` | Library schema migrations — [scripts/README-migrations.md](scripts/README-migrations.md) |
 
-Environment overrides for `dist`: `SKIP_VERSION_BUMP=1`, `SKIP_RELEASE_CLEAN=1` — see [docs/BUILD.md](docs/BUILD.md).
+`SKIP_RELEASE_CLEAN=1` keeps existing files in `release/`. `SKIP_VERSION_BUMP=1` skips the patch bump on `npm run dist`. See [docs/BUILD.md](docs/BUILD.md). GitHub builds the installer only for a `vX.Y.Z` tag that matches `package.json`.
 
 ---
 
@@ -214,7 +217,7 @@ Environment overrides for `dist`: `SKIP_VERSION_BUMP=1`, `SKIP_RELEASE_CLEAN=1` 
 - Replacing JoyCaption, AI Toolkit, or ComfyUI
 - Installing or maintaining those tools (Python envs, CUDA, model downloads, Comfy Manager packs) — assemble and verify them yourself; LoraTraining only wires paths
 - Treating upstream CUDA / Python / model failures as LoraTraining defects
-- **Other diffusion bases** — Flux, SDXL, Wan, etc. (Krea 2 only for training and Comfy previews in v0.3)
+- **Other diffusion bases** — Flux, SDXL, Wan, etc. (Krea 2 only for training and Comfy previews in v0.4)
 - Cloud sync, multi-user server, or macOS/Linux as primary targets
 - Training images in a built-in database or opaque blob store
 

@@ -56,7 +56,7 @@ npm ci
 npm run dev
 ```
 
-`npm ci` installs the lockfile versions; use `npm install` instead when intentionally changing dependencies. `npm run dev` is the app with hot reload. `npm run check` runs typecheck, lint, and tests. `npm run dist` builds an installer into `release\`, normally bumping the patch version and clearing old release files first. Use `SKIP_VERSION_BUMP=1` or `SKIP_RELEASE_CLEAN=1` to skip either preparation step. Source checkout is for people changing the app. Training does not require it.
+`npm ci` installs the lockfile versions; use `npm install` instead when intentionally changing dependencies. `npm run dev` is the app with hot reload. `npm run check` runs typecheck, lint, and Vitest. That is the command GitHub Actions runs on a push or pull request to `main`. It does not build the installer. `npm run dist` bumps the patch version, clears `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. `npm run dist:nobump` clears `release\` and writes that installer without changing the version. `SKIP_RELEASE_CLEAN=1` keeps files already in `release\`. Pushing a tag `vX.Y.Z` that matches `package.json` (this release: `v0.4.0`) builds and attaches the installer on GitHub. A branch push does not. A short tag such as `v0.4` does not run that build. Source checkout is for people changing the app. Training does not require it.
 
 ### Where do I set the library folder?
 
@@ -84,9 +84,9 @@ This only tests whether the required field is filled, not whether the path works
 
 ### How do I update the app?
 
-**Settings → External tools → App updates.** Point **Release folder** at a directory that already contains `LoraTraining Setup *.exe`. **Check for update** compares the newest installer there with the running version. After the check, **Installed** shows the running version (and the folder’s newest version when present); before it, that row says `Check to compare with folder`. **Install update** launches the newer installer and quits so the files can be replaced.
+**Settings → External tools → App updates.** Leave **Release folder** empty to check GitHub Releases for a newer `LoraTraining Setup X.Y.Z.exe` and download it from there. A folder overrides that and uses the installers already in it. **Check for update** compares the newest version with the running app. Before the check, **Installed** shows the running version and whether the next check uses the folder or GitHub Releases. After the check it also shows the newest version found. When that version is newer, **What's new** opens its release notes as rendered markdown. With a folder set, those notes are `RELEASE_NOTES.md` in that folder or the folder above it, and the app does not contact GitHub. With the folder empty, the notes are the GitHub release for that version. **Install update** quits the app and runs the installer. A GitHub update downloads the installer first. Leave **Run** ticked on the installer finish page.
 
-The app does not download a release from GitHub. If Check finds nothing, the folder has no newer Setup exe.
+If Check finds nothing in a folder, that folder has no Setup exe. If GitHub has no newer release, the app is already on the latest published version.
 
 ### Does a dev build and an installed build share settings?
 

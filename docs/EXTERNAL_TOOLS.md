@@ -4,7 +4,7 @@ LoraTraining shells out to **user-installed** tools. This doc is the **contract*
 
 **Documentation boundary:** LoraTraining does **not** install, repair, or maintain JoyCaption, AI Toolkit, ComfyUI, their Python/CUDA environments, model files, or third-party Comfy custom nodes. Upstream failure modes are not LoraTraining bugs.
 
-**LoraTraining is not a trainer.** For Krea 2 text-to-image LoRA, it manages datasets and queues jobs; [AI Toolkit](https://github.com/ostris/ai-toolkit) executes training. **Krea 2 only** in v0.3.0.
+**LoraTraining is not a trainer.** For Krea 2 text-to-image LoRA, it manages datasets and queues jobs; [AI Toolkit](https://github.com/ostris/ai-toolkit) executes training. **Krea 2 only** in v0.4.0.
 
 **First-time LoraTraining wiring:** [SETUP.md](SETUP.md).
 

@@ -29,6 +29,8 @@
   "exclude": [
     "src/tests/event-handlers-queue-ui.test.ts",
     "src/tests/context-menu-position.test.ts",
-    "src/tests/list-keyboard.test.ts"
+    "src/tests/list-keyboard.test.ts",
+    "src/tests/image-editor-shortcuts.test.ts",
+    "src/tests/filerobot-patches.test.ts"
   ]
 }

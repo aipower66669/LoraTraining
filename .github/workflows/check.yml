@@ -1,5 +1,8 @@
 name: Check
 
+# Typecheck, lint, and Vitest on branch pushes and pull requests.
+# Installer builds run only from version tags — see release.yml.
+
 on:
   push:
     branches: [main]

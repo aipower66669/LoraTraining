@@ -1,47 +1,22 @@
-# LoraTraining v0.3.0 — release notes
+# LoraTraining v0.4.0 — release notes
 
-**Date:** 2026-09-02  
-**Tag:** `v0.3.0` (package **0.3.0**)  
-**Previous product baseline:** [v0.2.0](CHANGELOG.md#020--2026-08-08)  
-**Licence:** [GPL-3.0-only](LICENSE) (was MIT before this release)
+**Date:** 2026-10-21  
+**Tag:** `v0.4.0` (package **0.4.0**)  
+**Previous:** [v0.3.0](docs/RELEASE_NOTES_v0.3.0.md)  
+**Licence:** [GPL-3.0-only](LICENSE)
 
-Third product release (**v0.3.0**): scale and reliability for large libraries and overnight Windows training — performance across discovery, enqueue, and checkpoint UI; honest queue/job status; and a safetensors workaround for Windows OSError 1455.
+Fourth product release (**v0.4.0**): image version history is an opt-in, and JoyCaption, AI Toolkit, and ComfyUI work areas stay hidden until their Settings paths are filled. Library-scale performance and the Windows safetensors workaround from v0.3.0 are included.
 
-Full detail: [CHANGELOG.md](CHANGELOG.md). User guide: [docs/USER_GUIDE.md](docs/USER_GUIDE.md). Windows training: [docs/WINDOWS_TRAINING.md](docs/WINDOWS_TRAINING.md).
+Full detail: [CHANGELOG.md](CHANGELOG.md) · [docs/RELEASE_NOTES_v0.4.0.md](docs/RELEASE_NOTES_v0.4.0.md).
 
 ---
 
 ## Highlights
 
-### Performance at library scale
-
-- **Library load progress** — status bar and explorer show sync phase and counts while categories/datasets discover
-- **Fast discovery** — sidecar `dataset.json` makes folders discoverable without scanning every image; no recursion into existing datasets
-- **Shallow checkpoint scans** — Output tab lists `.safetensors` without deep Training-tree walks; cached validation preview paths
-- **Enqueue many** — batch IPC, fast caption preflight (`readdir` only), background validated sync
-- **Jobs ↔ queue sync** — enqueued jobs show **queued** immediately; refresh races fixed in jobs cache
-
-### Windows overnight training
-
-- **`train_bootstrap.py`** prepends before AI Toolkit — patches safetensors to prefer `pread` / streaming reads (avoids mmap commit charge)
-- **Abort on OSError 1455** — no heavier fallback that makes system commit worse
-- Memory/commit snapshot logged once at job start
-- Quiet shim logging (once per load path, not every step)
-
-See [docs/WINDOWS_TRAINING.md](docs/WINDOWS_TRAINING.md).
-
-### Validation & further training
-
-- Default validation set **seed = 0**; new sets bump seed only when previous seed **> 0**
-- **Pending** checkpoint rows in Output when an open job plans steps beyond on-disk checkpoints
-- **Validated** demotes when further training is queued (not only when new previews are missing)
-
-### Polish
-
-- App icon — transparent corners (no white taskbar fringes)
-- MyFileExplorer-compatible NTFS ADS image versions (D27), now optional and off by default — JoyCaption/training commit existing tips before run
-- Global training model in Settings (D26) — one checkpoint/VRAM policy for all jobs
-- Capability-gated UI hides unavailable JoyCaption, AI Toolkit, and ComfyUI work areas while preserving manual dataset/caption work
+- **NTFS versions** — **Settings → External tools → Library → NTFS versions** defaults off. Saves overwrite the image. Version stacks need the option on and an NTFS dataset folder.
+- **Capability-gated UI** — automatic captions, Jobs/Queue, and Comfy preview tools appear after their required path is set. Manual dataset and caption work stays available. Settings stays available so those paths can be filled.
+- **App updates** — leave Release folder empty to check GitHub Releases. **What's new** shows the release notes when a newer version is found. A local folder still installs from Setup exes you built yourself.
+- **v0.3.0 scale and overnight training** — discovery progress, shallow checkpoint scans, batch enqueue, and the safetensors bootstrap for Windows OSError 1455. See [v0.3.0 notes](docs/RELEASE_NOTES_v0.3.0.md).
 
 ---
 
@@ -56,31 +31,33 @@ npm install
 npm run dev
 ```
 
-**Installer**
+**Installer (current version, no bump)**
+
+```bash
+npm run dist:nobump
+# → release/LoraTraining Setup 0.4.0.exe
+```
+
+**Next patch build** (`0.4.0` → `0.4.1`, then the installer):
 
 ```bash
 npm run dist
-# → release/LoraTraining Setup 0.3.0.exe
 ```
 
 Requirements: Windows 10/11. AI Toolkit is required for training; JoyCaption is optional for automatic captions; ComfyUI is optional for validation and image tools.
 
----
-
-## Upgrade from v0.2.x
-
-1. Install over the previous build (or Settings → Check for update from your `release/` folder).
-2. Library layout is compatible — no migration required for v0.3.0 specifically.
-3. First launch after upgrade picks up the safetensors bootstrap automatically for new training runs.
-4. If Windows commit was exhausted before upgrade, **reboot or kill leftover python.exe** once — the shim cannot fix an already-starved session.
-
-Image folders on disk are untouched unless you delete images or use **Delete dataset…**.
+The Windows NSIS installer is **unsigned**. SmartScreen may show **Windows protected your PC** — choose **More info → Run anyway** if you trust this release. Verify the download against `SHA256SUMS.txt` on the GitHub Release before installing.
 
 ---
 
-## Licence change
+## Upgrade from v0.3.x
 
-v0.3.0 is released under **GPL-3.0-only**. See [LICENSING.md](LICENSING.md) and [CONTRIBUTING.md](CONTRIBUTING.md). The **LoraTraining** name and logo remain trademarks — [TRADEMARK.md](TRADEMARK.md).
+1. Install over the previous build, or use Settings → Check for update from a folder that contains the new Setup exe.
+2. Library layout is compatible — no migration is required for v0.4.0.
+3. Turn **NTFS versions** on if you want editor/upscale version stacks. With the option off, saves overwrite the image.
+4. Fill JoyCaption Work dir, AI Toolkit Work dir, and ComfyUI LoRAs to show those work areas.
+
+Image folders on disk stay in place unless you delete images or use **Delete dataset…**.
 
 ---
 
@@ -89,15 +66,6 @@ v0.3.0 is released under **GPL-3.0-only**. See [LICENSING.md](LICENSING.md) and 
 - Windows-first; no macOS/Linux support matrix
 - One training process at a time
 - Pause/resume depends on AI Toolkit checkpoints
-- Very large bases still need enough free **commit charge** — see Windows training doc
+- Very large bases still need enough free commit charge — see [docs/WINDOWS_TRAINING.md](docs/WINDOWS_TRAINING.md)
 - Comfy previews need saved workflows and a reachable ComfyUI
-
----
-
-## Documentation
-
-- [User guide](docs/USER_GUIDE.md)
-- [Advantages](docs/ADVANTAGES.md)
-- [Build & releases](docs/BUILD.md)
-- [Changelog](CHANGELOG.md)
-- Prior: [v0.2.0](docs/RELEASE_NOTES_v0.2.0.md) · [v0.1.0](docs/RELEASE_NOTES_v0.1.0.md)
+- Training and Comfy previews are **Krea 2 only**

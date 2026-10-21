@@ -53,10 +53,16 @@ export function pickNewestInstaller(
   return best
 }
 
+export type UpdateSource = 'folder' | 'github'
+
 export interface LocalUpdateCheck {
   currentVersion: string
   latestVersion: string | null
   installerPath: string | null
   installerFileName: string | null
+  /** GitHub asset URL when `source` is `github` and a Setup exe was found. */
+  downloadUrl: string | null
+  source: UpdateSource
   updateAvailable: boolean
+  message: string
 }

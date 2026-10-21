@@ -48,7 +48,7 @@ import {
 } from '../comfy/workflowStore'
 import { logger } from '../logging'
 import { listWildcardKeys } from '../wildcards/service'
-import { checkLocalUpdate, installLocalUpdate } from '../update/localUpdate'
+import { checkLocalUpdate, fetchAppReleaseNotes, installLocalUpdate } from '../update/localUpdate'
 import {
   openFolderInCustomExplorer,
   openPathInCustomExplorer,
@@ -131,6 +131,10 @@ export function registerIpcHandlers(): void {
       .object({ installerPath: z.string().optional() })
       .parse(payload ?? {})
     return installLocalUpdate(installerPath)
+  })
+  handle(IpcChannels.system.getReleaseNotes, async (payload) => {
+    const { version } = z.object({ version: z.string().min(1) }).parse(payload)
+    return fetchAppReleaseNotes(version)
   })
 
   handle(IpcChannels.settings.get, async () => loadSettings())
