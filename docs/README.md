@@ -1,6 +1,6 @@
 # LoraTraining documentation
 
-**Licence:** [GPL-3.0-only](../LICENSING.md) · **Current release:** see [`package.json`](../package.json) `version` and [GitHub Releases](https://github.com/aipower66669/LoraTraining/releases/latest).
+**Licence:** [PolyForm Noncommercial 1.0.0](../LICENSING.md) · **Current release:** see [`package.json`](../package.json) `version` and [GitHub Releases](https://github.com/aipower66669/LoraTraining/releases/latest).
 
 Hub for product and engineering docs. Product entry: [../README.md](../README.md). Locked decisions: [DECISIONS.md](DECISIONS.md). Full history: [../CHANGELOG.md](../CHANGELOG.md). Latest release notes: [../RELEASE_NOTES.md](../RELEASE_NOTES.md).
 
@@ -21,7 +21,7 @@ Hub for product and engineering docs. Product entry: [../README.md](../README.md
 | [../CHANGELOG.md](../CHANGELOG.md) | Everyone | Version history |
 | [../README.md](../README.md) | Everyone | Overview + quick start |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | Contributors | Licence + PR workflow |
-| [../LICENSING.md](../LICENSING.md) | Redistributors | GPLv3 terms |
+| [../LICENSING.md](../LICENSING.md) | Redistributors | PolyForm Noncommercial 1.0.0 |
 
 ---
 
@@ -99,7 +99,7 @@ Hub for product and engineering docs. Product entry: [../README.md](../README.md
 | Windows safetensors (D28) | `train_bootstrap.py`, pread/streaming, abort on 1455 — WINDOWS_TRAINING |
 | Further training | Pending output rows; Validated demotion — VALIDATION, USER_GUIDE |
 | Image versions (D27) | MyFileExplorer-compatible NTFS ADS history — DATASET_MANAGER, EXTERNAL_TOOLS |
-| Licence | GPL-3.0-only — LICENSING |
+| Licence | PolyForm Noncommercial 1.0.0 — LICENSING |
 
 ## Recent behaviour (v0.2.0)
 

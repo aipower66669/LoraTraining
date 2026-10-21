@@ -4,12 +4,12 @@ Thanks for helping improve LoraTraining.
 
 ## Licence of contributions
 
-This repository is licensed **GPL-3.0-only** (see [LICENSING.md](LICENSING.md)
-and [LICENSE](LICENSE)).
+This repository is licensed under the **PolyForm Noncommercial License 1.0.0**
+(see [LICENSING.md](LICENSING.md) and [LICENSE.md](LICENSE.md)).
 
 By opening a pull request or otherwise submitting code, documentation, or other
 material to this repository, you agree that your contribution is licensed under
-the **GNU General Public License version 3 only**, and that you have the right
+the **PolyForm Noncommercial License 1.0.0**, and that you have the right
 to offer it under those terms.
 
 If you cannot agree to that, do not submit the contribution.

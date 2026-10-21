@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/aipower66669/LoraTraining/issues"
   },
-  "license": "GPL-3.0-only",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",

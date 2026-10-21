@@ -3,7 +3,7 @@
 **Date:** 2026-10-21  
 **Tag:** `v0.4.0` (package **0.4.0**)  
 **Previous:** [v0.3.0](docs/RELEASE_NOTES_v0.3.0.md)  
-**Licence:** [GPL-3.0-only](LICENSE)
+**Licence:** [PolyForm Noncommercial 1.0.0](LICENSE.md)
 
 Fourth product release (**v0.4.0**): image version history is an opt-in, and JoyCaption, AI Toolkit, and ComfyUI work areas stay hidden until their Settings paths are filled. Library-scale performance and the Windows safetensors workaround from v0.3.0 are included.
 

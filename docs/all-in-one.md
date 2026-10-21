@@ -3,7 +3,7 @@
 **Product:** LoraTraining  
 **Publisher:** AIPower  
 **Repository:** https://github.com/aipower66669/LoraTraining  
-**Licence:** GPL-3.0-only ([LICENSE](../LICENSE))  
+**Licence:** PolyForm Noncommercial 1.0.0 ([LICENSE.md](../LICENSE.md)). Noncommercial use only. Commercial use needs a separate license from the copyright holder. Version 0.3.0 remains GPL-3.0-only for copies already distributed under that license.  
 **Platform:** Windows 10 / 11  
 **Audience for this file:** an AI assistant helping a user of this app
 

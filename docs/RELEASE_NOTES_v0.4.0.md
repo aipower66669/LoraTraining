@@ -1,7 +1,7 @@
 # Release notes — LoraTraining v0.4.0
 
 **Release date:** 21 October 2026  
-**Channel:** Public release (`0.4.0`) — **GPL-3.0-only**  
+**Channel:** Public release (`0.4.0`) — **PolyForm Noncommercial 1.0.0**  
 **Previous:** [v0.3.0](RELEASE_NOTES_v0.3.0.md)
 
 ---

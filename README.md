@@ -1,7 +1,7 @@
 # LoraTraining
 
 ![Download Latest Release](https://img.shields.io/github/v/release/aipower66669/LoraTraining?label=Download%20Latest%20Executables)
-![License: GPL-3.0-only](https://img.shields.io/badge/License-GPL--3.0--only-blue.svg)
+[![License — PolyForm Noncommercial 1.0.0](https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-lightgrey)](LICENSE.md)
 
 **LoraTraining** is a Windows desktop UI for **Krea 2 text-to-image LoRA** workflows. It is built on top of [AI Toolkit](https://github.com/ostris/ai-toolkit) — **it does not perform training itself**. The app’s main job is **dataset management**: categories, image folders, captions, hygiene tools, job YAML, and a FIFO queue that **starts** AI Toolkit when you are ready.
 
@@ -18,7 +18,7 @@ Captioning, training, and Comfy previews run as **external processes** you alrea
 | ------------ | ------------------------------------------------------------------------------ |
 | **Platform** | Windows 10 / 11 (primary)                                                      |
 | **Stack**    | Electron · React · TypeScript · Zustand · Zod                                  |
-| **License**  | **GPL-3.0-only** — [LICENSING.md](LICENSING.md) · [TRADEMARK.md](TRADEMARK.md) |
+| **License**  | **PolyForm Noncommercial 1.0.0** — [LICENSING.md](LICENSING.md) · [TRADEMARK.md](TRADEMARK.md) |
 | **Version**  | **0.4.0** — [Release notes](RELEASE_NOTES.md)                                  |
 
 
@@ -63,7 +63,7 @@ A single file contains the full guide and the full FAQ. Upload that file. It tel
 
 If the assistant cannot resolve the issue, [open a GitHub issue](https://github.com/aipower66669/LoraTraining/issues) with the app version, Windows version, which external tool is involved, and the error text.
 
-**Licence:** GPL-3.0-only. See [LICENSE](LICENSE).
+**Licence:** PolyForm Noncommercial 1.0.0. Noncommercial use only. See [LICENSE.md](LICENSE.md).
 
 ---
 
@@ -271,10 +271,10 @@ Contributions welcome — bug reports, docs, and pull requests.
 
 ## Licensing
 
-LoraTraining is free software under the **GNU General Public License v3.0 only**
-([LICENSE](LICENSE)). Commercial use and redistribution are allowed; distributed
-modifications must remain under GPLv3 with corresponding source. The
-**LoraTraining** name and logo are trademarks — see [TRADEMARK.md](TRADEMARK.md).
+LoraTraining is licensed under the **PolyForm Noncommercial License 1.0.0**
+([LICENSE.md](LICENSE.md)). Noncommercial use, modification, and distribution
+are allowed. Commercial use needs a separate license from the copyright holder.
+The **LoraTraining** name and logo are trademarks — see [TRADEMARK.md](TRADEMARK.md).
 Details: [LICENSING.md](LICENSING.md) · [NOTICE](NOTICE) · [AUTHORS](AUTHORS).
 
 ## Related

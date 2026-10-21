@@ -86,4 +86,4 @@ Older planning docs (`IMPLEMENTATION_PLAN.md`, early UI/IPC sketches) may descri
 
 ## License
 
-**GPL-3.0-only** — see [../LICENSE](../LICENSE) and [../LICENSING.md](../LICENSING.md).
+**PolyForm Noncommercial 1.0.0** — see [../LICENSE.md](../LICENSE.md) and [../LICENSING.md](../LICENSING.md).

@@ -2,7 +2,7 @@
 
 The **LoraTraining** name, logo, and official branding are trademarks of
 **AIPower**. The code licence
-([GPL-3.0-only](LICENSE)) does **not** grant permission to use those marks.
+([PolyForm Noncommercial 1.0.0](LICENSE.md)) does **not** grant permission to use those marks.
 
 ## Allowed
 
@@ -25,8 +25,7 @@ The **LoraTraining** name, logo, and official branding are trademarks of
 ## Modified distributions
 
 If you distribute a modified version, choose another product name and branding.
-You may still credit the origin under the GPL and this policy’s “based on”
-language.
+You may still credit the origin under this policy’s “based on” language.
 
 ## Contact
 
