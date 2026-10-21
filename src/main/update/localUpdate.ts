@@ -22,7 +22,6 @@ import {
   githubReleaseNotesRawUrl,
   githubReleaseTagCandidates,
   isOfficialDownloadUrl,
-  localReleaseNotesSearchDirs,
   pickGithubInstaller,
   type AppReleaseNotes,
   type GithubInstallerAsset
@@ -33,6 +32,7 @@ import {
   pickNewestInstaller,
   type LocalUpdateCheck
 } from '@shared/local-update'
+import { localReleaseNotesSearchDirs } from './release-notes-dirs'
 import { loadSettings } from '../settings/store'
 import { logger } from '../logging'
 

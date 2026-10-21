@@ -1,9 +1,9 @@
 import { dirname, resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { localReleaseNotesSearchDirs } from '../main/update/release-notes-dirs'
 import {
   githubReleaseTagCandidates,
   isOfficialDownloadUrl,
-  localReleaseNotesSearchDirs,
   pickGithubInstaller,
   resolveReleaseNotesHref
 } from '../shared/github-update'

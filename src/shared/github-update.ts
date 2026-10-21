@@ -1,4 +1,3 @@
-import { dirname, resolve } from 'node:path'
 import { compareSemver, parseSemver, parseSetupInstallerName } from './local-update'
 
 export const GITHUB_OWNER = 'aipower66669'
@@ -76,17 +75,6 @@ export function pickGithubInstaller(assets: GithubInstallerAsset[]): PickedGithu
     }
   }
   return best
-}
-
-/**
- * Folders that may hold `RELEASE_NOTES.md` for a local installer:
- * the update folder, then its parent (the repo when the folder is `release/`).
- */
-export function localReleaseNotesSearchDirs(updateFolder: string): string[] {
-  const folder = resolve(updateFolder.trim())
-  const parent = dirname(folder)
-  if (parent.toLowerCase() === folder.toLowerCase()) return [folder]
-  return [folder, parent]
 }
 
 /**
