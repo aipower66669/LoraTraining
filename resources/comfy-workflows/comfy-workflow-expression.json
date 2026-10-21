@@ -1,1546 +1,1380 @@
 {
-  "version": 1,
-  "savedAt": "1970-01-01T00:00:00.000Z",
-  "workflow": {
-    "104": {
-      "inputs": {
-        "image_path": ""
+  "id": "968d3677-ea1a-459b-8665-b79ba5ff95c9",
+  "revision": 0,
+  "last_node_id": 133,
+  "last_link_id": 119,
+  "nodes": [
+    {
+      "id": 113,
+      "type": "SaveImageToFolder",
+      "pos": [
+        1974.0565102256137,
+        1077.7025992207991
+      ],
+      "size": [
+        270,
+        306
+      ],
+      "flags": {},
+      "order": 15,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 105
+        },
+        {
+          "name": "output_folder",
+          "shape": 7,
+          "type": "STRING",
+          "link": 80
+        },
+        {
+          "name": "positive_text",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "negative_text",
+          "shape": 7,
+          "type": "STRING",
+          "link": null
+        },
+        {
+          "name": "generation_seed",
+          "shape": 7,
+          "type": "INT",
+          "link": null
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "widget": {
+            "name": "filename_prefix"
+          },
+          "link": 83
+        }
+      ],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "SaveImageToFolder",
+        "ue_properties": {
+          "widget_ue_connectable": {
+            "filename_prefix": true,
+            "format": true,
+            "quality": true,
+            "include_date": true,
+            "include_time": true,
+            "include_counter": true,
+            "counter_digits": true,
+            "save_metadata": true
+          },
+          "version": "7.8",
+          "input_ue_unconnectable": {}
+        }
       },
-      "class_type": "LoraTrainingInputImage",
-      "_meta": {
-        "title": "LT · Input Image"
-      }
-    },
-    "113": {
-      "inputs": {
-        "filename_prefix": [
-          "118",
-          0
-        ],
+      "widgets_values": [
+        "Krea2",
+        "jpg",
+        95,
+        false,
+        false,
+        false,
+        5,
+        true
+      ],
+      "widgets_values_named": {
+        "filename_prefix": "Krea2",
         "format": "jpg",
         "quality": 95,
         "include_date": false,
         "include_time": false,
         "include_counter": false,
         "counter_digits": 5,
-        "save_metadata": true,
-        "images": [
-          "120",
-          0
-        ],
-        "output_folder": [
-          "117",
-          0
-        ]
-      },
-      "class_type": "SaveImageToFolder",
-      "_meta": {
-        "title": "Save Image To Folder"
+        "save_metadata": true
       }
     },
-    "117": {
-      "inputs": {
+    {
+      "id": 117,
+      "type": "LoraTrainingOutputFolder",
+      "pos": [
+        1717.2842281418632,
+        1143.3567922711077
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "folder",
+          "type": "STRING",
+          "links": [
+            80
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraTrainingOutputFolder",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        ""
+      ],
+      "widgets_values_named": {
         "folder": ""
       },
-      "class_type": "LoraTrainingOutputFolder",
-      "_meta": {
-        "title": "LT · Output Folder"
-      }
+      "color": "#432",
+      "bgcolor": "#653"
     },
-    "118": {
-      "inputs": {
+    {
+      "id": 118,
+      "type": "LoraTrainingOutputFilename",
+      "pos": [
+        1714.3516380730125,
+        1209.234206031734
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 1,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "filename",
+          "type": "STRING",
+          "links": [
+            83
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraTrainingOutputFilename",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        ""
+      ],
+      "widgets_values_named": {
         "filename": ""
       },
-      "class_type": "LoraTrainingOutputFilename",
-      "_meta": {
-        "title": "LT · Output Filename"
-      }
+      "color": "#432",
+      "bgcolor": "#653"
     },
-    "120": {
-      "inputs": {
-        "rotate_pitch": [
-          "126",
-          0
-        ],
-        "rotate_yaw": [
-          "127",
-          0
-        ],
-        "rotate_roll": [
-          "128",
-          0
-        ],
-        "blink": [
-          "129",
-          0
-        ],
-        "eyebrow": [
-          "130",
-          0
-        ],
+    {
+      "id": 120,
+      "type": "ExpressionEditor",
+      "pos": [
+        1345.0181327345003,
+        1078.8025989798616
+      ],
+      "size": [
+        315,
+        690
+      ],
+      "flags": {},
+      "order": 14,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "src_image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": 107
+        },
+        {
+          "name": "motion_link",
+          "shape": 7,
+          "type": "EDITOR_LINK",
+          "link": null
+        },
+        {
+          "name": "sample_image",
+          "shape": 7,
+          "type": "IMAGE",
+          "link": null
+        },
+        {
+          "name": "add_exp",
+          "shape": 7,
+          "type": "EXP_DATA",
+          "link": null
+        },
+        {
+          "name": "rotate_pitch",
+          "type": "FLOAT",
+          "widget": {
+            "name": "rotate_pitch"
+          },
+          "link": 94
+        },
+        {
+          "name": "rotate_yaw",
+          "type": "FLOAT",
+          "widget": {
+            "name": "rotate_yaw"
+          },
+          "link": 95
+        },
+        {
+          "name": "rotate_roll",
+          "type": "FLOAT",
+          "widget": {
+            "name": "rotate_roll"
+          },
+          "link": 96
+        },
+        {
+          "name": "blink",
+          "type": "FLOAT",
+          "widget": {
+            "name": "blink"
+          },
+          "link": 97
+        },
+        {
+          "name": "eyebrow",
+          "type": "FLOAT",
+          "widget": {
+            "name": "eyebrow"
+          },
+          "link": 98
+        },
+        {
+          "name": "pupil_x",
+          "type": "FLOAT",
+          "widget": {
+            "name": "pupil_x"
+          },
+          "link": 99
+        },
+        {
+          "name": "pupil_y",
+          "type": "FLOAT",
+          "widget": {
+            "name": "pupil_y"
+          },
+          "link": 100
+        },
+        {
+          "name": "aaa",
+          "type": "FLOAT",
+          "widget": {
+            "name": "aaa"
+          },
+          "link": 101
+        },
+        {
+          "name": "eee",
+          "type": "FLOAT",
+          "widget": {
+            "name": "eee"
+          },
+          "link": 102
+        },
+        {
+          "name": "woo",
+          "type": "FLOAT",
+          "widget": {
+            "name": "woo"
+          },
+          "link": 103
+        }
+      ],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "slot_index": 0,
+          "links": [
+            105
+          ]
+        },
+        {
+          "name": "motion_link",
+          "type": "EDITOR_LINK",
+          "links": null
+        },
+        {
+          "name": "save_exp",
+          "type": "EXP_DATA",
+          "links": null
+        }
+      ],
+      "properties": {
+        "cnr_id": "comfyui-advancedliveportrait",
+        "ver": "3bba732915e22f18af0d221b9c5c282990181f1b",
+        "Node name for S&R": "ExpressionEditor",
+        "ue_properties": {
+          "version": "7.0.1",
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {}
+        }
+      },
+      "widgets_values": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.5,
+        1,
+        1.5
+      ],
+      "widgets_values_named": {
+        "rotate_pitch": 0,
+        "rotate_yaw": 0,
+        "rotate_roll": 0,
+        "blink": 0,
+        "eyebrow": 0,
         "wink": 0,
-        "pupil_x": [
-          "124",
-          0
-        ],
-        "pupil_y": [
-          "125",
-          0
-        ],
-        "aaa": [
-          "123",
-          0
-        ],
-        "eee": [
-          "122",
-          0
-        ],
-        "woo": [
-          "121",
-          0
-        ],
+        "pupil_x": 0,
+        "pupil_y": 0,
+        "aaa": 0,
+        "eee": 0,
+        "woo": 0,
         "smile": 0,
         "src_ratio": 0.5,
         "sample_ratio": 1,
-        "crop_factor": 1.5,
-        "src_image": [
-          "104",
-          0
-        ]
+        "crop_factor": 1.5
       },
-      "class_type": "ExpressionEditor",
-      "_meta": {
-        "title": "Expression Editor (PHM)"
-      }
+      "shape": 1
     },
-    "121": {
-      "inputs": {
-        "mode": "float",
-        "min_value": -10,
-        "max_value": 10,
-        "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
+    {
+      "id": 104,
+      "type": "LoraTrainingInputImage",
+      "pos": [
+        169.6002947716268,
+        1077.839169529485
+      ],
+      "size": [
+        270,
+        78
+      ],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "links": [
+            107
+          ]
+        },
+        {
+          "name": "mask",
+          "type": "MASK",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraTrainingInputImage",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
       },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
-      }
-    },
-    "122": {
-      "inputs": {
-        "mode": "float",
-        "min_value": -10,
-        "max_value": 10,
-        "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
+      "widgets_values": [
+        ""
+      ],
+      "widgets_values_named": {
+        "image_path": ""
       },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
-      }
+      "color": "#432",
+      "bgcolor": "#653"
     },
-    "123": {
-      "inputs": {
-        "mode": "float",
-        "min_value": -30,
-        "max_value": 30,
-        "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
+    {
+      "id": 126,
+      "type": "RandomNumber",
+      "pos": [
+        993.9761912300397,
+        1171.636993460237
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
       },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
-      }
-    },
-    "124": {
-      "inputs": {
-        "mode": "float",
-        "min_value": -2,
-        "max_value": 2,
-        "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 110
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            94
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
       },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
-      }
-    },
-    "125": {
-      "inputs": {
-        "mode": "float",
-        "min_value": 0,
-        "max_value": 1,
-        "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
-      },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
-      }
-    },
-    "126": {
-      "inputs": {
+      "widgets_values": [
+        "float",
+        -20,
+        20,
+        0.05,
+        837492899550666,
+        "randomize"
+      ],
+      "widgets_values_named": {
         "mode": "float",
         "min_value": -20,
         "max_value": 20,
         "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
-      },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
+        "seed": 837492899550666,
+        "control_after_generate": "randomize"
       }
     },
-    "127": {
-      "inputs": {
+    {
+      "id": 127,
+      "type": "RandomNumber",
+      "pos": [
+        995.8309815697046,
+        1212.7354795615558
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 111
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            95
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "float",
+        -10,
+        10,
+        0.05,
+        427885893146191,
+        "randomize"
+      ],
+      "widgets_values_named": {
         "mode": "float",
         "min_value": -10,
         "max_value": 10,
         "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
-      },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
+        "seed": 427885893146191,
+        "control_after_generate": "randomize"
       }
     },
-    "128": {
-      "inputs": {
+    {
+      "id": 128,
+      "type": "RandomNumber",
+      "pos": [
+        998.6858447694676,
+        1251.8654280947328
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 112
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            96
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "float",
+        -10,
+        10,
+        0.05,
+        543443293715895,
+        "randomize"
+      ],
+      "widgets_values_named": {
         "mode": "float",
         "min_value": -10,
         "max_value": 10,
         "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
-      },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
+        "seed": 543443293715895,
+        "control_after_generate": "randomize"
       }
     },
-    "129": {
-      "inputs": {
+    {
+      "id": 129,
+      "type": "RandomNumber",
+      "pos": [
+        1001.0514094989903,
+        1292.5504739475616
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 113
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            97
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "float",
+        -10,
+        10,
+        0.05,
+        822857323856774,
+        "randomize"
+      ],
+      "widgets_values_named": {
         "mode": "float",
         "min_value": -10,
         "max_value": 10,
         "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
-      },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
+        "seed": 822857323856774,
+        "control_after_generate": "randomize"
       }
     },
-    "130": {
-      "inputs": {
+    {
+      "id": 130,
+      "type": "RandomNumber",
+      "pos": [
+        1000.9494314630929,
+        1334.859006216863
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 114
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            98
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "float",
+        -10,
+        10,
+        0.05,
+        203677734955701,
+        "randomize"
+      ],
+      "widgets_values_named": {
         "mode": "float",
         "min_value": -10,
         "max_value": 10,
         "step": 0.05,
-        "seed": [
-          "133",
-          0
-        ]
-      },
-      "class_type": "RandomNumber",
-      "_meta": {
-        "title": "Random Number"
+        "seed": 203677734955701,
+        "control_after_generate": "randomize"
       }
     },
-    "133": {
-      "inputs": {
+    {
+      "id": 124,
+      "type": "RandomNumber",
+      "pos": [
+        958.2521687835198,
+        1453.3162271007495
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 115
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            99
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "float",
+        -2,
+        2,
+        0.05,
+        1007296298581041,
+        "randomize"
+      ],
+      "widgets_values_named": {
+        "mode": "float",
+        "min_value": -2,
+        "max_value": 2,
+        "step": 0.05,
+        "seed": 1007296298581041,
+        "control_after_generate": "randomize"
+      }
+    },
+    {
+      "id": 125,
+      "type": "RandomNumber",
+      "pos": [
+        959.5557693943666,
+        1498.0416049282917
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 116
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            100
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "float",
+        0,
+        1,
+        0.05,
+        445949940194259,
+        "randomize"
+      ],
+      "widgets_values_named": {
+        "mode": "float",
+        "min_value": 0,
+        "max_value": 1,
+        "step": 0.05,
+        "seed": 445949940194259,
+        "control_after_generate": "randomize"
+      }
+    },
+    {
+      "id": 123,
+      "type": "RandomNumber",
+      "pos": [
+        902.0594662904422,
+        1590.8668723460403
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 11,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 117
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            101
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "float",
+        -30,
+        30,
+        0.05,
+        888176720577086,
+        "randomize"
+      ],
+      "widgets_values_named": {
+        "mode": "float",
+        "min_value": -30,
+        "max_value": 30,
+        "step": 0.05,
+        "seed": 888176720577086,
+        "control_after_generate": "randomize"
+      }
+    },
+    {
+      "id": 122,
+      "type": "RandomNumber",
+      "pos": [
+        903.4449606391148,
+        1646.9776811012923
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 12,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 118
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            102
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "float",
+        -10,
+        10,
+        0.05,
+        967915300491905,
+        "randomize"
+      ],
+      "widgets_values_named": {
+        "mode": "float",
+        "min_value": -10,
+        "max_value": 10,
+        "step": 0.05,
+        "seed": 967915300491905,
+        "control_after_generate": "randomize"
+      }
+    },
+    {
+      "id": 133,
+      "type": "LoraTrainingSeed",
+      "pos": [
+        343.1437185143637,
+        1334.3967817001221
+      ],
+      "size": [
+        270,
+        58
+      ],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "links": [
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraTrainingSeed",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        0
+      ],
+      "widgets_values_named": {
         "value": 0
       },
-      "class_type": "LoraTrainingSeed",
-      "_meta": {
-        "title": "LT · Seed"
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 121,
+      "type": "RandomNumber",
+      "pos": [
+        906.9085062479077,
+        1698.2394498990777
+      ],
+      "size": [
+        270,
+        218
+      ],
+      "flags": {
+        "collapsed": true
+      },
+      "order": 13,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "seed",
+          "type": "INT",
+          "widget": {
+            "name": "seed"
+          },
+          "link": 119
+        }
+      ],
+      "outputs": [
+        {
+          "name": "float_value",
+          "type": "FLOAT",
+          "links": [
+            103
+          ]
+        },
+        {
+          "name": "int_value",
+          "type": "INT",
+          "links": null
+        },
+        {
+          "name": "value_text",
+          "type": "STRING",
+          "links": null
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNumber",
+        "ue_properties": {
+          "widget_ue_connectable": {},
+          "input_ue_unconnectable": {},
+          "version": "7.8"
+        }
+      },
+      "widgets_values": [
+        "float",
+        -10,
+        10,
+        0.05,
+        620972611240306,
+        "randomize"
+      ],
+      "widgets_values_named": {
+        "mode": "float",
+        "min_value": -10,
+        "max_value": 10,
+        "step": 0.05,
+        "seed": 620972611240306,
+        "control_after_generate": "randomize"
       }
     }
-  },
-  "uiWorkflow": {
-    "id": "968d3677-ea1a-459b-8665-b79ba5ff95c9",
-    "revision": 0,
-    "last_node_id": 133,
-    "last_link_id": 119,
-    "nodes": [
-      {
-        "id": 113,
-        "type": "SaveImageToFolder",
-        "pos": [
-          1974.0565102256137,
-          1077.7025992207991
-        ],
-        "size": [
-          270,
-          306
-        ],
-        "flags": {},
-        "order": 15,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "images",
-            "type": "IMAGE",
-            "link": 105
-          },
-          {
-            "name": "output_folder",
-            "shape": 7,
-            "type": "STRING",
-            "link": 80
-          },
-          {
-            "name": "positive_text",
-            "shape": 7,
-            "type": "STRING",
-            "link": null
-          },
-          {
-            "name": "negative_text",
-            "shape": 7,
-            "type": "STRING",
-            "link": null
-          },
-          {
-            "name": "generation_seed",
-            "shape": 7,
-            "type": "INT",
-            "link": null
-          },
-          {
-            "name": "filename_prefix",
-            "type": "STRING",
-            "widget": {
-              "name": "filename_prefix"
-            },
-            "link": 83
-          }
-        ],
-        "outputs": [],
-        "properties": {
-          "Node name for S&R": "SaveImageToFolder",
-          "ue_properties": {
-            "widget_ue_connectable": {
-              "filename_prefix": true,
-              "format": true,
-              "quality": true,
-              "include_date": true,
-              "include_time": true,
-              "include_counter": true,
-              "counter_digits": true,
-              "save_metadata": true
-            },
-            "version": "7.8",
-            "input_ue_unconnectable": {}
-          }
-        },
-        "widgets_values": [
-          "Krea2",
-          "jpg",
-          95,
-          false,
-          false,
-          false,
-          5,
-          true
-        ]
-      },
-      {
-        "id": 117,
-        "type": "LoraTrainingOutputFolder",
-        "pos": [
-          1717.2842281418632,
-          1143.3567922711077
-        ],
-        "size": [
-          270,
-          58
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 0,
-        "mode": 0,
-        "inputs": [],
-        "outputs": [
-          {
-            "name": "folder",
-            "type": "STRING",
-            "links": [
-              80
-            ]
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "LoraTrainingOutputFolder",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          ""
-        ],
-        "color": "#432",
-        "bgcolor": "#653"
-      },
-      {
-        "id": 118,
-        "type": "LoraTrainingOutputFilename",
-        "pos": [
-          1714.3516380730125,
-          1209.234206031734
-        ],
-        "size": [
-          270,
-          58
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 1,
-        "mode": 0,
-        "inputs": [],
-        "outputs": [
-          {
-            "name": "filename",
-            "type": "STRING",
-            "links": [
-              83
-            ]
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "LoraTrainingOutputFilename",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          ""
-        ],
-        "color": "#432",
-        "bgcolor": "#653"
-      },
-      {
-        "id": 120,
-        "type": "ExpressionEditor",
-        "pos": [
-          1345.0181327345003,
-          1078.8025989798616
-        ],
-        "size": [
-          315,
-          690
-        ],
-        "flags": {},
-        "order": 14,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "src_image",
-            "shape": 7,
-            "type": "IMAGE",
-            "link": 107
-          },
-          {
-            "name": "motion_link",
-            "shape": 7,
-            "type": "EDITOR_LINK",
-            "link": null
-          },
-          {
-            "name": "sample_image",
-            "shape": 7,
-            "type": "IMAGE",
-            "link": null
-          },
-          {
-            "name": "add_exp",
-            "shape": 7,
-            "type": "EXP_DATA",
-            "link": null
-          },
-          {
-            "name": "rotate_pitch",
-            "type": "FLOAT",
-            "widget": {
-              "name": "rotate_pitch"
-            },
-            "link": 94
-          },
-          {
-            "name": "rotate_yaw",
-            "type": "FLOAT",
-            "widget": {
-              "name": "rotate_yaw"
-            },
-            "link": 95
-          },
-          {
-            "name": "rotate_roll",
-            "type": "FLOAT",
-            "widget": {
-              "name": "rotate_roll"
-            },
-            "link": 96
-          },
-          {
-            "name": "blink",
-            "type": "FLOAT",
-            "widget": {
-              "name": "blink"
-            },
-            "link": 97
-          },
-          {
-            "name": "eyebrow",
-            "type": "FLOAT",
-            "widget": {
-              "name": "eyebrow"
-            },
-            "link": 98
-          },
-          {
-            "name": "pupil_x",
-            "type": "FLOAT",
-            "widget": {
-              "name": "pupil_x"
-            },
-            "link": 99
-          },
-          {
-            "name": "pupil_y",
-            "type": "FLOAT",
-            "widget": {
-              "name": "pupil_y"
-            },
-            "link": 100
-          },
-          {
-            "name": "aaa",
-            "type": "FLOAT",
-            "widget": {
-              "name": "aaa"
-            },
-            "link": 101
-          },
-          {
-            "name": "eee",
-            "type": "FLOAT",
-            "widget": {
-              "name": "eee"
-            },
-            "link": 102
-          },
-          {
-            "name": "woo",
-            "type": "FLOAT",
-            "widget": {
-              "name": "woo"
-            },
-            "link": 103
-          }
-        ],
-        "outputs": [
-          {
-            "name": "image",
-            "type": "IMAGE",
-            "slot_index": 0,
-            "links": [
-              105
-            ]
-          },
-          {
-            "name": "motion_link",
-            "type": "EDITOR_LINK",
-            "links": null
-          },
-          {
-            "name": "save_exp",
-            "type": "EXP_DATA",
-            "links": null
-          }
-        ],
-        "properties": {
-          "cnr_id": "comfyui-advancedliveportrait",
-          "ver": "3bba732915e22f18af0d221b9c5c282990181f1b",
-          "Node name for S&R": "ExpressionEditor",
-          "ue_properties": {
-            "version": "7.0.1",
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {}
-          }
-        },
-        "widgets_values": [
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0,
-          0.5,
-          1,
-          1.5
-        ],
-        "shape": 1
-      },
-      {
-        "id": 104,
-        "type": "LoraTrainingInputImage",
-        "pos": [
-          169.6002947716268,
-          1077.839169529485
-        ],
-        "size": [
-          270,
-          78
-        ],
-        "flags": {},
-        "order": 2,
-        "mode": 0,
-        "inputs": [],
-        "outputs": [
-          {
-            "name": "image",
-            "type": "IMAGE",
-            "links": [
-              107
-            ]
-          },
-          {
-            "name": "mask",
-            "type": "MASK",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "LoraTrainingInputImage",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          ""
-        ],
-        "color": "#432",
-        "bgcolor": "#653"
-      },
-      {
-        "id": 126,
-        "type": "RandomNumber",
-        "pos": [
-          993.9761912300397,
-          1171.636993460237
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 4,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 110
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              94
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          -20,
-          20,
-          0.05,
-          837492899550666,
-          "randomize"
-        ]
-      },
-      {
-        "id": 127,
-        "type": "RandomNumber",
-        "pos": [
-          995.8309815697046,
-          1212.7354795615558
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 5,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 111
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              95
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          -10,
-          10,
-          0.05,
-          427885893146191,
-          "randomize"
-        ]
-      },
-      {
-        "id": 128,
-        "type": "RandomNumber",
-        "pos": [
-          998.6858447694676,
-          1251.8654280947328
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 6,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 112
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              96
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          -10,
-          10,
-          0.05,
-          543443293715895,
-          "randomize"
-        ]
-      },
-      {
-        "id": 129,
-        "type": "RandomNumber",
-        "pos": [
-          1001.0514094989903,
-          1292.5504739475616
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 7,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 113
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              97
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          -10,
-          10,
-          0.05,
-          822857323856774,
-          "randomize"
-        ]
-      },
-      {
-        "id": 130,
-        "type": "RandomNumber",
-        "pos": [
-          1000.9494314630929,
-          1334.859006216863
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 8,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 114
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              98
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          -10,
-          10,
-          0.05,
-          203677734955701,
-          "randomize"
-        ]
-      },
-      {
-        "id": 124,
-        "type": "RandomNumber",
-        "pos": [
-          958.2521687835198,
-          1453.3162271007495
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 9,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 115
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              99
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          -2,
-          2,
-          0.05,
-          1007296298581041,
-          "randomize"
-        ]
-      },
-      {
-        "id": 125,
-        "type": "RandomNumber",
-        "pos": [
-          959.5557693943666,
-          1498.0416049282917
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 10,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 116
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              100
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          0,
-          1,
-          0.05,
-          445949940194259,
-          "randomize"
-        ]
-      },
-      {
-        "id": 123,
-        "type": "RandomNumber",
-        "pos": [
-          902.0594662904422,
-          1590.8668723460403
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 11,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 117
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              101
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          -30,
-          30,
-          0.05,
-          888176720577086,
-          "randomize"
-        ]
-      },
-      {
-        "id": 122,
-        "type": "RandomNumber",
-        "pos": [
-          903.4449606391148,
-          1646.9776811012923
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 12,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 118
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              102
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          -10,
-          10,
-          0.05,
-          967915300491905,
-          "randomize"
-        ]
-      },
-      {
-        "id": 133,
-        "type": "LoraTrainingSeed",
-        "pos": [
-          343.1437185143637,
-          1334.3967817001221
-        ],
-        "size": [
-          270,
-          58
-        ],
-        "flags": {},
-        "order": 3,
-        "mode": 0,
-        "inputs": [],
-        "outputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "links": [
-              110,
-              111,
-              112,
-              113,
-              114,
-              115,
-              116,
-              117,
-              118,
-              119
-            ]
-          }
-        ],
-        "properties": {
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {}
-          },
-          "Node name for S&R": "LoraTrainingSeed"
-        },
-        "widgets_values": [
-          0
-        ],
-        "color": "#432",
-        "bgcolor": "#653"
-      },
-      {
-        "id": 121,
-        "type": "RandomNumber",
-        "pos": [
-          906.9085062479077,
-          1698.2394498990777
-        ],
-        "size": [
-          270,
-          218
-        ],
-        "flags": {
-          "collapsed": true
-        },
-        "order": 13,
-        "mode": 0,
-        "inputs": [
-          {
-            "name": "seed",
-            "type": "INT",
-            "widget": {
-              "name": "seed"
-            },
-            "link": 119
-          }
-        ],
-        "outputs": [
-          {
-            "name": "float_value",
-            "type": "FLOAT",
-            "links": [
-              103
-            ]
-          },
-          {
-            "name": "int_value",
-            "type": "INT",
-            "links": null
-          },
-          {
-            "name": "value_text",
-            "type": "STRING",
-            "links": null
-          }
-        ],
-        "properties": {
-          "Node name for S&R": "RandomNumber",
-          "ue_properties": {
-            "widget_ue_connectable": {},
-            "input_ue_unconnectable": {},
-            "version": "7.8"
-          }
-        },
-        "widgets_values": [
-          "float",
-          -10,
-          10,
-          0.05,
-          620972611240306,
-          "randomize"
-        ]
-      }
+  ],
+  "links": [
+    [
+      80,
+      117,
+      0,
+      113,
+      1,
+      "STRING"
     ],
-    "links": [
-      [
-        80,
-        117,
-        0,
-        113,
-        1,
-        "STRING"
-      ],
-      [
-        83,
-        118,
-        0,
-        113,
-        5,
-        "STRING"
-      ],
-      [
-        94,
-        126,
-        0,
-        120,
-        4,
-        "FLOAT"
-      ],
-      [
-        95,
-        127,
-        0,
-        120,
-        5,
-        "FLOAT"
-      ],
-      [
-        96,
-        128,
-        0,
-        120,
-        6,
-        "FLOAT"
-      ],
-      [
-        97,
-        129,
-        0,
-        120,
-        7,
-        "FLOAT"
-      ],
-      [
-        98,
-        130,
-        0,
-        120,
-        8,
-        "FLOAT"
-      ],
-      [
-        99,
-        124,
-        0,
-        120,
-        9,
-        "FLOAT"
-      ],
-      [
-        100,
-        125,
-        0,
-        120,
-        10,
-        "FLOAT"
-      ],
-      [
-        101,
-        123,
-        0,
-        120,
-        11,
-        "FLOAT"
-      ],
-      [
-        102,
-        122,
-        0,
-        120,
-        12,
-        "FLOAT"
-      ],
-      [
-        103,
-        121,
-        0,
-        120,
-        13,
-        "FLOAT"
-      ],
-      [
-        105,
-        120,
-        0,
-        113,
-        0,
-        "IMAGE"
-      ],
-      [
-        107,
-        104,
-        0,
-        120,
-        0,
-        "IMAGE"
-      ],
-      [
-        110,
-        133,
-        0,
-        126,
-        0,
-        "INT"
-      ],
-      [
-        111,
-        133,
-        0,
-        127,
-        0,
-        "INT"
-      ],
-      [
-        112,
-        133,
-        0,
-        128,
-        0,
-        "INT"
-      ],
-      [
-        113,
-        133,
-        0,
-        129,
-        0,
-        "INT"
-      ],
-      [
-        114,
-        133,
-        0,
-        130,
-        0,
-        "INT"
-      ],
-      [
-        115,
-        133,
-        0,
-        124,
-        0,
-        "INT"
-      ],
-      [
-        116,
-        133,
-        0,
-        125,
-        0,
-        "INT"
-      ],
-      [
-        117,
-        133,
-        0,
-        123,
-        0,
-        "INT"
-      ],
-      [
-        118,
-        133,
-        0,
-        122,
-        0,
-        "INT"
-      ],
-      [
-        119,
-        133,
-        0,
-        121,
-        0,
-        "INT"
+    [
+      83,
+      118,
+      0,
+      113,
+      5,
+      "STRING"
+    ],
+    [
+      94,
+      126,
+      0,
+      120,
+      4,
+      "FLOAT"
+    ],
+    [
+      95,
+      127,
+      0,
+      120,
+      5,
+      "FLOAT"
+    ],
+    [
+      96,
+      128,
+      0,
+      120,
+      6,
+      "FLOAT"
+    ],
+    [
+      97,
+      129,
+      0,
+      120,
+      7,
+      "FLOAT"
+    ],
+    [
+      98,
+      130,
+      0,
+      120,
+      8,
+      "FLOAT"
+    ],
+    [
+      99,
+      124,
+      0,
+      120,
+      9,
+      "FLOAT"
+    ],
+    [
+      100,
+      125,
+      0,
+      120,
+      10,
+      "FLOAT"
+    ],
+    [
+      101,
+      123,
+      0,
+      120,
+      11,
+      "FLOAT"
+    ],
+    [
+      102,
+      122,
+      0,
+      120,
+      12,
+      "FLOAT"
+    ],
+    [
+      103,
+      121,
+      0,
+      120,
+      13,
+      "FLOAT"
+    ],
+    [
+      105,
+      120,
+      0,
+      113,
+      0,
+      "IMAGE"
+    ],
+    [
+      107,
+      104,
+      0,
+      120,
+      0,
+      "IMAGE"
+    ],
+    [
+      110,
+      133,
+      0,
+      126,
+      0,
+      "INT"
+    ],
+    [
+      111,
+      133,
+      0,
+      127,
+      0,
+      "INT"
+    ],
+    [
+      112,
+      133,
+      0,
+      128,
+      0,
+      "INT"
+    ],
+    [
+      113,
+      133,
+      0,
+      129,
+      0,
+      "INT"
+    ],
+    [
+      114,
+      133,
+      0,
+      130,
+      0,
+      "INT"
+    ],
+    [
+      115,
+      133,
+      0,
+      124,
+      0,
+      "INT"
+    ],
+    [
+      116,
+      133,
+      0,
+      125,
+      0,
+      "INT"
+    ],
+    [
+      117,
+      133,
+      0,
+      123,
+      0,
+      "INT"
+    ],
+    [
+      118,
+      133,
+      0,
+      122,
+      0,
+      "INT"
+    ],
+    [
+      119,
+      133,
+      0,
+      121,
+      0,
+      "INT"
+    ]
+  ],
+  "groups": [],
+  "config": {},
+  "extra": {
+    "ue_links": [],
+    "ds": {
+      "scale": 0.5131581182307067,
+      "offset": [
+        143.5535676860442,
+        -492.39946669846336
       ]
-    ],
-    "groups": [],
-    "config": {},
-    "extra": {
-      "ue_links": [],
-      "ds": {
-        "scale": 0.5131581182307067,
-        "offset": [
-          112.37412382110766,
-          -383.5555168322554
-        ]
-      },
-      "frontendVersion": "1.45.20",
-      "VHS_latentpreview": false,
-      "VHS_latentpreviewrate": 0,
-      "VHS_MetadataImage": true,
-      "VHS_KeepIntermediate": true
     },
-    "version": 0.4
-  }
+    "frontendVersion": "1.49.6",
+    "VHS_latentpreview": false,
+    "VHS_latentpreviewrate": 0,
+    "VHS_MetadataImage": true,
+    "VHS_KeepIntermediate": true
+  },
+  "version": 0.4
 }
