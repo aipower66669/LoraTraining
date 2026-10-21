@@ -24,7 +24,7 @@ See also [`BUILD.md`](BUILD.md) for installer and tag workflow.
 | `npm run typecheck` | Strict TS for main/preload and renderer |
 | `npm run lint` | ESLint, max-warnings 0 |
 | `npm run test` | Vitest unit + integration |
-| `npm run check` | typecheck + lint + Vitest — run locally; GitHub runs it only when a `vX.Y.Z` tag is pushed |
+| `npm run check` | typecheck + lint + Vitest — run locally; GitHub runs it when a `v*` tag is pushed |
 | `npm run build` | Production electron-vite build |
 | `npm run build:win` | Windows NSIS installer (no version bump; keeps existing `release/`) |
 | `npm run dist:nobump` | Clear `release/` → build installer at the current version |
@@ -82,7 +82,7 @@ Older planning docs (`IMPLEMENTATION_PLAN.md`, early UI/IPC sketches) may descri
 2. Update `CHANGELOG.md` + `RELEASE_NOTES.md` + `docs/RELEASE_NOTES_vX.Y.Z.md`  
 3. `npm run check`  
 4. `npm run dist:nobump` if the version is already correct, else `npm run dist`  
-5. Tag **`vX.Y.Z` only** (e.g. `v0.4.0` — not `v0.4`), matching `package.json`, and push; CI attaches the Setup exe + `SHA256SUMS.txt`
+5. Tag anything that starts with `v` (for example `v0.4`) on a commit that contains `.github/workflows/release.yml`, and push that tag; CI attaches the Setup exe + `SHA256SUMS.txt`
 
 ## License
 

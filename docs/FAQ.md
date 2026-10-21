@@ -2,7 +2,7 @@
 
 Answers a user or an assistant can use without opening another file. Each answer names the screen, what must already be true, what should happen, and what to check when it does not.
 
-LoraTraining does not train models and does not install AI Toolkit, ComfyUI, CUDA, or model files. Those tools have their own manuals. This FAQ covers only how LoraTraining calls them.
+LoraTraining does not train models and does not install AI Toolkit, ComfyUI, CUDA, or model files. Those tools have their own manuals. This FAQ covers only how LoraTraining calls them. An assistant may use an upstream manual for a question about that tool, and must say the answer came from that project.
 
 Platform: Windows 10 / 11. Training and Comfy previews are **Krea 2** only.
 
@@ -56,7 +56,7 @@ npm ci
 npm run dev
 ```
 
-`npm ci` installs the lockfile versions; use `npm install` instead when intentionally changing dependencies. `npm run dev` is the app with hot reload. `npm run check` runs typecheck, lint, and Vitest. Run it locally before a release. GitHub Actions does not run on a branch push or a pull request. Pushing a tag `vX.Y.Z` that matches `package.json` (this release: `v0.4.0`) is the only workflow: it runs that check, then builds and attaches the installer. A short tag such as `v0.4` does not run that build. `npm run dist` bumps the patch version, clears `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. `npm run dist:nobump` clears `release\` and writes that installer without changing the version. `SKIP_RELEASE_CLEAN=1` keeps files already in `release\`. Source checkout is for people changing the app. Training does not require it.
+`npm ci` installs the lockfile versions; use `npm install` instead when intentionally changing dependencies. `npm run dev` is the app with hot reload. `npm run check` runs typecheck, lint, and Vitest. Run it locally before a release. GitHub Actions does not run on a branch push or a pull request. Pushing a tag that starts with `v` (this release: `v0.4`) is the only build. It runs that check, then builds and attaches the installer. The workflow file on the tagged commit is what GitHub uses. `npm run dist` bumps the patch version, clears `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. `npm run dist:nobump` clears `release\` and writes that installer without changing the version. `SKIP_RELEASE_CLEAN=1` keeps files already in `release\`. Source checkout is for people changing the app. Training does not require it.
 
 ### Where do I set the library folder?
 

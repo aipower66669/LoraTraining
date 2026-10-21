@@ -66,9 +66,9 @@ After the first install:
 
 | Workflow | Trigger | What runs |
 | --- | --- | --- |
-| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | Push tag `vX.Y.Z` only | One job: `npm run check`, then `npm run dist:nobump`, then GitHub Release + `SHA256SUMS.txt` |
+| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | Push any tag that starts with `v` (`v0.4`, `v0.4.0`) | Check, then the Windows installer, then the GitHub Release |
 
-A branch push and a pull request do not start a workflow. There is no manual `workflow_dispatch` build. Pushing `v0.4.0` (the tag that matches `package.json`) is the only Action.
+A branch push and a pull request do not start a build. `workflow_dispatch` runs the check only. The installer is attached only for a tag push. The tag filter is `v*`, the same pattern Wildcards Manager uses. `v0.4` matches. The installer filename still comes from `package.json` (`LoraTraining Setup 0.4.0.exe`).
 
 CI does **not** require repository secrets. The release workflow uses the built-in `GITHUB_TOKEN` to attach `LoraTraining Setup X.Y.Z.exe` and a SHA-256 checksum file. The release body is [RELEASE_NOTES.md](../RELEASE_NOTES.md). Workflow actions are **pinned to commit SHAs**. `electron-builder` uses `--publish never` / `"publish": null`, so only `softprops/action-gh-release` publishes.
 
@@ -76,16 +76,14 @@ CI does **not** require repository secrets. The release workflow uses the built-
 
 1. Set `package.json` to the target version (`0.4.0` for this release).
 2. `npm run check` locally.
-3. Tag and push (**full three-part tag, equal to `v` + `package.json` version**):
+3. Tag and push. The tag must start with `v`. `v0.4` and `v0.4.0` both start the workflow. The workflow file on that commit is the one GitHub runs, so the tag has to point at a commit that already contains this `v*` filter.
 
 ```bash
-git tag v0.4.0
-git push origin v0.4.0
+git tag v0.4
+git push origin v0.4
 ```
 
-Short tags such as `v0.4` do not match the workflow filter `v*.*.*` and do not build. The workflow also fails the release job when the tag string is not exactly `v` plus the committed version, so the installer name stays aligned with the tag.
-
-GitHub Actions runs check, builds with `npm run dist:nobump` (no version rewrite), writes `release/SHA256SUMS.txt`, and publishes the Release.
+GitHub Actions runs check, builds with `npm run build:win` (no version rewrite), writes `release/SHA256SUMS.txt`, and publishes the Release.
 
 ---
 

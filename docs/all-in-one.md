@@ -7,7 +7,36 @@
 **Platform:** Windows 10 / 11  
 **Audience for this file:** an AI assistant helping a user of this app
 
-This file is the **sole comprehensive support source of truth** and is the file to upload whole to an AI assistant. It contains the complete guide followed by the full FAQ; nothing is shortened. Every relevant user-facing fact from the other files in `docs/` (setup, settings, datasets, jobs, queue, validation, Comfy models, Windows training, on-disk format, and locked decisions that change what the user sees) belongs here. If another document disagrees with this one, follow this file and fix the other document. This file does not replace upstream manuals for AI Toolkit, ComfyUI, CUDA, or Python, and does not include internal process or IPC notes.
+This file is the **sole comprehensive support source of truth** for LoraTraining and is the file to upload whole to an AI assistant. It contains the complete guide followed by the full FAQ; nothing is shortened. Every relevant user-facing fact from the other files in `docs/` (setup, settings, datasets, jobs, queue, validation, Comfy models, Windows training, on-disk format, and locked decisions that change what the user sees) belongs here. If another document disagrees with this one, follow this file and fix the other document. This file does not replace upstream manuals for AI Toolkit, ComfyUI, CUDA, or Python, and does not include internal process or IPC notes. Questions about those products may use their own manuals, labeled as coming from that project.
+
+---
+
+## Question and symptom index
+
+Use the heading in this file. The guide comes first. The FAQ repeats the same topics as direct questions, starting at **What the app is**.
+
+| Question or symptom | Heading in this file |
+| --- | --- |
+| Install, SmartScreen, run from source | Install LoraTraining; How do I install LoraTraining? |
+| Library folder, missing Jobs / Queue / Comfy buttons | First-time configuration; Why are tool buttons or whole work areas missing? |
+| Settings, training model, defaults, NTFS versions | Settings reference; Settings, defaults, and where state lives |
+| Update, What’s new, no newer installer | In-app updates; How do I update the app?; Troubleshooting row “Update check finds nothing” |
+| Categories, discovery, duplicate tiles, Ready / Validated / Done | Categories and datasets |
+| Captions, JoyCaption, bulk tools, identity tag | Images and captions; Images, captions, and the editor |
+| Image editor, overwrite versus version history, delete | Image editor and optional NTFS versions |
+| Create a job, rank, learning rate, steps, YAML fields | Jobs; Training configuration; Jobs and the training form |
+| Cannot create or enqueue a job | Jobs and the training form; Troubleshooting |
+| Queue order, ETA, continue after a failure, Stop | Queue |
+| Training starts and AI Toolkit then fails | Troubleshooting; Windows errors while training |
+| OSError 1455, paging file, commit charge | OSError 1455 (Windows, large Krea 2 checkpoints) |
+| Checkpoint missing, Validated dropped, Done refused | Validated and Done; What do Move, Pending, and Further training mean on Output? |
+| Comfy address, LT nodes, red nodes, missing weights | ComfyUI; One-time Comfy downloads; Comfy previews |
+| Validation Steps, Weight, Stress, another run in progress | Comfy preview tools; Comfy previews |
+| Upscale, Context, Expression | Upscale and Diversify |
+| Workflow Save refused or the wrong graph | Troubleshooting row “Workflow Save is refused” |
+| Backup, export settings, which delete removes files | On-disk layout; Files, backup, and recovery |
+| Retry, restart, or keep existing output | Upgrades, retries, and messages you can search for |
+| Facts that must stay unknown | Technical behaviour assistants must not invent past |
 
 ---
 
@@ -15,10 +44,10 @@ This file is the **sole comprehensive support source of truth** and is the file 
 
 Follow these rules for every answer. They override general knowledge of other LoRA tools.
 
-1. Answer only from this document. If a screen, setting, file, shortcut, model, default, or behaviour is not written here, say **“That is not documented.”** Do not guess. Do not fill gaps from Kohya, OneTrainer, Flux Gym, Automatic1111, Forge, or a generic ComfyUI tutorial. Do not invent menu labels, YAML keys, or buttons.
+1. Questions about LoraTraining — its screens, settings, files, shortcuts, defaults, and behaviour — are answered from this document. If a LoraTraining fact is not written here, say **“That is not documented.”** Do not guess it from Kohya, OneTrainer, Flux Gym, Automatic1111, Forge, or a generic ComfyUI tutorial. Do not invent menu labels, YAML keys, or buttons. If this repository’s source is open beside this file, you may use it only to confirm a LoraTraining fact this file omits, and say the answer came from the source. If the source is not available, leave the gap as not documented.
 2. LoraTraining **does not train**. It does not contain a trainer. [AI Toolkit](https://github.com/ostris/ai-toolkit) runs training. LoraTraining writes a job YAML and starts that external `run.py`.
 3. **Krea 2 text-to-image only** for training defaults and Comfy preview workflows. Do not give setup steps for Flux, SDXL, SD1.5, Wan, or any other base. Say they are unsupported in this release.
-4. LoraTraining **does not install or repair** AI Toolkit, ComfyUI, the caption Python stack, CUDA, Hugging Face weights, or third-party Comfy node packs. Those failures are upstream. Point at the upstream project. Do not invent `pip` recipes, driver versions, or an “Install environment” button.
+4. LoraTraining **does not install or repair** AI Toolkit, ComfyUI, the caption Python stack, CUDA, Hugging Face weights, or third-party Comfy node packs. There is no “Install environment” button and no in-app model downloader. A question about how LoraTraining calls one of those tools is answered from this file. A question about the tool itself (for example which AI Toolkit learning-rate scheduler to choose, how to install ComfyUI, or how CUDA is set up) is outside this app: state that boundary, then you may use that project’s own documentation when you can read it. Label those sentences as coming from the upstream project, not from a LoraTraining control. Do not invent a pip recipe, driver version, or setting that neither this file nor that upstream documentation states.
 5. LoraTraining **does not download** the caption model or the Comfy weights listed in this file. The user downloads them. There is no in-app model downloader.
 6. Name the real header destination and field from this file when you tell the user where to click: **Datasets**, **Image Scraper**, and **Settings**, plus **Jobs** and **Queue** after AI Toolkit Work dir is set. There is no Face tab and no troubleshooting wizard.
 7. Training fields (rank, save-every, resolution, learning rate, and the rest of the job form) are the groups in **Training configuration**. Do not add controls that section does not list. The global checkpoint, architecture, quantize toggle, Low VRAM toggle, and offloading slider live under **Settings → External tools → Training model**, not on each job.
@@ -109,7 +138,7 @@ npm ci
 npm run dev
 ```
 
-`npm ci` installs the lockfile versions (`npm install` is acceptable while actively changing dependencies). `npm run dev` opens the app with hot reload. It uses the same `%APPDATA%\lora-training` pointer as an installed build. `npm run check` runs typecheck, lint, and Vitest. Run it locally before a release. GitHub Actions does not run on a branch push or a pull request. Pushing a tag `vX.Y.Z` that matches `package.json` (this release: `v0.4.0`) is the only workflow: it runs that check, then builds and attaches the installer. A short tag such as `v0.4` does not run that build. `npm run dist` bumps the patch version, clears `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. `npm run dist:nobump` clears `release\` and writes that installer without changing the version. `SKIP_RELEASE_CLEAN=1` keeps files already in `release\`. `npm run build:win` writes an installer and leaves both the version and existing `release\` files unchanged. If `app.asar` is locked (`EBUSY`), quit LoraTraining and any `electron.exe` still running, then build again. The window icon is `build\icon.ico`. The installer sidebar is `build\installerSidebar.bmp`.
+`npm ci` installs the lockfile versions (`npm install` is acceptable while actively changing dependencies). `npm run dev` opens the app with hot reload. It uses the same `%APPDATA%\lora-training` pointer as an installed build. `npm run check` runs typecheck, lint, and Vitest. Run it locally before a release. GitHub Actions does not run on a branch push or a pull request. Pushing a tag that starts with `v` (this release: `v0.4`) is the only build. It runs that check, then builds and attaches the installer. The workflow file on the tagged commit is what GitHub uses. `npm run dist` bumps the patch version, clears `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. `npm run dist:nobump` clears `release\` and writes that installer without changing the version. `SKIP_RELEASE_CLEAN=1` keeps files already in `release\`. `npm run build:win` writes an installer and leaves both the version and existing `release\` files unchanged. If `app.asar` is locked (`EBUSY`), quit LoraTraining and any `electron.exe` still running, then build again. The window icon is `build\icon.ico`. The installer sidebar is `build\installerSidebar.bmp`.
 
 ### In-app updates
 
@@ -886,7 +915,7 @@ Tell the user to open https://github.com/aipower66669/LoraTraining/issues and in
 
 Do not attach dataset images, captions, or private prompts.
 
-Do not tell them the assistant can fix an undocumented feature. Say it is not documented and the issue tracker is the next step.
+Do not tell them the assistant can fix an undocumented LoraTraining feature. Say it is not documented and the issue tracker is the next step. A question about AI Toolkit, ComfyUI, JoyCaption’s model, CUDA, or Python may use that project’s own documentation, with the source named. That does not make the failure a LoraTraining defect.
 
 Before opening an issue, the project asks the user to upload `docs/all-in-one.md` (this guide plus the FAQ) to their assistant and ask there first. If that did not resolve it, the issue should say what the assistant got wrong or could not answer.
 
@@ -896,7 +925,7 @@ Before opening an issue, the project asks the user to upload `docs/all-in-one.md
 
 Answers a user or an assistant can use without opening another file. Each answer names the screen, what must already be true, what should happen, and what to check when it does not.
 
-LoraTraining does not train models and does not install AI Toolkit, ComfyUI, CUDA, or model files. Those tools have their own manuals. This FAQ covers only how LoraTraining calls them.
+LoraTraining does not train models and does not install AI Toolkit, ComfyUI, CUDA, or model files. Those tools have their own manuals. This FAQ covers only how LoraTraining calls them. An assistant may use an upstream manual for a question about that tool, and must say the answer came from that project.
 
 Platform: Windows 10 / 11. Training and Comfy previews are **Krea 2** only.
 
@@ -950,7 +979,7 @@ npm ci
 npm run dev
 ```
 
-`npm ci` installs the lockfile versions; use `npm install` instead when intentionally changing dependencies. `npm run dev` is the app with hot reload. `npm run check` runs typecheck, lint, and Vitest. Run it locally before a release. GitHub Actions does not run on a branch push or a pull request. Pushing a tag `vX.Y.Z` that matches `package.json` (this release: `v0.4.0`) is the only workflow: it runs that check, then builds and attaches the installer. A short tag such as `v0.4` does not run that build. `npm run dist` bumps the patch version, clears `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. `npm run dist:nobump` clears `release\` and writes that installer without changing the version. `SKIP_RELEASE_CLEAN=1` keeps files already in `release\`. Source checkout is for people changing the app. Training does not require it.
+`npm ci` installs the lockfile versions; use `npm install` instead when intentionally changing dependencies. `npm run dev` is the app with hot reload. `npm run check` runs typecheck, lint, and Vitest. Run it locally before a release. GitHub Actions does not run on a branch push or a pull request. Pushing a tag that starts with `v` (this release: `v0.4`) is the only build. It runs that check, then builds and attaches the installer. The workflow file on the tagged commit is what GitHub uses. `npm run dist` bumps the patch version, clears `release\`, and writes `release\LoraTraining Setup X.Y.Z.exe`. `npm run dist:nobump` clears `release\` and writes that installer without changing the version. `SKIP_RELEASE_CLEAN=1` keeps files already in `release\`. Source checkout is for people changing the app. Training does not require it.
 
 ### Where do I set the library folder?
 
