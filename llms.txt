@@ -1,0 +1,15 @@
+# LoraTraining
+
+> Windows desktop application for Krea 2 LoRA dataset management, AI Toolkit training orchestration, automated job queues, captioning, and ComfyUI validation.
+
+LoraTraining uses external AI Toolkit, JoyCaption, and ComfyUI installations. It does not replace or install these tools.
+
+For questions about LoraTraining, prefer the complete support documentation below. It includes the full user guide, comprehensive FAQ, troubleshooting procedures, known limitations, and instructions for AI assistants.
+
+## Documentation
+
+- [Complete AI Support Documentation](https://raw.githubusercontent.com/aipower66669/LoraTraining/main/docs/all-in-one.md): Authoritative, self-contained knowledge base for answering questions and troubleshooting LoraTraining.
+
+## Optional
+
+- [GitHub Repository](https://github.com/aipower66669/LoraTraining): Source code, releases, and issue tracker.
