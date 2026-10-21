@@ -1,0 +1,141 @@
+{
+  "name": "lora-training",
+  "version": "0.3.21",
+  "description": "Windows UI for Krea 2 LoRA dataset management and AI Toolkit job orchestration (does not train — uses external AI Toolkit, JoyCaption, ComfyUI)",
+  "main": "./out/main/index.js",
+  "author": "AIPower",
+  "homepage": "https://github.com/aipower66669/LoraTraining",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aipower66669/LoraTraining.git"
+  },
+  "bugs": {
+    "url": "https://github.com/aipower66669/LoraTraining/issues"
+  },
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run",
+    "migrate:settings": "tsx scripts/migrate-settings-to-library.ts",
+    "migrate:rename-workflow-files": "tsx scripts/migrate-rename-workflow-files.ts",
+    "migrate:remove-dataset-upscale-config": "tsx scripts/migrate-remove-dataset-upscale-config.ts",
+    "migrate:remove-dataset-lora-folder": "tsx scripts/migrate-remove-dataset-lora-folder.ts",
+    "migrate:diversify-seed-default": "tsx scripts/migrate-diversify-seed-default.ts",
+    "migrate:dataset-trained": "tsx scripts/migrate-dataset-trained.ts",
+    "migrate:spawned-from-images": "tsx scripts/migrate-spawned-from-images.ts",
+    "migrate:originals-to-ads": "tsx scripts/migrate-originals-to-ads.ts",
+    "list:comfy-models": "tsx scripts/list-comfy-workflow-models.ts",
+    "postinstall": "node scripts/patch-filerobot.mjs",
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "build:win": "npm run build && electron-builder --win --publish never",
+    "prepare-dist": "node scripts/prepare-dist.mjs",
+    "dist": "npm run prepare-dist && npm run build && electron-builder --win --publish never"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.20.3",
+    "@codemirror/commands": "^6.10.4",
+    "@codemirror/language": "^6.12.4",
+    "@codemirror/search": "^6.7.1",
+    "@codemirror/state": "^6.7.1",
+    "@codemirror/view": "^6.43.7",
+    "@lezer/highlight": "^1.2.3",
+    "@tanstack/react-virtual": "^3.13.12",
+    "koffi": "^3.1.4",
+    "konva": "^9.3.18",
+    "lucide-react": "^1.27.0",
+    "nanoid": "^5.1.5",
+    "onnxruntime-web": "^1.22.0",
+    "pino": "^9.7.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-filerobot-image-editor": "^5.0.0-beta.159",
+    "react-konva": "^19.2.5",
+    "sharp": "^0.35.3",
+    "styled-components": "^6.4.4",
+    "ws": "^8.21.1",
+    "yaml": "^2.8.0",
+    "zod": "^3.25.76",
+    "zustand": "^5.0.6"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.1",
+    "@types/node": "^22.16.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@types/sharp": "^0.31.1",
+    "@types/ws": "^8.18.1",
+    "@vitejs/plugin-react": "^4.6.0",
+    "electron": "^37.2.0",
+    "electron-builder": "^26.0.12",
+    "electron-vite": "^4.0.0",
+    "eslint": "^9.30.1",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.23.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.1",
+    "vite": "^6.3.5",
+    "vitest": "^3.2.4"
+  },
+  "build": {
+    "appId": "com.loratraining.app",
+    "productName": "LoraTraining",
+    "copyright": "Copyright © 2026 AIPower",
+    "publish": null,
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "icon": "build/icon.ico",
+    "files": [
+      "out/**/*",
+      "reference/**/*",
+      "comfyui-lora-training/**/*",
+      "resources/icon.png",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/icon.png",
+        "to": "icon.png"
+      },
+      {
+        "from": "resources/python-shims",
+        "to": "python-shims"
+      },
+      {
+        "from": "comfyui-lora-training",
+        "to": "comfyui-lora-training"
+      },
+      {
+        "from": "resources/joycaption",
+        "to": "joycaption"
+      },
+      {
+        "from": "resources/comfy-workflows",
+        "to": "comfy-workflows"
+      }
+    ],
+    "asarUnpack": [
+      "**/node_modules/sharp/**/*",
+      "**/node_modules/@img/**/*"
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "signExecutable": false,
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

@@ -1,0 +1,60 @@
+---
+description: Restrict agent filesystem access to repo + AppData; require local migration scripts for library config schema changes
+alwaysApply: true
+---
+
+# Library access and config migrations
+
+## Access boundary
+
+Agents may browse/read/write **without** consent only:
+
+| Path | Allowed |
+| --- | --- |
+| Repo (`src/`, `scripts/`, tests, build config) | Yes |
+| AppData `%APPDATA%\lora-training\` — `app-config.json` (`{ version, libraryRoot }` pointer only), `window-state.json` | Yes — disposable app config only |
+
+**Forbidden without explicit user consent** for that specific operation:
+
+- Configured `libraryRoot` and everything under it (categories, datasets, `!Jobs`, `!Thumbnails`, `!WorkflowBackups`, images, captions, `output/`, sidecars, **library `settings.json`**, **library `comfy-workflow-*.json`**)
+- A legacy monolithic AppData `settings.json` or `comfy-workflow.json`, if still present pre-migration — these hold the same potentially-sensitive content (e.g. `lastValidationPrompt`) that now belongs to the library boundary above
+- Any other path on the machine (e.g. `Z:\…`, user home, other AppData apps, Chromium caches under AppData unless debugging was requested)
+
+Do **not** use Read / Write / Grep / Glob / Shell listing against `libraryRoot` to inspect or “verify” configs. Running an approved migration script is allowed; inspecting its results via filesystem tools is not (unless the user explicitly asks).
+
+## Config files agents must never edit directly
+
+| File | Location |
+| --- | --- |
+| `categories.json` | `{libraryRoot}/` |
+| `category.json` | `{libraryRoot}/{relative folder}/` |
+| `dataset.json` | `{category}/{dataset}/` |
+| `job.json` | `{libraryRoot}/!Jobs/{id}/` |
+| `settings.json` | `{libraryRoot}/` (tools, Comfy, queue prefs, training defaults, recents, `last*`) |
+| `comfy-workflow-*.json` | `{libraryRoot}/` (per-tool captured Comfy graphs: validation, upscale, context, expression) |
+
+## When a migration script is required
+
+Ship and **run** a local migration whenever you:
+
+- Rename, remove, or change semantics of persisted fields in `CategoryRecordSchema`, `DatasetRecordSchema`, `JobRecordSchema`, or sidecar/on-disk JSON layout
+- Change folder conventions (`!Jobs`, `!Thumbnails`, nested category `folder` paths)
+- Move data between files (e.g. markers → sidecar arrays)
+
+**Skip** one-shot scripts that only materialize Zod defaults already applied on every read/open — see `scripts/README-migrations.md`.
+
+## Agent workflow on schema change
+
+1. Implement app code (+ Zod preprocess if needed).
+2. Add `scripts/migrate-<short-name>.ts` — idempotent; log counts; exit non-zero on failure; prefer `--dry-run`.
+3. Resolve root via `scripts/lib/library-root.ts` (AppData `app-config.json` → `libraryRoot`, falling back to legacy `settings.json`; optional `LORA_LIBRARY_ROOT` override for emergencies only).
+4. Transform **JSON sidecars / catalogs only** — do not open dataset image trees or absolute legacy `folderPath` media paths.
+5. Add npm script: `"migrate:<name>": "tsx scripts/migrate-<short-name>.ts"`.
+6. Run `npm run migrate:<name>` and report **stdout only**. Do not Read/Grep/list `{libraryRoot}` afterward to verify.
+7. Follow the checklist in `scripts/README-migrations.md`.
+
+## Runtime layout (reference)
+
+- Categories / datasets / thumbs / jobs / **settings** / **Comfy workflows** all live under `libraryRoot`.
+- Jobs: `{libraryRoot}/!Jobs` (hidden; `!` skipped by discovery).
+- AppData holds only `app-config.json` (the `libraryRoot` pointer) and `window-state.json` — disposable, never needs backing up. Everything needed to restore a workspace lives under `libraryRoot`.

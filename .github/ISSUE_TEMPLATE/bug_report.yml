@@ -1,0 +1,57 @@
+name: Bug report
+description: Something is broken or behaves incorrectly
+title: '[bug] '
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. LoraTraining is **Krea 2–focused** and shells out to AI Toolkit / JoyCaption / ComfyUI — say which of those are involved.
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: From Settings or About (e.g. 0.3.0). Installer filename is also fine.
+      placeholder: 0.3.0
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: OS
+      options:
+        - Windows 11
+        - Windows 10
+        - Other (describe in steps)
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Expected vs actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. …
+        2. …
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Relevant status-bar messages, job log snippets, or screenshots (redact paths if needed).
+  - type: checkboxes
+    id: tools
+    attributes:
+      label: External tools involved
+      options:
+        - label: AI Toolkit
+        - label: JoyCaption
+        - label: ComfyUI / LT nodes
+        - label: None / app-only

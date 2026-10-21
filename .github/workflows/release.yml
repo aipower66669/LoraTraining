@@ -1,0 +1,67 @@
+name: Release
+
+# Windows NSIS build on version tags only. No repository secrets required —
+# uses the built-in GITHUB_TOKEN to attach the installer + SHA-256 checksums
+# to a GitHub Release.
+#
+# Valid tags: vX.Y.Z only (e.g. v0.3.0). Patch must be explicit.
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Check, build, publish
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Set version from tag
+        run: npx tsx scripts/sync-version-from-tag.ts
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+
+      - run: npm ci
+
+      - run: npm run check
+
+      - name: Build Windows installer
+        run: npm run dist
+        env:
+          SKIP_VERSION_BUMP: '1'
+
+      - name: SHA-256 checksums
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem -Path release -Filter "LoraTraining Setup *.exe" | Select-Object -First 1
+          if (-not $exe) { throw "No Setup exe found under release/" }
+          $hash = (Get-FileHash -Algorithm SHA256 -Path $exe.FullName).Hash.ToLowerInvariant()
+          $line = "$hash  $($exe.Name)"
+          Set-Content -Path "release/SHA256SUMS.txt" -Value $line -Encoding ascii
+          Write-Host $line
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
+        with:
+          files: |
+            release/LoraTraining Setup *.exe
+            release/SHA256SUMS.txt
+          generate_release_notes: true
+          body: |
+            ## Installer notes
+
+            The Windows NSIS installer is **unsigned**. Windows SmartScreen / Defender may show **"Windows protected your PC"** on first run — choose **More info** → **Run anyway** if you trust this release.
+
+            Verify the download against `SHA256SUMS.txt` attached to this release before installing.
+
+            Code signing is a planned release goal; until then, prefer checksum verification over blind trust of the `.exe`.

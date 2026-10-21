@@ -1,0 +1,152 @@
+---
+job: extension
+config:
+  # REQUIRED: becomes the output folder name and LoRA filename stem.
+  # Use only letters, numbers, underscores, and hyphens.
+  name: "CONCEPT_NAME"
+
+  process:
+    - type: "sd_trainer"
+
+      # REQUIRED: root directory for checkpoints, logs, and final LoRA.
+      training_folder: "CONCEPT_FOLDER/output"
+
+      device: "cuda:0"
+
+      # Optional diagnostics. Uncomment while troubleshooting.
+      performance_log_every: 10
+
+      # IMPORTANT:
+      # With cache_text_embeddings: true, do not rely on trigger_word injection.
+      # Put your trigger/token directly inside every .txt caption instead.
+      trigger_word: "CONCEPT_NAME"
+
+      network:
+        type: "lora"
+        linear: 32
+        linear_alpha: 32
+        # No convolutional LoRA is required for this DiT model.
+
+      save:
+        dtype: "bf16"
+        save_every: 250
+        max_step_saves_to_keep: 999999
+        save_format: "diffusers"
+        push_to_hub: false
+
+      datasets:
+        - # REQUIRED: folder containing images and matching .txt captions.
+          # Example pairs: image001.jpg + image001.txt
+          folder_path: "CONCEPT_FOLDER"
+          caption_ext: "txt"
+
+          # Used only if an image has no matching caption file.
+          # Since you already have captions, leave this blank.
+          default_caption: ""
+
+          # Keep captions stable for the first run.
+          caption_dropout_rate: 0.0
+          shuffle_tokens: false
+
+          # Strongly recommended on 16 GB VRAM.
+          cache_latents_to_disk: true
+
+          # Train at 512 first. Do not use [512, 768, 1024] on the initial 16 GB run.
+          resolution: [512]
+
+          # No regularisation dataset for the first run.
+          is_reg: false
+          network_weight: 1.0
+
+          # Avoid flips where anatomy, handedness, equipment, or orientation matters.
+          flip_x: false
+          flip_y: false
+
+          # Flat root only — do not pull images from output/, thumbnails, etc.
+          recursive: false
+
+      train:
+        batch_size: 1
+
+        # REQUIRED for this low-VRAM setup.
+        cache_text_embeddings: true
+        unload_text_encoder: false
+
+        # SMOKE TEST: leave at 20 first.
+        # After the complete pipeline succeeds, change this to 3000.
+        steps: CONCEPT_STEPS
+
+        gradient_accumulation: 1
+        train_unet: true
+        train_text_encoder: false
+        gradient_checkpointing: true
+
+        noise_scheduler: "flowmatch"
+        timestep_type: "sigmoid"
+        content_or_style: "balanced"
+        loss_type: "mse"
+
+        optimizer: "adamw8bit"
+        optimizer_params:
+          weight_decay: 0.0001
+
+        lr: 0.0001
+
+        ema_config:
+          use_ema: false
+          ema_decay: 0.99
+
+        # Disable all preview generation during the 16 GB smoke test.
+        skip_first_sample: true
+        disable_sampling: true
+
+        dtype: "bf16"
+
+        diff_output_preservation: false
+        diff_output_preservation_multiplier: 1.0
+        diff_output_preservation_class: "CONCEPT_CLASS"
+
+      model:
+        # REQUIRED: direct path to the official Krea 2 RAW checkpoint.
+        # This avoids another Hugging Face download.
+        name_or_path: "F:\\AI\\Krea-2-Raw\\raw.safetensors"
+
+        arch: "krea2"
+
+        # QFloat8 base + text encoder quantisation are required for 16 GB.
+        quantize: true
+        qtype: "qfloat8"
+        quantize_te: true
+        qtype_te: "qfloat8"
+
+        low_vram: true
+
+        # CPU/RAM block offloading. 0.35 means 35% of transformer layers offloaded.
+        layer_offloading: true
+        layer_offloading_text_encoder_percent: 1.0
+        layer_offloading_transformer_percent: 0.50
+
+        model_kwargs: {}
+
+      # Present only because the schema expects a sample section in many builds.
+      # Sampling is disabled above, so these values will not be used during training.
+      sample:
+        sampler: "flowmatch"
+        sample_every: 500
+        width: 1024
+        height: 1024
+        prompts:
+          - "CONCEPT_PROMPT"
+        neg: ""
+        seed: 42
+        walk_seed: false
+        guidance_scale: 3.5
+        sample_steps: 30
+
+      logging:
+        log_every: 1
+        use_ui_logger: false
+
+meta:
+  name: "[name]"
+  version: "1.0"

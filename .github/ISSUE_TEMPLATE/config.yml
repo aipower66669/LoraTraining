@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Setup & docs
+    url: https://github.com/aipower66669/LoraTraining/blob/main/docs/SETUP.md
+    about: First-time install and external tool wiring (AI Toolkit, JoyCaption, ComfyUI).
+  - name: Windows training (OSError 1455)
+    url: https://github.com/aipower66669/LoraTraining/blob/main/docs/WINDOWS_TRAINING.md
+    about: Commit-charge / safetensors issues when loading large Krea 2 bases.

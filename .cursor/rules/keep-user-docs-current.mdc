@@ -1,0 +1,26 @@
+---
+description: Keep user-facing docs in sync when a feature is added, changed, or removed
+alwaysApply: true
+---
+
+# Keep user docs current
+
+`docs/all-in-one.md` is the sole comprehensive source of truth and the file users upload to an AI assistant. If it lags the app, that assistant will invent steps or repeat old behaviour. A change that adds, changes, or removes user-visible behaviour is incomplete until this file and the owning domain docs match the code.
+
+## When this applies
+
+Apply it when a user can see or do something different: a screen, control, default, shortcut, file they must have, status rule, or supported model. Skip refactors, tests, and IPC renames that do not change what a user can do.
+
+## Required updates
+
+- Update `docs/all-in-one.md` directly and update `docs/FAQ.md` in the same change. Rewrite or delete the old sentence. Do not leave the previous behaviour beside the new one.
+- `docs/all-in-one.md` must remain the comprehensive, standalone source of truth: the full guide followed by the full FAQ, with neither part replaced by a link or summary. Pull every relevant user-facing fact from the owning domain guide into it: labels, prerequisites, defaults, ranges, edge cases, destructive effects, stored files, status rules, error recovery, and external-tool boundaries. A user or assistant must not need another repo document to operate or troubleshoot the feature.
+- Update the domain guide that owns the behaviour: `docs/USER_GUIDE.md`, `docs/SETUP.md`, `docs/SETTINGS.md`, `docs/VALIDATION.md`, `docs/DATASET_MANAGER.md`, `docs/JOB_QUEUE.md`, `docs/TRAINING_CONFIG.md`, `docs/EXTERNAL_TOOLS.md`, `docs/WINDOWS_TRAINING.md`, `docs/CATEGORIES.md`, `docs/COMFY_MODELS.md`, `docs/PROJECT_FORMAT.md`. Update `docs/DECISIONS.md` when a locked decision changes.
+- If two docs would disagree, fix both before finishing.
+- Write only what the code does. A control, default, or shortcut that is not in the UI or the main process does not go in the docs.
+- Touch `README.md` only when the install path, licence, support link, or a highlight a new user would rely on changed.
+
+## Examples
+
+- Adding a queue toggle: document the control, its default, and what the queue does next in `docs/all-in-one.md`, `docs/FAQ.md`, and `docs/JOB_QUEUE.md`. Remove the sentence that described the old behaviour.
+- Removing a tab: delete it from the support file and from the dataset guide. Do not leave “if you still see Face…”.
