@@ -13,6 +13,7 @@ import {
 } from '@shared/dataset-image-drag'
 import { rangeIdsInclusive } from '@shared/queue-selection'
 import { toolConfigFlags } from '@shared/tool-config'
+import { ConfirmDialog } from './ConfirmDialog'
 import { ImagePreviewOverlay } from './ImagePreviewOverlay'
 import { datasetThumbUrl } from '../media-url'
 import { unwrap, useAppStore } from '../store'
@@ -43,6 +44,7 @@ export function ImageGrid(props: {
   const [containerWidth, setContainerWidth] = useState(0)
   const [previewFile, setPreviewFile] = useState<string | null>(null)
   const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null)
+  const [photoshopAsk, setPhotoshopAsk] = useState<string | null>(null)
   const { menuRef, menuStyle } = useClampedMenuPosition(
     contextMenu ? { x: contextMenu.x, y: contextMenu.y } : null
   )
@@ -439,22 +441,45 @@ export function ImageGrid(props: {
     [applySelection, props.selected, selectedSet]
   )
 
-  const editInPhotoshop = useCallback(
-    async (fileName: string) => {
-      setContextMenu(null)
+  const openInPhotoshop = useCallback(
+    async (fileName: string, commitVersions: boolean) => {
+      setPhotoshopAsk(null)
       try {
         const result = unwrap(
-          await window.loraTraining.tools.editInPhotoshop(props.datasetId, fileName)
-        ) as { opened: boolean }
+          await window.loraTraining.tools.editInPhotoshop(
+            props.datasetId,
+            fileName,
+            commitVersions
+          )
+        )
         if (result.opened) {
           refreshThumbsAfterEdit.current = true
-          setStatus(`Opened ${fileName} in Photoshop`)
+          setStatus(
+            result.committed
+              ? `Committed the latest edit and opened ${fileName} in Photoshop`
+              : `Opened ${fileName} in Photoshop`
+          )
+          if (result.committed) await loadDataset(props.datasetId, { preserveCaptionFlags: true })
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : String(err))
       }
     },
-    [props.datasetId, setError, setStatus]
+    [loadDataset, props.datasetId, setError, setStatus]
+  )
+
+  const editInPhotoshop = useCallback(
+    (fileName: string) => {
+      setContextMenu(null)
+      const versionsOn = useAppStore.getState().settings?.imageVersionsEnabled === true
+      const hasVersions = props.images.some((img) => img.fileName === fileName && img.hasOriginal)
+      if (versionsOn && hasVersions) {
+        setPhotoshopAsk(fileName)
+        return
+      }
+      void openInPhotoshop(fileName, false)
+    },
+    [openInPhotoshop, props.images]
   )
 
   const openImageEditor = useAppStore((s) => s.openImageEditor)
@@ -962,6 +987,24 @@ export function ImageGrid(props: {
       </div>
       {preview}
       {menu}
+      <ConfirmDialog
+        open={photoshopAsk != null}
+        title="Edit in Photoshop"
+        confirmLabel="Commit latest edit"
+        leftActionLabel="Edit original"
+        leftActionTitle="Open the original file. Saved versions stay on the file."
+        onLeftAction={() => {
+          if (photoshopAsk) void openInPhotoshop(photoshopAsk, false)
+        }}
+        onConfirm={() => {
+          if (photoshopAsk) void openInPhotoshop(photoshopAsk, true)
+        }}
+        onCancel={() => setPhotoshopAsk(null)}
+      >
+        This image has saved versions. Photoshop opens the file itself, which is still the
+        original. Commit writes only the newest edit into the file and removes the version
+        history, then opens Photoshop.
+      </ConfirmDialog>
     </>
   )
 }

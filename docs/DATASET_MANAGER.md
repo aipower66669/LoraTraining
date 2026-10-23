@@ -44,7 +44,7 @@ Library context menu → **Duplicate…**. Default name is `{name} V2` (or next 
 
 ### Optional NTFS versions
 
-**Settings → External tools → Library → NTFS versions** defaults **off**. Off, **Edit image** and Upscale overwrite the image body on save, like Paint or Photoshop. On, and only for datasets on NTFS drives, the app keeps the pristine image plus up to four `VER_*` tips in alternate data streams. That enables **Undo last edit** and **Revert to original**. On another file system it still overwrites.
+**Settings → External tools → Library → NTFS versions** defaults **off**. Off, **Edit image** and Upscale overwrite the image body on save, like Paint or Photoshop. On, and only for datasets on NTFS drives, the app keeps the pristine image plus up to four `VER_*` tips in alternate data streams. That enables **Undo last edit** and **Revert to original**. **Edit image** shows **Undo last** in the top bar when a stack exists; each click drops only the newest version. On another file system it still overwrites.
 
 Disabling the option does not immediately discard an existing stack. The next editor/Upscale save overwrites the main image with the saved result and clears that stack.
 
@@ -52,8 +52,8 @@ Disabling the option does not immediately discard an existing stack. The next ed
 
 | Action | Behavior |
 | --- | --- |
-| Set Dataset Cover / Reveal in Explorer / Edit in Photoshop… | Cover, reveal, or optional external editor |
-| Edit image… | Open editor; **E** does the same from the dataset screen |
+| Set Dataset Cover / Reveal in Explorer / Edit in Photoshop… | Cover, reveal, or optional external editor. With **NTFS versions** on and a version stack, Photoshop asks: edit the original, or commit the latest edit into the file first |
+| Edit image… | Open editor; **E** does the same from the dataset screen. Inside, a text box has the same move and resize handles as a rectangle. Double-click the text to type; letters including **E** go into the box, Escape brings the handles back, a second Escape closes the editor, and **Ctrl+S** still saves |
 | Upscale / Undo last edit / Revert to original | Jump to Upscale or change the ADS `VER_*` stack |
 | Diversify Context / Diversify Expression | Jump to that tool |
 | Create New Dataset… | Spawn a one-image sibling dataset |

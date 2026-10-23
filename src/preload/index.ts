@@ -275,8 +275,11 @@ const api = {
       }),
     cancelToolRun: (runId: string) =>
       invoke(IpcChannels.tools.cancelToolRun, { runId }),
-    editInPhotoshop: (datasetId: string, fileName: string) =>
-      invoke(IpcChannels.tools.editInPhotoshop, { datasetId, fileName })
+    editInPhotoshop: (datasetId: string, fileName: string, commitVersions = false) =>
+      invoke<{ opened: boolean; photoshopPath: string | null; committed: boolean }>(
+        IpcChannels.tools.editInPhotoshop,
+        { datasetId, fileName, commitVersions }
+      )
   },
   imageEdit: {
     readForEdit: (datasetId: string, fileName: string) =>

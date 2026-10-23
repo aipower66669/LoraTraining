@@ -9,13 +9,19 @@
  * 2. Resize: ratio lock must use the *current* (cropped) size, not the
  *    original file. Otherwise e.g. 500×1000 crop becomes 499×499 when width
  *    is edited while locked (Scaleflex PR #567).
+ * 3. Annotate: the dragged text box keeps that size and the same handles as a
+ *    rectangle. The text box takes keyboard focus when it is opened.
  */
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
   patchFilerobotCropSource,
-  patchFilerobotResizeSource
+  patchFilerobotResizeSource,
+  patchFilerobotTextBoxSizeSource,
+  patchFilerobotTextEditorFocusSource,
+  patchFilerobotTextNodeSizeSource,
+  restoreFilerobotTextSelectionSource
 } from './filerobotPatches.mjs'
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..')
@@ -60,5 +66,48 @@ patchFile(
   patchFilerobotResizeSource,
   's.width/s.height'
 )
+patchFile(
+  path.join(
+    'components',
+    'Layers',
+    'DesignLayer',
+    'AnnotationNodes',
+    'TextNode',
+    'TextNodeContentTextarea.js'
+  ),
+  patchFilerobotTextEditorFocusSource,
+  'p.current.focus()'
+)
+patchFile(
+  path.join('actions', 'setAnnotation.js'),
+  restoreFilerobotTextSelectionSource,
+  'selectionsIds:void 0!==g&&g?[o.id]:a.selectionsIds'
+)
+patchFile(
+  path.join('hooks', 'useAnnotation', 'previewThenCallAnnotationAdding.js'),
+  patchFilerobotTextBoxSizeSource,
+  'textBox=textAnnotationWrappedRect'
+)
+patchFile(
+  path.join(
+    'components',
+    'Layers',
+    'DesignLayer',
+    'AnnotationNodes',
+    'TextNode',
+    'index.js'
+  ),
+  patchFilerobotTextNodeSizeSource,
+  'p=null!=o&&0!==o?o:void 0'
+)
+
+// Filerobot pins konva 9.3.18 while the app has 9.3.22, so npm nests a second
+// copy. The text shape then registers on the copy react-konva does not draw,
+// and a new text box becomes an empty group (two handles, no letters, no size).
+const nestedKonva = path.join(fieLib, '..', 'node_modules', 'konva')
+if (fs.existsSync(nestedKonva)) {
+  fs.rmSync(nestedKonva, { recursive: true, force: true })
+  console.log('[patch-filerobot] removed nested konva so text uses the app Konva')
+}
 
 clearViteDepsCache()

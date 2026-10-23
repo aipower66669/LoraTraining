@@ -4043,10 +4043,14 @@ body.is-resizing img {
   color: var(--text);
   order: 2;
 }
-.image-editor .lt-save-as-btn {
+.image-editor .lt-save-as-btn,
+.image-editor .lt-undo-last-btn {
   order: 1;
   flex: 0 0 auto;
   white-space: nowrap;
+}
+.image-editor .modal-backdrop {
+  z-index: 20;
 }
 .image-editor .FIE_buttons-save-btn,
 .image-editor .FIE_topbar-buttons-wrapper > *:first-child {
@@ -4063,6 +4067,11 @@ body > .SfxModal-Wrapper,
 }
 
 /* Remove tab is a cloned FIE_tab appended under Resize — keep pointer + focus chrome. */
+.image-editor #FIE_text-content-editor {
+  user-select: text;
+  pointer-events: auto;
+  cursor: text;
+}
 .image-editor .lt-remove-tab:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;

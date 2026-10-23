@@ -34,11 +34,16 @@ async function resolvePhotoshopExecutable(): Promise<string | null> {
   return chosen
 }
 
-/** Open a dataset image in Photoshop; prompts for exe path if unset/invalid. */
+/**
+ * Open a dataset image in Photoshop; prompts for exe path if unset/invalid.
+ * `commitVersions` writes the newest NTFS tip into the file and drops the
+ * version stack first. Otherwise Photoshop sees the pristine file body.
+ */
 export async function editInPhotoshop(
   datasetId: string,
-  fileName: string
-): Promise<{ opened: boolean; photoshopPath: string | null }> {
+  fileName: string,
+  commitVersions = false
+): Promise<{ opened: boolean; photoshopPath: string | null; committed: boolean }> {
   const ds = await getDatasetRecord(datasetId)
   const imagePath = assertInsideRoot(ds.folderPath, join(ds.folderPath, fileName))
   if (!existsSync(imagePath)) {
@@ -47,7 +52,20 @@ export async function editInPhotoshop(
 
   const exe = await resolvePhotoshopExecutable()
   if (!exe) {
-    return { opened: false, photoshopPath: null }
+    return { opened: false, photoshopPath: null, committed: false }
+  }
+
+  let committed = false
+  if (commitVersions) {
+    const { commitImageVersion } = await import('../images/imageEdit')
+    const result = await commitImageVersion(imagePath)
+    committed = result.committed
+    if (committed) {
+      const { invalidateDatasetThumb } = await import('../media/thumbs')
+      const { broadcast } = await import('../events/bus')
+      await invalidateDatasetThumb(datasetId, fileName, ds.folderPath)
+      broadcast({ type: 'dataset-folder-changed', payload: { datasetId } })
+    }
   }
 
   const child = spawn(exe, [imagePath], {
@@ -56,5 +74,5 @@ export async function editInPhotoshop(
     windowsHide: false
   })
   child.unref()
-  return { opened: true, photoshopPath: exe }
+  return { opened: true, photoshopPath: exe, committed }
 }

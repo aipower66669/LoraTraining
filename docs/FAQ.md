@@ -266,7 +266,7 @@ Image menu **Clear caption** / multi-select **Clear captions** deletes the selec
 
 ### What does double-click do? What does E do?
 
-Double-click opens a full-size preview. Escape or Enter closes it. Arrow keys move. With focus in the image grid, **Ctrl+A** selects every image. On the dataset screen, **E** opens **Edit image**. Inside the editor, **E** or **Ctrl+S** saves and closes. The other editor keys are C crop, R rotate, F flip horizontal, Shift+F flip vertical, O remove (erase, not file delete), Z resize, A annotate, T filters, U finetune.
+Double-click opens a full-size preview. Escape or Enter closes it. Arrow keys move. With focus in the image grid, **Ctrl+A** selects every image. On the dataset screen, **E** opens **Edit image**. Inside the editor, **E** or **Ctrl+S** saves and closes. The other editor keys are C crop, R rotate, F flip horizontal, Shift+F flip vertical, O remove (erase, not file delete), Z resize, A annotate, T filters, U finetune. A text box has the same move and resize handles as a rectangle. Double-click the text to type. Letters, including E, go into that box. Escape leaves the text and brings the handles back; a second Escape closes the editor. Ctrl+S still saves.
 
 ### What do the bulk caption buttons do?
 
@@ -327,11 +327,11 @@ Selection moves to the neighbor, not back to the first image.
 
 ### How do I edit an image inside the app?
 
-On the dataset screen, **E** opens **Edit image…**. Inside the editor, changes stay in memory until Save; **E** or **Ctrl+S** saves and closes. Other keys, with Alt not held: **C** crop, **R** rotate, **F** flip horizontal, **Shift+F** flip vertical, **O** remove (erase, not file delete), **Z** resize, **A** annotate, **T** filters, **U** finetune.
+On the dataset screen, **E** opens **Edit image…**. Inside the editor, changes stay in memory until Save; **E** or **Ctrl+S** saves and closes. Other keys, with Alt not held: **C** crop, **R** rotate, **F** flip horizontal, **Shift+F** flip vertical, **O** remove (erase, not file delete), **Z** resize, **A** annotate, **T** filters, **U** finetune. A text box has the same move and resize handles as a rectangle. Double-click the text to type. Letters, including E, go into that box. Escape leaves the text and brings the handles back; a second Escape closes the editor. Ctrl+S still saves.
 
 Before Crop or Remove, the current edits are baked in so they chain without a Save in between. Save writes only if something actually changed. With NTFS versions enabled on an NTFS drive, it adds a version; otherwise it overwrites the image. Undo back to the image you opened does not count.
 
-When **NTFS versions** is enabled and the dataset is on NTFS, the file keeps at most four version slots (`VER_1`…`VER_4`). `$DATA` is the pristine bytes. **Undo last** drops the tip. **Revert to original** deletes every `VER_*` stream. With the option off or on another file system, Save overwrites the file and there is no new stack.
+When **NTFS versions** is enabled and the dataset is on NTFS, the file keeps at most four version slots (`VER_1`…`VER_4`). `$DATA` is the pristine bytes. **Edit image** shows **Undo last** in the top bar when a stack exists. Each click drops only the newest version and reloads the previous one. **Revert to original** on the image menu deletes every `VER_*` stream. With the option off or on another file system, Save overwrites the file and there is no new stack.
 
 JoyCaption and training commit the tip into `$DATA` before they run, so they see the edited pixels. A program you start yourself reads `$DATA` only, which may still be the pristine file.
 
@@ -347,7 +347,7 @@ Header → **Image Scraper**. Choose Pinterest or Google Images. Select a datase
 
 ### What does Edit in Photoshop do?
 
-Image menu → **Edit in Photoshop…**. The first time, you locate `Photoshop.exe`. That path is remembered in library settings. There is no Photoshop field in Settings and no supported in-app control to replace a still-valid saved path. If the saved or chosen file is missing, the app asks again or reports `Selected Photoshop executable was not found.` Photoshop is optional. Training and Comfy do not need it. This app does not document Photoshop’s own tools.
+Image menu → **Edit in Photoshop…**. The first time, you locate `Photoshop.exe`. That path is remembered in library settings. There is no Photoshop field in Settings and no supported in-app control to replace a still-valid saved path. If the saved or chosen file is missing, the app asks again or reports `Selected Photoshop executable was not found.` When **NTFS versions** is on and that image has saved versions, choose **Edit original** (the pristine file, stack kept) or **Commit latest edit** (newest version becomes the file, history removed, then Photoshop opens). Cancel does neither. With the option off, or with no versions, the file opens directly. Photoshop is optional. Training and Comfy do not need it. This app does not document Photoshop’s own tools.
 
 ### How do I set the cover image?
 
@@ -654,7 +654,7 @@ JoyCaption logs are separate: `{library}\!Jobs\_caption-runs\{runId}\caption-*.l
 
 ### Can I undo an image edit?
 
-With **NTFS versions** enabled on an NTFS dataset, **Undo last** drops the newest version and **Revert to original** deletes all version streams and leaves `$DATA`. If you have not Saved, closing without saving discards the in-memory edit. After four versions, the stack does not grow past `VER_4`. With the option off or on a non-NTFS disk, there is no newly created stack and Save overwrites the file.
+With **NTFS versions** enabled on an NTFS dataset, **Edit image** shows **Undo last** in the top bar when the file has saved versions. Each click drops only the newest version and reloads the previous one. The image menu has the same **Undo last edit**, plus **Revert to original**, which deletes all version streams and leaves `$DATA`. If you have not Saved, closing without saving discards the in-memory edit. After four versions, the stack does not grow past `VER_4`. With the option off or on a non-NTFS disk, there is no newly created stack and Save overwrites the file.
 
 ### What happens if the app crashes mid-save?
 

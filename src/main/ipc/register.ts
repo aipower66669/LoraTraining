@@ -602,10 +602,14 @@ export function registerIpcHandlers(): void {
     return joycaption.cancelToolRun(runId)
   })
   handle(IpcChannels.tools.editInPhotoshop, async (payload) => {
-    const { datasetId, fileName } = z
-      .object({ datasetId: z.string(), fileName: z.string() })
+    const { datasetId, fileName, commitVersions } = z
+      .object({
+        datasetId: z.string(),
+        fileName: z.string(),
+        commitVersions: z.boolean().optional()
+      })
       .parse(payload)
-    return photoshop.editInPhotoshop(datasetId, fileName)
+    return photoshop.editInPhotoshop(datasetId, fileName, commitVersions === true)
   })
 
   handle(IpcChannels.imageEdit.readForEdit, async (payload) => {

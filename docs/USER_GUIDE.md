@@ -121,7 +121,7 @@ Rename (F2) · Duplicate… · Reveal in Explorer · Add to caption queue… · 
 | **Del** | Move image + caption to Recycle Bin (no confirm) |
 | **Shift+Del** | Permanent delete (no confirm) |
 
-Image context menu includes **Set Dataset Cover**, Reveal in Explorer, **Edit image…**, Photoshop, Upscale, Diversify Context/Expression, Create New Dataset, **Undo last edit** / **Revert to original** when versions exist, caption clearing, and delete actions. A thumbnail badge marks existing NTFS versions. Multi-select uses **Delete Images**; Shift+click deletes permanently.
+Image context menu includes **Set Dataset Cover**, Reveal in Explorer, **Edit image…**, Photoshop, Upscale, Diversify Context/Expression, Create New Dataset, **Undo last edit** / **Revert to original** when versions exist. **Edit image** also shows **Undo last** in its top bar so one saved version can be dropped without reverting the whole stack, caption clearing, and delete actions. A thumbnail badge marks existing NTFS versions. Multi-select uses **Delete Images**; Shift+click deletes permanently.
 
 **Settings → External tools → Library → NTFS versions** is an advanced option and starts off. Off, Edit image and Upscale overwrite normally. On, datasets hosted on NTFS drives keep up to four reversible versions; other file systems still overwrite.
 

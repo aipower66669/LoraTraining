@@ -78,3 +78,69 @@ export function patchFilerobotResizeSource(src) {
   )
   return out
 }
+
+/**
+ * Undo the short-lived change that opened a new text box for typing.
+ * That mode clears the selection, so the move and resize handles never appear.
+ * A new text box stays selected, same as a rectangle.
+ */
+export function restoreFilerobotTextSelectionSource(src) {
+  const opened =
+    'selectionsIds:l&&"Text"===o.name&&g?[]:void 0!==g&&g?[o.id]:a.selectionsIds,textIdOfEditableContent:l&&"Text"===o.name&&g?o.id:a.textIdOfEditableContent'
+  if (!src.includes(opened)) return src
+  return src.replace(opened, 'selectionsIds:void 0!==g&&g?[o.id]:a.selectionsIds')
+}
+
+/**
+ * The drag outline is a preview rect. Measure it before the preview is destroyed,
+ * and save that rectangle with the same move/resize handles as a rectangle.
+ * Stroke stays off — a stroke on this node outlines the letters, not the box.
+ */
+export function patchFilerobotTextBoxSizeSource(src) {
+  const captured =
+    'textBox=textAnnotationWrappedRect&&{x:textAnnotationWrappedRect.x(),y:textAnnotationWrappedRect.y(),width:Math.abs(textAnnotationWrappedRect.width())||0,height:Math.abs(textAnnotationWrappedRect.height())||0}'
+  const save =
+    'b.name===TOOLS_IDS.TEXT&&textBox&&textBox.width>=MIN_PIXELS&&textBox.height>=MIN_PIXELS&&(s.x=textBox.x,s.y=textBox.y,s.width=textBox.width,s.height=textBox.height,s.autoWidth=!1,s.autoHeight=!1)'
+  let out = src
+  if (!out.includes(captured)) {
+    const needle = 'm=function c(){var e,f;if(j(),'
+    if (!out.includes(needle)) return src
+    out = out.replace(
+      needle,
+      `m=function c(){var e,f,${captured};if(j(),`
+    )
+  }
+  const afterDestroy =
+    'b.name===TOOLS_IDS.TEXT&&textAnnotationWrappedRect&&(s.x=textAnnotationWrappedRect.x(),s.y=textAnnotationWrappedRect.y(),s.width=Math.abs(textAnnotationWrappedRect.width()),s.height=Math.abs(textAnnotationWrappedRect.height()),s.autoWidth=!1,s.autoHeight=!1,s.strokeWidth=2)'
+  if (out.includes(afterDestroy)) out = out.replace(afterDestroy, save)
+  const original =
+    'NO_WIDTH_HEIGHT_ANNOTATIONS.includes(b.name)||(s.width=q,s.height=r),d(s,!0)'
+  if (out.includes(original) && !out.includes(save)) {
+    out = out.replace(original, `NO_WIDTH_HEIGHT_ANNOTATIONS.includes(b.name)||(s.width=q,s.height=r),${save},d(s,!0)`)
+  }
+  return out
+}
+
+/** Height 0 makes FormattedText draw no glyphs. Missing size stays auto. */
+export function patchFilerobotTextNodeSizeSource(src) {
+  const applied = 'p=null!=o&&0!==o?o:void 0'
+  if (src.includes(applied)) return src
+  const needle = 'o=a.width,p=void 0===o?0:o,q=a.height,r=void 0===q?0:q'
+  if (!src.includes(needle)) return src
+  return src.replace(
+    needle,
+    'o=a.width,p=null!=o&&0!==o?o:void 0,q=a.height,r=null!=q&&0!==q?q:void 0'
+  )
+}
+
+/** The annotation text box is mounted without being focused. */
+export function patchFilerobotTextEditorFocusSource(src) {
+  if (src.includes('p.current.focus()')) return src
+  const needle =
+    'C=useCallback(function(a){if(p.current=a,p.current){var b=document.createRange()'
+  if (!src.includes(needle)) return src
+  return src.replace(
+    needle,
+    'C=useCallback(function(a){if(p.current=a,p.current){p.current.focus();var b=document.createRange()'
+  )
+}

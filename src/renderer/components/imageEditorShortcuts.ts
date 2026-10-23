@@ -57,6 +57,29 @@ export function imageEditorShortcut(e: ShortcutEvent): ImageEditorShortcut | nul
 }
 
 /**
+ * Ctrl/Cmd-S still saves from a text field. A bare E is the letter "e"
+ * while an annotation or resize field is focused.
+ */
+export function editorShortcutSupersedesTyping(
+  action: ImageEditorShortcut,
+  e: ShortcutEvent
+): boolean {
+  return action === 'save' && Boolean(e.ctrlKey || e.metaKey)
+}
+
+/**
+ * The annotation box is open but focus is still on the canvas or the image
+ * grid. Letter keys belong in the box. A sidebar field keeps its own keys.
+ */
+export function annotationEditorClaimsKey(opts: {
+  editorOpen: boolean
+  targetIsEditor: boolean
+  targetIsTyping: boolean
+}): boolean {
+  return opts.editorOpen && !opts.targetIsEditor && !opts.targetIsTyping
+}
+
+/**
  * In-place Save writes a new version only after a real edit.
  * Undo back to the loaded image is not an edit. A baked crop/remove is,
  * even though the remounted editor has an empty undo stack.

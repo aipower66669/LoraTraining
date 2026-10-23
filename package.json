@@ -1,6 +1,6 @@
 {
   "name": "lora-training",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Windows UI for Krea 2 LoRA dataset management and AI Toolkit job orchestration (does not train — uses external AI Toolkit, JoyCaption, ComfyUI)",
   "main": "./out/main/index.js",
   "author": "AIPower",
@@ -85,6 +85,9 @@
     "typescript-eslint": "^8.35.1",
     "vite": "^6.3.5",
     "vitest": "^3.2.4"
+  },
+  "overrides": {
+    "konva": "$konva"
   },
   "build": {
     "appId": "com.loratraining.app",

@@ -505,7 +505,7 @@ The details pane for the open dataset has **Filename** (or `N images selected`, 
 | Set Dataset Cover | Use this image as the library tile cover |
 | Reveal in Explorer | Show the file in Explorer. The app will not reveal a path that escapes the dataset folder |
 | Edit image… | Opens the editor. From the dataset screen, **E** is the same command |
-| Edit in Photoshop… | Opens the image in Photoshop. The first time, the app asks for `Photoshop.exe` and remembers that path in library settings. There is no Photoshop field in Settings and no supported in-app control to change a still-valid saved path. If the saved file is missing, the app asks again; `Selected Photoshop executable was not found.` means the chosen file could not be used. Optional. Training and Comfy do not need it |
+| Edit in Photoshop… | Opens the image in Photoshop. The first time, the app asks for `Photoshop.exe` and remembers that path in library settings. There is no Photoshop field in Settings and no supported in-app control to change a still-valid saved path. If the saved file is missing, the app asks again; `Selected Photoshop executable was not found.` means the chosen file could not be used. When **NTFS versions** is on and that image has saved versions, the app asks first: **Edit original** opens the pristine file and leaves the stack, **Commit latest edit** writes only the newest version into the file, removes the version history, then opens Photoshop. Cancel does neither. With the option off, or with no versions, Photoshop opens the file directly. Optional. Training and Comfy do not need it |
 | Upscale / Diversify Context / Diversify Expression | Shown only after Comfy is configured. They jump to that middle tab |
 | Create New Dataset… | One-image dataset from this file |
 | Undo last edit / Revert to original | Shown when the file already has a version stack |
@@ -533,7 +533,7 @@ Dragging selected thumbnails from the grid onto a **different dataset tile** mov
 
 The spell-check button in the library toolbar opens **Caption validation**. **Validate** scans every Ready, queued, Trained, Validated, or Done dataset; not-ready datasets are skipped. Tabs group **Missing caption**, **Missing trigger**, **No trigger word**, and **Unsupported image type** issues. Click an issue to open its dataset/image. Unsupported `.webp`/`.bmp` training images have **Fix** and **Fix all**, which convert them to JPG and update the shown report. Validation considers JPG/JPEG/PNG training-safe.
 
-Before JoyCaption or training, in-app image edits are committed to the main file bytes so the external tool sees the final pixels.
+Before JoyCaption or training, in-app image edits are committed to the main file bytes so the external tool sees the final pixels. **Edit in Photoshop** does not commit unless you choose **Commit latest edit** in the prompt that appears when **NTFS versions** is on and that image has a stack.
 
 ### Image editor and optional NTFS versions
 
@@ -545,7 +545,7 @@ Advanced users can enable **Settings → External tools → Library → NTFS ver
 
 - `$DATA` is the pristine bytes
 - The tip edits sit in `VER_1` through `VER_4`, with `VER_COUNT`
-- **Undo last** drops the tip
+- **Undo last** drops the newest tip and leaves the older ones. **Edit image** shows **Undo last** in the top bar when a stack exists, and it can be used again until the stack is gone. The image menu has the same command.
 - **Revert to original** deletes all `VER_*` streams
 - At most four stacked versions
 
@@ -555,7 +555,7 @@ When the option is off, or the dataset is not on NTFS, Edit image and Upscale ov
 
 The crop box is free-form. It stays live until the pointer goes up. Resize lock uses the current cropped aspect. The outside-crop dim is opacity, not a blur: this window composites on the CPU, and a full-window blur would be a few frames per second. Do not tell the user the crop preview is GPU-smooth.
 
-On the dataset screen, **E** opens **Edit image**. Inside the editor, with Alt not held: **E** or **Ctrl+S** saves and closes, **C** crop, **R** rotate, **F** flip horizontal, **Shift+F** flip vertical, **O** remove, **Z** resize, **A** annotate, **T** filters, **U** finetune. Escape closes menus and the full-image preview. Save writes only after a real edit. With NTFS versions enabled on NTFS, that save adds a version; otherwise it overwrites the image. Undo back to the image that was loaded does not count as an edit. A baked crop or remove does.
+On the dataset screen, **E** opens **Edit image**. Inside the editor, with Alt not held: **E** or **Ctrl+S** saves and closes, **C** crop, **R** rotate, **F** flip horizontal, **Shift+F** flip vertical, **O** remove, **Z** resize, **A** annotate, **T** filters, **U** finetune. A text box has the same move and resize handles as a rectangle. Double-click the text to type. Letters, including **E**, go into that box. Escape leaves the text and brings the handles back; a second Escape closes the editor. **Ctrl+S** still saves. Escape closes menus and the full-image preview. Save writes only after a real edit. With NTFS versions enabled on NTFS, that save adds a version; otherwise it overwrites the image. Undo back to the image that was loaded does not count as an edit. A baked crop or remove does.
 
 **Remove** (the O tool) is an in-editor erase. It is not the same as deleting the file. Disk still changes only on Save.
 
@@ -891,7 +891,7 @@ The exact text AI Toolkit prints for step, loss, learning rate, and seconds per 
 - Workflow **Save** is explicit. Installing the LT package does not replace a graph that is already in the library. Save is refused if the backup cannot be written.
 - **Mark as Done** is manual and requires a `<lora:…>` hit in the wildcards folder. Finishing a validation run does not mark Done.
 - Dataset discovery is one folder level under the category, even when the category path itself is nested. The dataset image scan is non-recursive. Category discovery counts jpg, jpeg, and png. Rescan also counts webp and bmp.
-- **NTFS versions** defaults off. Off, or on a non-NTFS dataset, Edit image/Upscale overwrite the image. Enabled on NTFS, history stops at four slots (`VER_1`…`VER_4`). Disk writes for the editor happen on Save. On the dataset screen **E** opens the editor. Inside the editor **E** saves.
+- **NTFS versions** defaults off. Off, or on a non-NTFS dataset, Edit image/Upscale overwrite the image. Enabled on NTFS, history stops at four slots (`VER_1`…`VER_4`). Disk writes for the editor happen on Save. On the dataset screen **E** opens the editor. Inside the editor **E** saves, except while an annotation text box is open, where **E** is the letter e. **Ctrl+S** still saves from that box.
 - File actions stay inside the dataset folder. The app refuses a reveal or delete path that escapes it.
 - This shell does not use the GPU. Do not suggest turning hardware acceleration on as a supported fix.
 - AppData is not the library. Do not tell the user to back up `%APPDATA%\lora-training` as their datasets. Jobs are under `{libraryRoot}\!Jobs`.
@@ -1189,7 +1189,7 @@ Image menu **Clear caption** / multi-select **Clear captions** deletes the selec
 
 ### What does double-click do? What does E do?
 
-Double-click opens a full-size preview. Escape or Enter closes it. Arrow keys move. With focus in the image grid, **Ctrl+A** selects every image. On the dataset screen, **E** opens **Edit image**. Inside the editor, **E** or **Ctrl+S** saves and closes. The other editor keys are C crop, R rotate, F flip horizontal, Shift+F flip vertical, O remove (erase, not file delete), Z resize, A annotate, T filters, U finetune.
+Double-click opens a full-size preview. Escape or Enter closes it. Arrow keys move. With focus in the image grid, **Ctrl+A** selects every image. On the dataset screen, **E** opens **Edit image**. Inside the editor, **E** or **Ctrl+S** saves and closes. The other editor keys are C crop, R rotate, F flip horizontal, Shift+F flip vertical, O remove (erase, not file delete), Z resize, A annotate, T filters, U finetune. A text box has the same move and resize handles as a rectangle. Double-click the text to type. Letters, including E, go into that box. Escape leaves the text and brings the handles back; a second Escape closes the editor. Ctrl+S still saves.
 
 ### What do the bulk caption buttons do?
 
@@ -1250,11 +1250,11 @@ Selection moves to the neighbor, not back to the first image.
 
 ### How do I edit an image inside the app?
 
-On the dataset screen, **E** opens **Edit image…**. Inside the editor, changes stay in memory until Save; **E** or **Ctrl+S** saves and closes. Other keys, with Alt not held: **C** crop, **R** rotate, **F** flip horizontal, **Shift+F** flip vertical, **O** remove (erase, not file delete), **Z** resize, **A** annotate, **T** filters, **U** finetune.
+On the dataset screen, **E** opens **Edit image…**. Inside the editor, changes stay in memory until Save; **E** or **Ctrl+S** saves and closes. Other keys, with Alt not held: **C** crop, **R** rotate, **F** flip horizontal, **Shift+F** flip vertical, **O** remove (erase, not file delete), **Z** resize, **A** annotate, **T** filters, **U** finetune. A text box has the same move and resize handles as a rectangle. Double-click the text to type. Letters, including E, go into that box. Escape leaves the text and brings the handles back; a second Escape closes the editor. Ctrl+S still saves.
 
 Before Crop or Remove, the current edits are baked in so they chain without a Save in between. Save writes only if something actually changed. With NTFS versions enabled on an NTFS drive, it adds a version; otherwise it overwrites the image. Undo back to the image you opened does not count.
 
-When **NTFS versions** is enabled and the dataset is on NTFS, the file keeps at most four version slots (`VER_1`…`VER_4`). `$DATA` is the pristine bytes. **Undo last** drops the tip. **Revert to original** deletes every `VER_*` stream. With the option off or on another file system, Save overwrites the file and there is no new stack.
+When **NTFS versions** is enabled and the dataset is on NTFS, the file keeps at most four version slots (`VER_1`…`VER_4`). `$DATA` is the pristine bytes. **Edit image** shows **Undo last** in the top bar when a stack exists. Each click drops only the newest version and reloads the previous one. **Revert to original** on the image menu deletes every `VER_*` stream. With the option off or on another file system, Save overwrites the file and there is no new stack.
 
 JoyCaption and training commit the tip into `$DATA` before they run, so they see the edited pixels. A program you start yourself reads `$DATA` only, which may still be the pristine file.
 
@@ -1270,7 +1270,7 @@ Header → **Image Scraper**. Choose Pinterest or Google Images. Select a datase
 
 ### What does Edit in Photoshop do?
 
-Image menu → **Edit in Photoshop…**. The first time, you locate `Photoshop.exe`. That path is remembered in library settings. There is no Photoshop field in Settings and no supported in-app control to replace a still-valid saved path. If the saved or chosen file is missing, the app asks again or reports `Selected Photoshop executable was not found.` Photoshop is optional. Training and Comfy do not need it. This app does not document Photoshop’s own tools.
+Image menu → **Edit in Photoshop…**. The first time, you locate `Photoshop.exe`. That path is remembered in library settings. There is no Photoshop field in Settings and no supported in-app control to replace a still-valid saved path. If the saved or chosen file is missing, the app asks again or reports `Selected Photoshop executable was not found.` When **NTFS versions** is on and that image has saved versions, choose **Edit original** (the pristine file, stack kept) or **Commit latest edit** (newest version becomes the file, history removed, then Photoshop opens). Cancel does neither. With the option off, or with no versions, the file opens directly. Photoshop is optional. Training and Comfy do not need it. This app does not document Photoshop’s own tools.
 
 ### How do I set the cover image?
 
@@ -1577,7 +1577,7 @@ JoyCaption logs are separate: `{library}\!Jobs\_caption-runs\{runId}\caption-*.l
 
 ### Can I undo an image edit?
 
-With **NTFS versions** enabled on an NTFS dataset, **Undo last** drops the newest version and **Revert to original** deletes all version streams and leaves `$DATA`. If you have not Saved, closing without saving discards the in-memory edit. After four versions, the stack does not grow past `VER_4`. With the option off or on a non-NTFS disk, there is no newly created stack and Save overwrites the file.
+With **NTFS versions** enabled on an NTFS dataset, **Edit image** shows **Undo last** in the top bar when the file has saved versions. Each click drops only the newest version and reloads the previous one. The image menu has the same **Undo last edit**, plus **Revert to original**, which deletes all version streams and leaves `$DATA`. If you have not Saved, closing without saving discards the in-memory edit. After four versions, the stack does not grow past `VER_4`. With the option off or on a non-NTFS disk, there is no newly created stack and Save overwrites the file.
 
 ### What happens if the app crashes mid-save?
 

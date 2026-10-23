@@ -142,7 +142,7 @@ LoRAs may be staged into the Comfy `loras` folder (subfolder preferences + keep-
 
 ## Photoshop (optional)
 
-Opens the selected dataset image in the configured editor for external retouch; thumbs refresh on return when possible.
+Opens the selected dataset image in the configured editor for external retouch; thumbs refresh on return when possible. Photoshop reads the file body. When **NTFS versions** is on and that image has saved versions, the app asks whether to open the original or commit the newest edit into the file first. Commit removes the version history. With the option off, or with no versions, the file opens directly.
 
 ---
 

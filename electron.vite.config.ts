@@ -29,13 +29,15 @@ export default defineConfig({
     }
   },
   renderer: {
+    plugins: [react()],
     resolve: {
       alias: {
         '@shared': resolve('src/shared'),
         '@renderer': resolve('src/renderer')
-      }
+      },
+      // Filerobot's text shape must register on the same Konva react-konva draws with.
+      dedupe: ['konva']
     },
-    plugins: [react()],
     optimizeDeps: {
       exclude: ['onnxruntime-web']
     },
