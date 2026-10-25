@@ -31,6 +31,10 @@ Library context menu → **Duplicate…**. Default name is `{name} V2` (or next 
 - Caption pairing by stem + `captionExt` (default `txt`), UTF-8.
 - Stem collisions (e.g. `a.jpg` + `a.png`) surface in stats for the UI banner.
 
+## Cover
+
+The library tile shows the first image in filename order (same order as the image grid) until **Set Dataset Cover** stores a file name on the dataset. That saved file is used only while it is still in the folder. If it is missing, the tile uses the first image again. The fallback is not written back as a saved cover. An empty dataset has no cover.
+
 ---
 
 ## Image grid

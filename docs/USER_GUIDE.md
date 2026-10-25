@@ -77,7 +77,7 @@ Folder-backed categories manage membership from disk. Removing a library entry f
 
 ### Library
 
-- Left: category groups and dataset tiles (cover thumb + status icons), status filters, search.
+- Left: category groups and dataset tiles (cover thumb + status icons), status filters, search. The cover is the first image in filename order until **Set Dataset Cover** picks one. A missing cover file falls back to the first image.
 - Middle: icon tabs for **Images**, **Output**, **Validation Steps**, **Validation Weight**, **Model Stress-Testing**, **Upscale**, **Context**, and **Expression**. Hover/focus for the full labels.
 - Right: caption editor, tool details, or output/checkpoints as applicable.
 

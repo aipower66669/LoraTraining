@@ -351,7 +351,7 @@ Image menu → **Edit in Photoshop…**. The first time, you locate `Photoshop.e
 
 ### How do I set the cover image?
 
-Image menu → **Set Dataset Cover**. The library tile uses that file’s thumbnail. The name is stored on the dataset record as the cover file.
+Image menu → **Set Dataset Cover**. The library tile uses that file’s thumbnail. The name is stored on the dataset record as the cover file. With no cover set, the tile uses the first image in filename order (the same order as the image grid). If the saved cover file is missing, the tile falls back to that first image. An empty dataset has no cover.
 
 ---
 

@@ -469,7 +469,7 @@ Sync runs when the library refreshes, when a category folder is set or changed, 
 
 Large-library work is deliberately shallow where possible: checkpoint lists do not recursively walk every nested cache directory, validation preview lists are cached, discovery reports live progress, and multi-job enqueue uses one batch call so rows show queued together.
 
-Library tiles: cover thumbnail, status icons, status filters (**All**, **Not ready**, **Ready**, **Trained**, **Validated**, **Done**), and a category/dataset name search. **Queue** joins the filters and queued/training badge after AI Toolkit Work dir is set. A quoted search (`"word"`) is a whole word. The selected filter and collapsed category headers are remembered locally; hiding Queue resets that selected filter to All.
+Library tiles: cover thumbnail, status icons, status filters (**All**, **Not ready**, **Ready**, **Trained**, **Validated**, **Done**), and a category/dataset name search. The cover is the first image in filename order until **Set Dataset Cover** picks one. If that file is missing, the tile uses the first image again. **Queue** joins the filters and queued/training badge after AI Toolkit Work dir is set. A quoted search (`"word"`) is a whole word. The selected filter and collapsed category headers are remembered locally; hiding Queue resets that selected filter to All.
 
 Status icons, highest priority first: **Done → Validated → Trained → queued/training → Ready.**
 
@@ -502,7 +502,7 @@ The details pane for the open dataset has **Filename** (or `N images selected`, 
 | Set caption | Only missing, append, or overwrite |
 | Add identity tag | Inserts `.photo of a girl named Name.` with a unique name. Modes: **Only missing**, **Redo**, or **Remove**. Does not rewrite the rest of the caption. Used names are stored in `identity-names-used.txt` next to `dataset.json` |
 | JoyCaption | Shown only after JoyCaption Work dir is set. Opens the caption dialog, then an external process with progress and cancel |
-| Set Dataset Cover | Use this image as the library tile cover |
+| Set Dataset Cover | Use this image as the library tile cover. Until then, and again if that file is gone, the tile uses the first image in filename order |
 | Reveal in Explorer | Show the file in Explorer. The app will not reveal a path that escapes the dataset folder |
 | Edit image… | Opens the editor. From the dataset screen, **E** is the same command |
 | Edit in Photoshop… | Opens the image in Photoshop. The first time, the app asks for `Photoshop.exe` and remembers that path in library settings. There is no Photoshop field in Settings and no supported in-app control to change a still-valid saved path. If the saved file is missing, the app asks again; `Selected Photoshop executable was not found.` means the chosen file could not be used. When **NTFS versions** is on and that image has saved versions, the app asks first: **Edit original** opens the pristine file and leaves the stack, **Commit latest edit** writes only the newest version into the file, removes the version history, then opens Photoshop. Cancel does neither. With the option off, or with no versions, Photoshop opens the file directly. Optional. Training and Comfy do not need it |
@@ -1274,7 +1274,7 @@ Image menu → **Edit in Photoshop…**. The first time, you locate `Photoshop.e
 
 ### How do I set the cover image?
 
-Image menu → **Set Dataset Cover**. The library tile uses that file’s thumbnail. The name is stored on the dataset record as the cover file.
+Image menu → **Set Dataset Cover**. The library tile uses that file’s thumbnail. The name is stored on the dataset record as the cover file. With no cover set, the tile uses the first image in filename order (the same order as the image grid). If the saved cover file is missing, the tile falls back to that first image. An empty dataset has no cover.
 
 ---
 

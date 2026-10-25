@@ -821,9 +821,12 @@ async function enrichDatasetBadges(
       // syncDatasetValidatedFlag — this pass must not re-walk them.
       const needsOutputWalk =
         !item.record.done && (item.record.trained || item.record.validated)
+      // Cover is independent of the output walk. A null sidecar means "first
+      // image"; a saved name is used only while that file is still in the folder.
+      const coverFileName = await resolveCoverFileName(item.record)
       const summary = needsOutputWalk
-        ? await toSummary(item.record, await resolveCoverFileName(item.record))
-        : item.sticky
+        ? await toSummary(item.record, coverFileName)
+        : { ...item.sticky, coverFileName }
       if (gen !== badgeEnrichGen) return summary
       enriched[index] = summary
       queueEnrichPartial(summary)
