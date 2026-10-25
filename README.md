@@ -1,6 +1,6 @@
 # LoraTraining
 
-![Download Latest Release](https://img.shields.io/github/v/release/aipower66669/LoraTraining?label=Download%20Latest%20Executables)
+[![Download Latest Release](https://img.shields.io/github/v/release/aipower66669/LoraTraining?label=Download%20Latest%20Executables)](https://github.com/aipower66669/LoraTraining/releases/latest)
 [![License — PolyForm Noncommercial 1.0.0](https://img.shields.io/badge/license-PolyForm%20Noncommercial%201.0.0-lightgrey)](LICENSE.md)
 
 **LoraTraining** is a Windows desktop UI for **Krea 2 text-to-image LoRA** workflows. It is built on top of [AI Toolkit](https://github.com/ostris/ai-toolkit) — **it does not perform training itself**. The app’s main job is **dataset management**: categories, image folders, captions, hygiene tools, job YAML, and a FIFO queue that **starts** AI Toolkit when you are ready.
