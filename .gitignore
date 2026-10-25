@@ -18,5 +18,4 @@ __pycache__/
 
 # ONNX Runtime WASM copied by scripts/copy-ort-wasm.mjs (postinstall)
 src/renderer/public/ort/
-/resources/comfyui-lora-training.zip
 /resources/comfy-workflows.zip

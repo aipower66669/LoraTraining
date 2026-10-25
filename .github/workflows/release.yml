@@ -57,22 +57,70 @@ jobs:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
         run: npm run build:win
 
-      - name: Verify installer
+      - name: Stage release assets
         shell: pwsh
         run: |
+          $ErrorActionPreference = "Stop"
+          if (-not (Test-Path "release/README.md")) { throw "release/README.md is missing" }
+          function Publish-NodeZip([string]$SourceDir, [string]$FolderName) {
+            if (-not (Test-Path (Join-Path $SourceDir "__init__.py"))) {
+              throw "$SourceDir is missing __init__.py"
+            }
+            $stage = Join-Path $env:RUNNER_TEMP $FolderName
+            if (Test-Path $stage) { Remove-Item $stage -Recurse -Force }
+            New-Item -ItemType Directory -Force -Path $stage | Out-Null
+            Get-ChildItem $SourceDir -Force | Where-Object { $_.Name -ne "__pycache__" -and $_.Extension -ne ".pyc" } | ForEach-Object {
+              Copy-Item $_.FullName -Destination $stage -Recurse -Force
+            }
+            Get-ChildItem $stage -Recurse -Force -Directory -Filter "__pycache__" | Remove-Item -Recurse -Force
+            $zip = Join-Path "release" "$FolderName.zip"
+            if (Test-Path $zip) { Remove-Item $zip -Force }
+            Compress-Archive -Path $stage -DestinationPath $zip
+          }
+          Publish-NodeZip "comfyui-lora-training" "comfyui-lora-training"
+          $extracted = Join-Path $env:RUNNER_TEMP "save-node-src"
+          if (Test-Path $extracted) { Remove-Item $extracted -Recurse -Force }
+          Expand-Archive -Path "resources/comfyui-custom-save-node.zip" -DestinationPath $extracted
+          Publish-NodeZip (Join-Path $extracted "comfyui-custom-save-node") "comfyui-custom-save-node"
+
+      - name: Verify release assets
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
           $exe = Get-ChildItem release -Filter "LoraTraining Setup *.exe" -File
           if (-not $exe) { throw "release/ is missing LoraTraining Setup *.exe" }
+          if (-not (Test-Path "release/README.md")) { throw "release/README.md is missing" }
+          foreach ($name in @("comfyui-lora-training", "comfyui-custom-save-node")) {
+            $zipPath = "release/$name.zip"
+            if (-not (Test-Path $zipPath)) { throw "missing $zipPath" }
+            $opened = [System.IO.Compression.ZipFile]::OpenRead((Resolve-Path $zipPath))
+            try {
+              $hit = $opened.Entries | Where-Object { ($_.FullName -replace "\\", "/") -eq "$name/__init__.py" }
+              if (-not $hit) { throw "$zipPath is missing $name/__init__.py" }
+            } finally {
+              $opened.Dispose()
+            }
+          }
           $exe | Format-List Name, Length
 
       - name: SHA-256 checksums
         shell: pwsh
         run: |
-          $exe = Get-ChildItem release -Filter "LoraTraining Setup *.exe" -File | Select-Object -First 1
-          if (-not $exe) { throw "release/ is missing LoraTraining Setup *.exe" }
-          $hash = (Get-FileHash -Algorithm SHA256 -Path $exe.FullName).Hash.ToLowerInvariant()
-          $line = "$hash  $($exe.Name)"
-          Set-Content -Path "release/SHA256SUMS.txt" -Value $line -Encoding ascii
-          Write-Host $line
+          $ErrorActionPreference = "Stop"
+          $files = @(
+            (Get-ChildItem release -Filter "LoraTraining Setup *.exe" -File | Select-Object -First 1),
+            (Get-Item "release/README.md"),
+            (Get-Item "release/comfyui-lora-training.zip"),
+            (Get-Item "release/comfyui-custom-save-node.zip")
+          )
+          $lines = foreach ($f in $files) {
+            if (-not $f) { throw "A release asset is missing" }
+            $hash = (Get-FileHash -Algorithm SHA256 -Path $f.FullName).Hash.ToLowerInvariant()
+            "$hash  $($f.Name)"
+          }
+          Set-Content -Path "release/SHA256SUMS.txt" -Value $lines -Encoding ascii
+          $lines | Write-Host
 
       - name: Attach installer to GitHub Release
         uses: softprops/action-gh-release@v2
@@ -83,6 +131,9 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             release/LoraTraining Setup *.exe
+            release/README.md
+            release/comfyui-lora-training.zip
+            release/comfyui-custom-save-node.zip
             release/SHA256SUMS.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

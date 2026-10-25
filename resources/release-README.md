@@ -16,6 +16,7 @@ Windows app for **Krea 2 text-to-image LoRA** dataset management and job queues.
 | --- | --- |
 | `LoraTraining Setup 0.5.0.exe` | The Windows installer |
 | `comfyui-lora-training.zip` | The **LT** ComfyUI custom nodes. Required for Validation, Upscale, and Diversify. Not required to train |
+| `comfyui-custom-save-node.zip` | The **SaveImageToFolder** node used by the shipped preview workflows |
 | `README.md` | This file |
 
 The installer is **unsigned**. SmartScreen may say **Windows protected your PC**. Choose **More info → Run anyway** only if you trust this download.
@@ -48,26 +49,29 @@ ComfyUI Manager packs, checkpoints, VAEs, CLIP, and upscalers are **not** in thi
 
 Do this if you want Validation, Upscale, or Diversify. Skip it if you only train.
 
-The nodes have to end up in this folder (the zip’s folder name included):
+Each zip’s folder name is part of the path. `__init__.py` must sit directly inside that folder.
 
-`ComfyUI\custom_nodes\comfyui-lora-training\`
+| Zip | Install to |
+| --- | --- |
+| `comfyui-lora-training.zip` | `ComfyUI\custom_nodes\comfyui-lora-training\` |
+| `comfyui-custom-save-node.zip` | `ComfyUI\custom_nodes\comfyui-custom-save-node\` |
 
-`__init__.py` must be directly inside that folder. Restart ComfyUI. The nodes show under **Lora Training** (LT · Prompt, LT · Seed, LT · Model, and the others).
+Restart ComfyUI. The LT nodes show under **Lora Training** (LT · Prompt, LT · Seed, LT · Model, and the others). **SaveImageToFolder** comes from the second zip. The app’s **Install LT Comfy package** copies only the LT pack, so install the save-node zip by hand.
 
-**From the app** (same files as the zip):
+**From the app** (the LT zip only; the save-node zip is still installed by hand):
 
 1. **Settings → External tools → ComfyUI**.
 2. Set **Comfy root** to the ComfyUI folder that contains `custom_nodes`. Set **LoRAs** to `models\loras`.
 3. Click **Install LT Comfy package**. That copies the nodes and, if you do not already have them, seeds the shipped workflows. It does not overwrite a workflow you already saved.
 4. Restart ComfyUI, start it, then click **Test ComfyUI**.
 
-**From the zip:**
+**From the zips:**
 
-1. Unzip `comfyui-lora-training.zip`.
-2. Move the `comfyui-lora-training` folder into `ComfyUI\custom_nodes\`.
+1. Unzip `comfyui-lora-training.zip` and `comfyui-custom-save-node.zip`.
+2. Move each folder into `ComfyUI\custom_nodes\`.
 3. Restart ComfyUI.
 
-Other missing nodes in a graph (anything that is not an **LT ·** node) still come from ComfyUI Manager. This zip does not include them.
+Other missing nodes in a graph still come from ComfyUI Manager. These zips do not include them.
 
 ---
 

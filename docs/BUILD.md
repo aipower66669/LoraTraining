@@ -31,7 +31,7 @@ npm run build:win    # + electron-builder NSIS → release/ (no version bump, ke
 npm run dist:nobump
 ```
 
-Clears `release/`, then builds `release/LoraTraining Setup X.Y.Z.exe` from the version already in `package.json` (0.5.0 for this release). After the installer is written, the build copies `resources/release-README.md` to `release/README.md`. That file is the note to put next to the Setup exe and `comfyui-lora-training.zip` when uploading to a file host. Zip the `comfyui-lora-training` folder itself, so unzipping yields `comfyui-lora-training\__init__.py`.
+Clears `release/`, then builds `release/LoraTraining Setup X.Y.Z.exe` from the version already in `package.json` (0.5.0 for this release). After the installer is written, the build copies `resources/release-README.md` to `release/README.md`. That file is the note to put next to the Setup exe, `comfyui-lora-training.zip`, and `comfyui-custom-save-node.zip` when uploading to a file host. A tag build writes both zips into the GitHub Release. Zip the `comfyui-lora-training` folder itself, so unzipping yields `comfyui-lora-training\__init__.py`.
 
 ### Next patch installer
 
@@ -70,7 +70,15 @@ After the first install:
 
 A branch push and a pull request do not start a build. `workflow_dispatch` runs the check only. The installer is attached only for a tag push. The tag filter is `v*`, the same pattern Wildcards Manager uses. `v0.5` matches. The installer filename still comes from `package.json` (`LoraTraining Setup 0.5.0.exe`).
 
-CI does **not** require repository secrets. The release workflow uses the built-in `GITHUB_TOKEN` to attach `LoraTraining Setup X.Y.Z.exe` and a SHA-256 checksum file. The release body is [RELEASE_NOTES.md](../RELEASE_NOTES.md). Workflow actions are **pinned to commit SHAs**. `electron-builder` uses `--publish never` / `"publish": null`, so only `softprops/action-gh-release` publishes.
+CI does **not** require repository secrets. The release workflow uses the built-in `GITHUB_TOKEN` to attach these files:
+
+- `LoraTraining Setup X.Y.Z.exe`
+- `README.md` (from `resources/release-README.md`)
+- `comfyui-lora-training.zip` (the `comfyui-lora-training` folder, without `__pycache__`)
+- `comfyui-custom-save-node.zip` (from `resources/comfyui-custom-save-node.zip`, without `__pycache__`)
+- `SHA256SUMS.txt` covering those four files
+
+The release body is [RELEASE_NOTES.md](../RELEASE_NOTES.md). Workflow actions are **pinned to commit SHAs**. `electron-builder` uses `--publish never` / `"publish": null`, so only `softprops/action-gh-release` publishes.
 
 ### Ship a tagged release
 
@@ -83,7 +91,7 @@ git tag v0.5
 git push origin v0.5
 ```
 
-GitHub Actions runs check, builds with `npm run build:win` (no version rewrite), writes `release/SHA256SUMS.txt`, and publishes the Release.
+GitHub Actions runs check, builds with `npm run build:win` (no version rewrite), writes the two node zips and `release/SHA256SUMS.txt`, and publishes the Release.
 
 ---
 
