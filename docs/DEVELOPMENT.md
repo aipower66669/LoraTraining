@@ -12,7 +12,7 @@ Implementation lives under `src/`. **Documentation hub:** [`README.md`](README.m
 
 ## Version
 
-Current release line: **0.4.x** (`package.json` → `version`, currently **0.4.0**). `npm run dist` auto-bumps the **patch** and wipes `release/` before the installer. `npm run dist:nobump` builds that installer without changing the version. For a new minor/major, set the version in `package.json`, update [`../CHANGELOG.md`](../CHANGELOG.md) + [`../RELEASE_NOTES.md`](../RELEASE_NOTES.md) + `docs/RELEASE_NOTES_vX.Y.Z.md`, then `npm run dist:nobump`.
+Current release line: **0.5.x** (`package.json` → `version`, currently **0.5.0**). `npm run dist` auto-bumps the **patch** and wipes `release/` before the installer. `npm run dist:nobump` builds that installer without changing the version. For a new minor/major, set the version in `package.json`, update [`../CHANGELOG.md`](../CHANGELOG.md) + [`../RELEASE_NOTES.md`](../RELEASE_NOTES.md) + `docs/RELEASE_NOTES_vX.Y.Z.md`, then `npm run dist:nobump`.
 
 See also [`BUILD.md`](BUILD.md) for installer and tag workflow.
 
@@ -73,7 +73,7 @@ Older planning docs (`IMPLEMENTATION_PLAN.md`, early UI/IPC sketches) may descri
 **Patch / daily installer** (in-app Check for update):
 
 1. `npm run check` (optional but recommended)  
-2. `npm run dist` — bumps patch (`0.4.N` → `0.4.N+1`), deletes old `release/*`, builds `LoraTraining Setup 0.4.N+1.exe`  
+2. `npm run dist` — bumps patch (`0.5.N` → `0.5.N+1`), deletes old `release/*`, builds `LoraTraining Setup 0.5.N+1.exe`  
 3. Smoke-test the new installer (or Install update from Settings)
 
 **Minor / major milestone** (docs + tag):
@@ -82,7 +82,7 @@ Older planning docs (`IMPLEMENTATION_PLAN.md`, early UI/IPC sketches) may descri
 2. Update `CHANGELOG.md` + `RELEASE_NOTES.md` + `docs/RELEASE_NOTES_vX.Y.Z.md`  
 3. `npm run check`  
 4. `npm run dist:nobump` if the version is already correct, else `npm run dist`  
-5. Tag anything that starts with `v` (for example `v0.4`) on a commit that contains `.github/workflows/release.yml`, and push that tag; CI attaches the Setup exe + `SHA256SUMS.txt`
+5. Tag anything that starts with `v` (for example `v0.5`) on a commit that contains `.github/workflows/release.yml`, and push that tag; CI attaches the Setup exe + `SHA256SUMS.txt`
 
 ## License
 

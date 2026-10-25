@@ -15,7 +15,8 @@ Hub for product and engineering docs. Product entry: [../README.md](../README.md
 | [SETUP.md](SETUP.md) | Experienced local-AI users | Wire **already-working** tools into LoraTraining (not upstream install guides) |
 | [USER_GUIDE.md](USER_GUIDE.md) | Everyone using the app | Screens, workflows, shortcuts, troubleshooting |
 | [ADVANTAGES.md](ADVANTAGES.md) | Evaluators | Why LoraTraining vs manual / script workflows |
-| [../RELEASE_NOTES.md](../RELEASE_NOTES.md) | Upgraders | v0.4.0 product release summary |
+| [../RELEASE_NOTES.md](../RELEASE_NOTES.md) | Upgraders | v0.5.0 product release summary |
+| [RELEASE_NOTES_v0.5.0.md](RELEASE_NOTES_v0.5.0.md) | Upgraders | Detailed v0.5.0 notes |
 | [RELEASE_NOTES_v0.4.0.md](RELEASE_NOTES_v0.4.0.md) | Upgraders | Detailed v0.4.0 notes |
 | [RELEASE_NOTES_v0.3.0.md](RELEASE_NOTES_v0.3.0.md) | Upgraders | Detailed v0.3.0 notes |
 | [../CHANGELOG.md](../CHANGELOG.md) | Everyone | Version history |
@@ -80,13 +81,23 @@ Hub for product and engineering docs. Product entry: [../README.md](../README.md
 
 ---
 
+## Recent behaviour (v0.5.0)
+
+| Area | Spec |
+| ---- | ---- |
+| Text annotations | Dragged box keeps rectangle handles; double-click to type — DATASET_MANAGER, FAQ |
+| Undo last | Drops only the newest NTFS version; editor top bar and image menu — DATASET_MANAGER |
+| Edit in Photoshop | Asks only when NTFS versions is on and a stack exists — EXTERNAL_TOOLS, DATASET_MANAGER |
+| JFIF save | An edited `.jfif` is written as a JPEG — DATASET_MANAGER |
+| Release build | Package **0.5.0**; tag `v0.5` or `v0.5.0` publishes `LoraTraining Setup 0.5.0.exe` — BUILD |
+
 ## Recent behaviour (v0.4.0)
 
 | Area | Spec |
 | ---- | ---- |
 | NTFS versions | Advanced opt-in under Settings → Library, off by default — DATASET_MANAGER, SETTINGS |
 | Capability gates | Hide JoyCaption, AI Toolkit, and ComfyUI work areas until the required path is set — SETTINGS, EXTERNAL_TOOLS |
-| Release build | `npm run dist` bumps the patch; `npm run dist:nobump` keeps it; GitHub publishes the installer on tag `vX.Y.Z` only — BUILD |
+| Release build | `npm run dist` bumps the patch; `npm run dist:nobump` keeps it; GitHub publishes the installer on a `v*` tag — BUILD |
 | App updates | Empty Release folder checks GitHub; a folder uses local Setup exes; What's new renders the notes — SETTINGS |
 
 ## Recent behaviour (v0.3.0)

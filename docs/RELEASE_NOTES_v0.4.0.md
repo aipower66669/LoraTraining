@@ -1,7 +1,7 @@
 # Release notes — LoraTraining v0.4.0
 
 **Release date:** 21 October 2026  
-**Channel:** Public release (`0.4.0`) — **PolyForm Noncommercial 1.0.0**  
+**Channel:** Public release (`0.4.0`) — **PolyForm Noncommercial 1.0.0**. Later release: [v0.5.0](RELEASE_NOTES_v0.5.0.md).
 **Previous:** [v0.3.0](RELEASE_NOTES_v0.3.0.md)
 
 ---
@@ -56,7 +56,7 @@ Artifacts: `release/LoraTraining Setup 0.4.0.exe` plus `SHA256SUMS.txt` on the G
 | `npm run dist:nobump` | unchanged | cleared, then current Setup exe |
 | `npm run dist` | patch +1 | cleared, then the new Setup exe |
 
-GitHub Actions builds and attaches the installer only when a `vX.Y.Z` tag is pushed and that tag matches `package.json` (`v0.4.0` for this release). A push to `main` runs `npm run check` and does not publish an installer. `v0.4` is not a release tag.
+This release was published as tag `v0.4.0` with installer `LoraTraining Setup 0.4.0.exe`. Current tag rules are in [BUILD.md](BUILD.md) and [v0.5.0](RELEASE_NOTES_v0.5.0.md): any tag that starts with `v` builds the installer named from `package.json`. A branch push does not publish an installer.
 
 The installer is unsigned. SmartScreen may warn; **More info → Run anyway** if you trust the release. Compare SHA-256 to `SHA256SUMS.txt` first.
 

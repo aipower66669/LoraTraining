@@ -27,7 +27,7 @@ export interface AppReleaseNotes {
   tag: string | null
 }
 
-/** `0.4.0` → `v0.4.0`, then the bare version. */
+/** `0.5.0` → `v0.5.0`, then the bare version. */
 export function githubReleaseTagCandidates(version: string): string[] {
   const parsed = parseSemver(version)
   if (!parsed) {

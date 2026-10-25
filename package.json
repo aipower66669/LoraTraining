@@ -1,6 +1,6 @@
 {
   "name": "lora-training",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Windows UI for Krea 2 LoRA dataset management and AI Toolkit job orchestration (does not train — uses external AI Toolkit, JoyCaption, ComfyUI)",
   "main": "./out/main/index.js",
   "author": "AIPower",
@@ -31,7 +31,7 @@
     "list:comfy-models": "tsx scripts/list-comfy-workflow-models.ts",
     "postinstall": "node scripts/patch-filerobot.mjs",
     "check": "npm run typecheck && npm run lint && npm run test",
-    "build:win": "npm run build && electron-builder --win --publish never",
+    "build:win": "npm run build && electron-builder --win --publish never && node scripts/prepare-dist.mjs --readme-only",
     "prepare-dist": "node scripts/prepare-dist.mjs",
     "dist": "npm run prepare-dist && npm run build:win",
     "dist:nobump": "node scripts/prepare-dist.mjs --no-bump && npm run build:win"

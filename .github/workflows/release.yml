@@ -1,5 +1,5 @@
 # Check + ship the NSIS installer only for version tags (GitHub Release).
-# Same shape as Wildcards Manager: any tag that starts with v, including v0.4.
+# Same shape as Wildcards Manager: any tag that starts with v, including v0.5.
 name: Build Windows
 
 on:

@@ -21,7 +21,7 @@ Captioning, training, and Comfy previews run as **external processes** you alrea
 | **Platform** | Windows 10 / 11 (primary)                                                      |
 | **Stack**    | Electron · React · TypeScript · Zustand · Zod                                  |
 | **License**  | **PolyForm Noncommercial 1.0.0** — [LICENSING.md](LICENSING.md) · [TRADEMARK.md](TRADEMARK.md) |
-| **Version**  | **0.4.0** — [Release notes](RELEASE_NOTES.md)                                  |
+| **Version**  | **0.5.0** — [Release notes](RELEASE_NOTES.md)                                  |
 
 
 ![Datasets library, image grid, and caption editor](docs/image/screenshot-workspace.jpg)
@@ -89,7 +89,14 @@ Full comparison: **[docs/ADVANTAGES.md](docs/ADVANTAGES.md)**.
 
 
 
-## Highlights (v0.4.0)
+## Highlights (v0.5.0)
+
+**Image edits**
+
+- Text annotations keep the rectangle you drag, with the same move and resize handles. Double-click to type
+- **Undo last** drops only the newest NTFS version. **Revert to original** still clears the whole stack
+- **Edit in Photoshop** asks whether to open the original or commit the latest edit when NTFS versions are on and that image has a stack
+- Saving an edit of a `.jfif` writes a JPEG
 
 **Scale without the UI freezing**
 
@@ -125,7 +132,7 @@ Full comparison: **[docs/ADVANTAGES.md](docs/ADVANTAGES.md)**.
 - Set that folder (for example `release/`) to install a Setup exe you built locally
 - **What's new** shows the release notes when a newer version is found
 
-Prior milestones: [v0.3.0](docs/RELEASE_NOTES_v0.3.0.md) · [v0.2.0](docs/RELEASE_NOTES_v0.2.0.md) · [v0.1.0](docs/RELEASE_NOTES_v0.1.0.md).
+Prior milestones: [v0.4.0](docs/RELEASE_NOTES_v0.4.0.md) · [v0.3.0](docs/RELEASE_NOTES_v0.3.0.md) · [v0.2.0](docs/RELEASE_NOTES_v0.2.0.md) · [v0.1.0](docs/RELEASE_NOTES_v0.1.0.md).
 
 ---
 
@@ -207,7 +214,7 @@ On-disk layout: **[docs/PROJECT_FORMAT.md](docs/PROJECT_FORMAT.md)**.
 | **[docs/WINDOWS_TRAINING.md](docs/WINDOWS_TRAINING.md)** | OSError 1455, commit charge, safetensors shim                                                         |
 | **[docs/DECISIONS.md](docs/DECISIONS.md)**               | Locked product decisions (D1–D28)                                                                     |
 | **[CHANGELOG.md](CHANGELOG.md)**                         | Full version history                                                                                  |
-| **[RELEASE_NOTES.md](RELEASE_NOTES.md)**                 | v0.4.0 product release summary                                                                        |
+| **[RELEASE_NOTES.md](RELEASE_NOTES.md)**                 | v0.5.0 product release summary                                                                        |
 
 
 Domain deep-dives: [Categories](docs/CATEGORIES.md) · [Datasets](docs/DATASET_MANAGER.md) · [Jobs & queue](docs/JOB_QUEUE.md) · [Validation](docs/VALIDATION.md) · [Settings](docs/SETTINGS.md) · [Architecture](docs/ARCHITECTURE.md).
@@ -253,7 +260,7 @@ Domain deep-dives: [Categories](docs/CATEGORIES.md) · [Datasets](docs/DATASET_M
 - Replacing JoyCaption, AI Toolkit, or ComfyUI
 - Installing or maintaining those tools (Python envs, CUDA, model downloads, Comfy Manager packs) — assemble and verify them yourself; LoraTraining only wires paths
 - Treating upstream CUDA / Python / model failures as LoraTraining defects
-- **Other diffusion bases** — Flux, SDXL, Wan, etc. (Krea 2 only for training and Comfy previews in v0.4)
+- **Other diffusion bases** — Flux, SDXL, Wan, etc. (Krea 2 only for training and Comfy previews in v0.5)
 - Cloud sync, multi-user server, or macOS/Linux as primary targets
 - Training images in a built-in database or opaque blob store
 

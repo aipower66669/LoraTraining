@@ -31,7 +31,7 @@ npm run build:win    # + electron-builder NSIS → release/ (no version bump, ke
 npm run dist:nobump
 ```
 
-Clears `release/`, then builds `release/LoraTraining Setup X.Y.Z.exe` from the version already in `package.json` (0.4.0 for this release).
+Clears `release/`, then builds `release/LoraTraining Setup X.Y.Z.exe` from the version already in `package.json` (0.5.0 for this release). After the installer is written, the build copies `resources/release-README.md` to `release/README.md`. That file is the note to put next to the Setup exe and `comfyui-lora-training.zip` when uploading to a file host. Zip the `comfyui-lora-training` folder itself, so unzipping yields `comfyui-lora-training\__init__.py`.
 
 ### Next patch installer
 
@@ -39,14 +39,14 @@ Clears `release/`, then builds `release/LoraTraining Setup X.Y.Z.exe` from the v
 npm run dist
 ```
 
-Bumps the patch (`0.4.0` → `0.4.1`), clears `release/`, then builds the NSIS installer.
+Bumps the patch (`0.5.0` → `0.5.1`), clears `release/`, then builds the NSIS installer.
 
 | Variable | Effect |
 | --- | --- |
 | `SKIP_VERSION_BUMP=1` | On `npm run dist` only: do not increment patch (`dist:nobump` never bumps) |
 | `SKIP_RELEASE_CLEAN=1` | Do not delete existing `release/*` |
 
-To set `package.json` and `package-lock.json` from a tag by hand: `npx tsx scripts/sync-version-from-tag.ts v0.4.0`. The release workflow does not do this; it requires the tag to already match `package.json`.
+To set `package.json` and `package-lock.json` from a tag by hand: `npx tsx scripts/sync-version-from-tag.ts v0.5.0`. That script accepts `vX.Y.Z` only. The release workflow does not run it and does not compare the tag to `package.json`. The installer name comes from `package.json`.
 
 ---
 
@@ -58,7 +58,7 @@ After the first install:
 2. **Check for update** — compares the newest `LoraTraining Setup *.exe` with the running version. **What's new** renders the release notes when a newer version is found.
 3. **Install update** — quits the app and launches the NSIS installer. A GitHub check downloads the exe first.
 
-`npm run dist` and `npm run dist:nobump` both clear `release/` before building, so that folder holds one Setup exe. `dist` is the command that also bumps the patch, which is what makes a folder check see a newer version than the installed app. An empty Release folder does not use that folder; it uses the GitHub release.
+`npm run dist` and `npm run dist:nobump` both clear `release/` before building, then write one Setup exe and `README.md`. `dist` is the command that also bumps the patch, which is what makes a folder check see a newer version than the installed app. An empty Release folder does not use that folder; it uses the GitHub release.
 
 ---
 
@@ -66,21 +66,21 @@ After the first install:
 
 | Workflow | Trigger | What runs |
 | --- | --- | --- |
-| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | Push any tag that starts with `v` (`v0.4`, `v0.4.0`) | Check, then the Windows installer, then the GitHub Release |
+| [`.github/workflows/release.yml`](../.github/workflows/release.yml) | Push any tag that starts with `v` (`v0.5`, `v0.5.0`) | Check, then the Windows installer, then the GitHub Release |
 
-A branch push and a pull request do not start a build. `workflow_dispatch` runs the check only. The installer is attached only for a tag push. The tag filter is `v*`, the same pattern Wildcards Manager uses. `v0.4` matches. The installer filename still comes from `package.json` (`LoraTraining Setup 0.4.0.exe`).
+A branch push and a pull request do not start a build. `workflow_dispatch` runs the check only. The installer is attached only for a tag push. The tag filter is `v*`, the same pattern Wildcards Manager uses. `v0.5` matches. The installer filename still comes from `package.json` (`LoraTraining Setup 0.5.0.exe`).
 
 CI does **not** require repository secrets. The release workflow uses the built-in `GITHUB_TOKEN` to attach `LoraTraining Setup X.Y.Z.exe` and a SHA-256 checksum file. The release body is [RELEASE_NOTES.md](../RELEASE_NOTES.md). Workflow actions are **pinned to commit SHAs**. `electron-builder` uses `--publish never` / `"publish": null`, so only `softprops/action-gh-release` publishes.
 
 ### Ship a tagged release
 
-1. Set `package.json` to the target version (`0.4.0` for this release).
+1. Set `package.json` to the target version (`0.5.0` for this release).
 2. `npm run check` locally.
-3. Tag and push. The tag must start with `v`. `v0.4` and `v0.4.0` both start the workflow. The workflow file on that commit is the one GitHub runs, so the tag has to point at a commit that already contains this `v*` filter.
+3. Tag and push. The tag must start with `v`. `v0.5` and `v0.5.0` both start the workflow. The workflow file on that commit is the one GitHub runs, so the tag has to point at a commit that already contains this `v*` filter.
 
 ```bash
-git tag v0.4
-git push origin v0.4
+git tag v0.5
+git push origin v0.5
 ```
 
 GitHub Actions runs check, builds with `npm run build:win` (no version rewrite), writes `release/SHA256SUMS.txt`, and publishes the Release.
@@ -105,7 +105,7 @@ On first run, Windows may show **“Windows protected your PC”** (SmartScreen)
 Before installing, verify the SHA-256 of the Setup exe against `SHA256SUMS.txt` on the same release (also attached by CI). Example (PowerShell):
 
 ```powershell
-Get-FileHash -Algorithm SHA256 ".\LoraTraining Setup 0.4.0.exe"
+Get-FileHash -Algorithm SHA256 ".\LoraTraining Setup 0.5.0.exe"
 # Compare to the line in SHA256SUMS.txt
 ```
 

@@ -311,7 +311,7 @@ export async function installLocalUpdate(installerPathRaw?: string): Promise<{ l
   const parsed = parseSetupInstallerName(installerPath)
   if (!parsed) {
     throw appError('validation', 'Not a LoraTraining Setup installer', {
-      remediation: 'Expected a file named like “LoraTraining Setup 0.4.0.exe”.'
+      remediation: 'Expected a file named like “LoraTraining Setup 0.5.0.exe”.'
     })
   }
   if (dirname(installerPath).toLowerCase() !== resolve(abs).toLowerCase()) {

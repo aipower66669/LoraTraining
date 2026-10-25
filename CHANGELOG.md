@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-10-25
+
+**Public release** under **PolyForm Noncommercial 1.0.0**. Focus: image-editor text annotations, undoing one NTFS version at a time, and the Photoshop prompt when a version stack exists.
+
+### Added
+
+- **Undo last** — drops only the newest NTFS version. **Edit image** shows it in the top bar when a stack exists. The image menu has **Undo last edit**. **Revert to original** still clears every version.
+- **Edit in Photoshop** — when **NTFS versions** is on and the image has saved versions, choose **Edit original** or **Commit latest edit**. Cancel does neither.
+
+### Fixed
+
+- Text annotations keep the dragged rectangle, with the same move and resize handles as a rectangle. Double-click to type. Letters, including **E**, go into the box. Escape restores the handles. **Ctrl+S** still saves.
+- Saving an edit of a `.jfif` writes a JPEG.
+
+### Changed
+
+- Product version line → **0.5.0**. A tag that starts with `v` (this release: `v0.5`) builds the installer named from `package.json` (`LoraTraining Setup 0.5.0.exe`).
+
 ## [0.4.0] — 2026-10-21
 
 **Public release** under **PolyForm Noncommercial 1.0.0**. Focus: opt-in image version history, hiding tool UI until JoyCaption, AI Toolkit, and ComfyUI paths are set, and GitHub release updates.
@@ -162,6 +180,6 @@ First feature-complete desktop release for local LoRA dataset management, traini
 
 ## Links
 
-- Release notes: [`RELEASE_NOTES.md`](RELEASE_NOTES.md) · [`docs/RELEASE_NOTES_v0.4.0.md`](docs/RELEASE_NOTES_v0.4.0.md) · [`docs/RELEASE_NOTES_v0.3.0.md`](docs/RELEASE_NOTES_v0.3.0.md) · [`docs/RELEASE_NOTES_v0.2.0.md`](docs/RELEASE_NOTES_v0.2.0.md) · [`docs/RELEASE_NOTES_v0.1.0.md`](docs/RELEASE_NOTES_v0.1.0.md)
+- Release notes: [`RELEASE_NOTES.md`](RELEASE_NOTES.md) · [`docs/RELEASE_NOTES_v0.5.0.md`](docs/RELEASE_NOTES_v0.5.0.md) · [`docs/RELEASE_NOTES_v0.4.0.md`](docs/RELEASE_NOTES_v0.4.0.md) · [`docs/RELEASE_NOTES_v0.3.0.md`](docs/RELEASE_NOTES_v0.3.0.md) · [`docs/RELEASE_NOTES_v0.2.0.md`](docs/RELEASE_NOTES_v0.2.0.md) · [`docs/RELEASE_NOTES_v0.1.0.md`](docs/RELEASE_NOTES_v0.1.0.md)
 - User guide: [`docs/USER_GUIDE.md`](docs/USER_GUIDE.md)
 - Licence: [`LICENSING.md`](LICENSING.md)

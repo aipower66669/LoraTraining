@@ -101,7 +101,7 @@ Until **LoRAs** is set, the Validation Steps, Validation Weight, Model Stress-Te
 
 The **Installed** row shows the running version and whether the next check uses the folder or GitHub Releases. After **Check for update** it also shows the newest version found. **What's new** is enabled when that version is newer than the running app. It opens a dialog that renders the release notes as markdown. With a folder set, the notes are `RELEASE_NOTES.md` in that folder or the folder above it, and the app does not contact GitHub. With the folder empty, the notes are the GitHub release for that version. **Install update** quits the app and runs the installer. A GitHub update downloads `LoraTraining Setup X.Y.Z.exe` first. Use the finish-page **Run** checkbox to start the new build.
 
-Use `npm run dist` when shipping a newer local build: it increments the patch version and clears `release/` so only the new Setup exe remains (required for a folder check to see a newer version). Use `npm run dist:nobump` to rebuild the installer at the current `package.json` version. Leave the folder empty to install from GitHub instead.
+Use `npm run dist` when shipping a newer local build: it increments the patch version and clears `release/` so the new Setup exe is the one a folder check finds (required for a folder check to see a newer version). `README.md` is written back beside that exe for a file-host upload. Use `npm run dist:nobump` to rebuild the installer at the current `package.json` version. Leave the folder empty to install from GitHub instead.
 
 ### Queue prefs
 

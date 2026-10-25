@@ -6,7 +6,7 @@
  * Skip the bump with `--no-bump` or SKIP_VERSION_BUMP=1 (still cleans release/).
  * Skip the clean with SKIP_RELEASE_CLEAN=1.
  */
-import { rmSync, readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { rmSync, readFileSync, writeFileSync, existsSync, mkdirSync, copyFileSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -14,6 +14,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..')
 const pkgPath = join(root, 'package.json')
 const lockPath = join(root, 'package-lock.json')
 const releaseDir = join(root, 'release')
+const releaseReadmeSrc = join(root, 'resources', 'release-README.md')
+const releaseReadmeDest = join(releaseDir, 'README.md')
 
 function bumpPatch(version) {
   const m = String(version).trim().match(/^(\d+)\.(\d+)\.(\d+)(.*)?$/)
@@ -31,9 +33,10 @@ function writeJson(path, value) {
   writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`, 'utf8')
 }
 
+const readmeOnly = process.argv.includes('--readme-only')
 const skipBump =
-  process.argv.includes('--no-bump') || process.env.SKIP_VERSION_BUMP === '1'
-const skipClean = process.env.SKIP_RELEASE_CLEAN === '1'
+  readmeOnly || process.argv.includes('--no-bump') || process.env.SKIP_VERSION_BUMP === '1'
+const skipClean = readmeOnly || process.env.SKIP_RELEASE_CLEAN === '1'
 
 const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'))
 const prev = pkg.version
@@ -53,7 +56,7 @@ if (!skipBump) {
     writeJson(lockPath, lock)
   }
   console.log(`[prepare-dist] version ${prev} → ${next}`)
-} else {
+} else if (!readmeOnly) {
   const why = process.argv.includes('--no-bump') ? '--no-bump' : 'SKIP_VERSION_BUMP=1'
   console.log(`[prepare-dist] ${why} — keeping ${prev}`)
 }
@@ -65,6 +68,15 @@ if (!skipClean) {
   } else {
     console.log(`[prepare-dist] release/ already absent`)
   }
-} else {
+} else if (!readmeOnly) {
   console.log(`[prepare-dist] SKIP_RELEASE_CLEAN=1 — keeping release/`)
 }
+
+// Sharing-service readme. The clean above removes release/, and electron-builder
+// does not emit this file, so copy it back next to the installer.
+if (!existsSync(releaseReadmeSrc)) {
+  throw new Error(`Missing sharing readme: ${releaseReadmeSrc}`)
+}
+mkdirSync(releaseDir, { recursive: true })
+copyFileSync(releaseReadmeSrc, releaseReadmeDest)
+console.log(`[prepare-dist] wrote ${releaseReadmeDest}`)
