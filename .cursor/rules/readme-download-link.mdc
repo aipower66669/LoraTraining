@@ -1,0 +1,22 @@
+---
+description: Never break the README download badge link to the latest GitHub release
+alwaysApply: true
+---
+
+# README download link
+
+The **Download Latest Executables** badge at the top of `README.md` is the public download link. A bare image is a regression: GitHub opens the picture (`camo.githubusercontent.com`) instead of the release.
+
+## Required form
+
+The badge must stay a link to the latest release. Do not drop the wrapping URL when editing the README, the version, the licence badge, or the highlights.
+
+```markdown
+[![Download Latest Release](https://img.shields.io/github/v/release/aipower66669/LoraTraining?label=Download%20Latest%20Executables)](https://github.com/aipower66669/LoraTraining/releases/latest)
+```
+
+- The image URL is shields.io. The click target is `https://github.com/aipower66669/LoraTraining/releases/latest`.
+- A line that starts with `![` and has no surrounding `[...](...)` link is broken. Fix it before finishing.
+- After any edit to `README.md`, re-read the badge line and confirm the release URL is still the link target.
+
+The install step that points at **GitHub Releases** (`releases/latest`) must stay a link as well.
